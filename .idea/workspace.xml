@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="66418244-2992-4fb7-bf9b-b6598ee56772" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/kemall-common/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/exception/BusinessException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/utils/JwtUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/utils/Result.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/utils/SnowflakeGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-gateway/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-gateway/src/main/java/com/kemall/gateway/GatewayApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-gateway/src/main/java/com/kemall/gateway/config/UtilConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-gateway/src/main/java/com/kemall/gateway/filter/AuthGlobalFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-gateway/src/main/resources/application-dev.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-gateway/src/main/resources/application-local.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-gateway/src/main/resources/application.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-user/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/UserApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/config/UtilConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/domain/dto/UserDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/enums/AccountStatusEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/enums/UserTypeEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-user/src/main/resources/application-dev.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-user/src/main/resources/application-local.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-user/src/main/resources/application.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="customMavenHome" value="D:\_maven\apache-maven-3.9.14" />
+        <option name="mavenHomeTypeForPersistence" value="CUSTOM" />
+        <option name="userSettingsFile" value="D:\_maven\apache-maven-3.9.14\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.017582291367253" />
+      <entry key="MS500" value="1.5260016310193207" />
+      <entry key="S2" value="2.5070605374964146" />
+      <entry key="S5" value="3.3321556261492646" />
+      <entry key="S10" value="4.002582049105134" />
+      <entry key="S30" value="6.560529527348957" />
+      <entry key="S60" value="11.156457109144235" />
+      <entry key="M2" value="17.887526221716172" />
+      <entry key="M5" value="27.687446861911436" />
+      <entry key="M10" value="38.70555793348037" />
+      <entry key="M15" value="49.24592223338009" />
+      <entry key="M30" value="73.04566942039087" />
+      <entry key="H1" value="96.14482859103508" />
+      <entry key="H2" value="112.69460205237083" />
+      <entry key="H4" value="122.6682752822595" />
+      <entry key="D1" value="132.0088510623688" />
+      <entry key="W1" value="133.7129242205778" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="2.9923531926681134E-26" />
+      <entry key="MS500" value="1.0826559196630664E-5" />
+      <entry key="S2" value="0.10540488980108881" />
+      <entry key="S5" value="0.7554372577409995" />
+      <entry key="S10" value="1.539699720772495" />
+      <entry key="S30" value="2.963877084015457" />
+      <entry key="S60" value="4.163201608758297" />
+      <entry key="M2" value="5.619418638935481" />
+      <entry key="M5" value="7.883357853225893" />
+      <entry key="M10" value="11.082790955242546" />
+      <entry key="M15" value="14.488917998885519" />
+      <entry key="M30" value="22.17220805809197" />
+      <entry key="H1" value="29.434893474380278" />
+      <entry key="H2" value="34.53513729972569" />
+      <entry key="H4" value="37.57432835208699" />
+      <entry key="D1" value="40.400026035040135" />
+      <entry key="W1" value="40.91354796476489" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.034442707795748186" />
+      <entry key="MS500" value="0.9469010659909758" />
+      <entry key="S2" value="2.2964270153068735" />
+      <entry key="S5" value="3.7799663297884982" />
+      <entry key="S10" value="5.286601027018191" />
+      <entry key="S30" value="9.358921349607108" />
+      <entry key="S60" value="15.19113591790353" />
+      <entry key="M2" value="23.41299401006218" />
+      <entry key="M5" value="35.517250191131325" />
+      <entry key="M10" value="49.75200044866416" />
+      <entry key="M15" value="63.70409980452583" />
+      <entry key="M30" value="95.19513179366359" />
+      <entry key="H1" value="125.56479664574438" />
+      <entry key="H2" value="147.2210094780164" />
+      <entry key="H4" value="160.2378575114283" />
+      <entry key="D1" value="172.40802662283738" />
+      <entry key="W1" value="174.62634913990442" />
+    </decayedShown>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3HScsYxSIMNZBbYmBEi5EAZRIiu" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven.kemall-gateway [clean].executor": "Run",
+    "Maven.kemall-gateway [compile].executor": "Run",
+    "Maven.kemall-user [clean].executor": "Run",
+    "Maven.kemall-user [compile].executor": "Run",
+    "Maven.kemall-user [package].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "Spring Boot.GatewayApplication.executor": "Run",
+    "Spring Boot.UserApplication.executor": "Run",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/develop/code/kemall/kemall-user/src/main/resources",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "模块",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "MavenSettings"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\develop\code\kemall\kemall-user\src\main\resources" />
+      <recent name="D:\develop\code\kemall\kemall-gateway\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+    <option name="configurationStatuses">
+      <map>
+        <entry key="SpringBootApplicationConfigurationType">
+          <value>
+            <map>
+              <entry key="GatewayApplication" value="STOPPED" />
+              <entry key="UserApplication" value="STOPPED" />
+            </map>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.GatewayApplication">
+    <configuration name="GatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <option name="ACTIVE_PROFILES" value="local" />
+      <module name="kemall-gateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.kemall.gateway.GatewayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <option name="ACTIVE_PROFILES" value="local" />
+      <module name="kemall-user" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.kemall.user.UserApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-37e91769500f-intellij.indexing.shared.core-IU-261.26222.65" />
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-IU-261.26222.65" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="66418244-2992-4fb7-bf9b-b6598ee56772" name="更改" comment="" />
+      <created>1785865118108</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1785865118108</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

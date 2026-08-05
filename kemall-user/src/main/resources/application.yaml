@@ -1,0 +1,26 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: user-service
+  profiles:
+    default: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${ke.addr}:8848
+        ip: ${ke.ip}
+      config:
+        server-addr: ${ke.addr}:8848
+        file-extension: yaml
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${ke.addr}:3306/user_db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: 123456
+
+
+jwt:
+  secret: kemallSecretKey12345678901234567890
