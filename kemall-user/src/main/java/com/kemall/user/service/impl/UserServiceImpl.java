@@ -60,6 +60,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         u.setUserType(UserTypeEnum.NORMAL);
         u.setStatus(AccountStatusEnum.NORMAL);
         save(u);
+
+
     }
 
     @Override

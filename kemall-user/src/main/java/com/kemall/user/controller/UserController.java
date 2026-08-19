@@ -1,7 +1,9 @@
 package com.kemall.user.controller;
 
 
+import com.kemall.common.annotation.LoginRequire;
 import com.kemall.common.utils.Result;
+import com.kemall.common.utils.UserContext;
 import com.kemall.user.domain.dto.UserDTO;
 import com.kemall.user.service.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,12 +31,14 @@ public class UserController {
 
     @PostMapping
     @Operation(summary = "用户注册")
+    @LoginRequire(login = false)
     public void registerUser(@RequestBody UserDTO user) {
         userService.registerUser(user);
     }
 
     @GetMapping("/login")
     @Operation(summary = "用户登录")
+    @LoginRequire(login = false)
     public Result<String> login(@RequestParam("username") String username, @RequestParam("password") String password) {
         String token = userService.login(username, password);
         if(token==null){
@@ -44,8 +48,8 @@ public class UserController {
     }
 
     @GetMapping("/hello")
-    public Result<String> hello(@RequestHeader("userId") String userId) {
-        return Result.success(userId);
+    public Result<String> hello() {
+        return Result.success("用户id：" + UserContext.getUserId());
     }
 
 

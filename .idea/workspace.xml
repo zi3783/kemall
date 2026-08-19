@@ -5,28 +5,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66418244-2992-4fb7-bf9b-b6598ee56772" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/kemall-common/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/exception/BusinessException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/utils/JwtUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/utils/Result.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/utils/SnowflakeGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-gateway/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-gateway/src/main/java/com/kemall/gateway/GatewayApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-gateway/src/main/java/com/kemall/gateway/config/UtilConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-gateway/src/main/java/com/kemall/gateway/filter/AuthGlobalFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-gateway/src/main/resources/application-dev.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-gateway/src/main/resources/application-local.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-gateway/src/main/resources/application.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-user/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/UserApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/config/UtilConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/domain/dto/UserDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/enums/AccountStatusEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/enums/UserTypeEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-user/src/main/resources/application-dev.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-user/src/main/resources/application-local.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-user/src/main/resources/application.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-account/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/AccountApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/enums/AccountStatusEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/enums/WalletLogTypeEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-account/src/main/resources/application-dev.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-account/src/main/resources/application-local.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-account/src/main/resources/application.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-api/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-api/src/main/java/com/kemall/api/dto/WalletDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/annotation/LoginRequire.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/config/WebAutoConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/interceptor/UserContextInterceptor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/properties/AuthProperties.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/utils/UserContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/980e9306-61fd-4a30-8126-002e1fff3944.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/980e9306-61fd-4a30-8126-002e1fff3944.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/data_sources_history.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/data_sources_history.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-common/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-gateway/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-gateway/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-gateway/target/classes/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-gateway/target/classes/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-gateway/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-gateway/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/domain/po/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/domain/po/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/service/impl/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-user/target/classes/com/kemall/user/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-user/target/classes/com/kemall/user/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-user/target/classes/com/kemall/user/domain/po/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-user/target/classes/com/kemall/user/domain/po/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-user/target/classes/com/kemall/user/service/impl/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-user/target/classes/com/kemall/user/service/impl/UserServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-user/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-user/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +46,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="AnnotationType" />
         <option value="Enum" />
         <option value="Class" />
       </list>
@@ -44,6 +55,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;zi3783&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:zi3783/kemall.git&quot;,
+    &quot;accountId&quot;: &quot;3861779b-f083-4272-b60f-e5dc1232a9b3&quot;
+  }
+}</component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -130,6 +153,11 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Maven.kemall [compile].executor": "Run",
+    "Maven.kemall-account [compile].executor": "Run",
+    "Maven.kemall-common [clean].executor": "Run",
+    "Maven.kemall-common [compile].executor": "Run",
+    "Maven.kemall-common [install].executor": "Run",
     "Maven.kemall-gateway [clean].executor": "Run",
     "Maven.kemall-gateway [compile].executor": "Run",
     "Maven.kemall-user [clean].executor": "Run",
@@ -141,20 +169,22 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "Spring Boot.AccountApplication.executor": "Run",
     "Spring Boot.GatewayApplication.executor": "Run",
     "Spring Boot.UserApplication.executor": "Run",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/develop/code/kemall/kemall-user/src/main/resources",
+    "last_opened_file_path": "D:/develop/code/kemall/kemall-account/src/main/resources",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "模块",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.27969348",
     "settings.editor.selected.configurable": "MavenSettings"
   },
   "keyToStringList": {
@@ -165,6 +195,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\develop\code\kemall\kemall-account\src\main\resources" />
       <recent name="D:\develop\code\kemall\kemall-user\src\main\resources" />
       <recent name="D:\develop\code\kemall\kemall-gateway\src\main\resources" />
     </key>
@@ -180,6 +211,7 @@
         <entry key="SpringBootApplicationConfigurationType">
           <value>
             <map>
+              <entry key="AccountApplication" value="STOPPED" />
               <entry key="GatewayApplication" value="STOPPED" />
               <entry key="UserApplication" value="STOPPED" />
             </map>
@@ -189,6 +221,21 @@
     </option>
   </component>
   <component name="RunManager" selected="Spring Boot.GatewayApplication">
+    <configuration name="AccountApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="ACTIVE_PROFILES" value="local" />
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UnknownPolicyInFreeMode" />
+      <module name="kemall-account" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.kemall.account.AccountApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.kemall.account.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="GatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <option name="ACTIVE_PROFILES" value="local" />
       <module name="kemall-gateway" />
@@ -222,9 +269,44 @@
       <option name="presentableId" value="Default" />
       <updated>1785865118108</updated>
     </task>
+    <task id="LOCAL-00001" summary="完成了基础的网关和用户模块">
+      <option name="closed" value="true" />
+      <created>1785957570606</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1785957570606</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="完成了基础的网关和用户模块" />
+    <option name="LAST_COMMIT_MESSAGE" value="完成了基础的网关和用户模块" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/kemall-gateway/src/main/java/com/kemall/gateway/filter/AuthGlobalFilter.java</url>
+          <line>37</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

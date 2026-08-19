@@ -8,7 +8,6 @@ import java.io.Serializable;
 
 import com.kemall.user.enums.AccountStatusEnum;
 import com.kemall.user.enums.UserTypeEnum;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

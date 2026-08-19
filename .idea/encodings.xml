@@ -2,6 +2,8 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/demo/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kemall-account/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kemall-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/kemall-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/kemall-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/kemall-user/src/main/java" charset="UTF-8" />

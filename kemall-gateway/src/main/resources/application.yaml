@@ -22,6 +22,12 @@ spring:
             - StripPrefix=0
           predicates:
             - Path=/users/**
+        - id: account-service
+          uri: lb://account-service
+          filters:
+            - StripPrefix=0
+          predicates:
+            - Path=/wallets/**
 
 
 jwt:

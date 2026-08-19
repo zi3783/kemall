@@ -12,6 +12,8 @@
         <module>kemall-gateway</module>
         <module>kemall-user</module>
         <module>kemall-common</module>
+        <module>kemall-account</module>
+        <module>kemall-api</module>
     </modules>
 
     <parent>
@@ -77,6 +79,7 @@
                 <artifactId>mysql-connector-j</artifactId>
                 <version>${mysql.driver.version}</version>
             </dependency>
+            <!--加密  bcrypt -->
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-crypto</artifactId>
