@@ -1,0 +1,10 @@
+com\kemall\common\config\WebAutoConfiguration.class
+com\kemall\common\exception\BusinessException.class
+com\kemall\common\utils\JwtUtil.class
+com\kemall\common\properties\AuthProperties.class
+com\kemall\common\config\WebAutoConfiguration$1.class
+com\kemall\common\utils\Result.class
+com\kemall\common\utils\UserContext.class
+com\kemall\common\interceptor\UserContextInterceptor.class
+com\kemall\common\annotation\LoginRequire.class
+com\kemall\common\utils\SnowflakeGenerator.class

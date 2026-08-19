@@ -1,0 +1,23 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: account-service
+  profiles:
+    default: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${ke.addr}:8848
+        ip: ${ke.ip}
+      config:
+        server-addr: ${ke.addr}:8848
+        file-extension: yaml
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${ke.addr}:3306/account_db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: 123456
+
