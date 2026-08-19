@@ -34,14 +34,11 @@ public class WalletLog implements Serializable {
     @TableField("user_id")
     private Long userId;
 
-    @TableField("wallet_id")
-    private Long walletId;
-
     @TableField("amount")
     private Long amount;
 
     /**
-     * 1-充值 2-提现 3-消费 4-退款 5-系统调整
+     * 1-充值 2-扣款
      */
     @TableField("type")
     private WalletLogTypeEnum type;

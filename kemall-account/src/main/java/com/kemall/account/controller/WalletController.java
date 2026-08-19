@@ -1,10 +1,8 @@
 package com.kemall.account.controller;
 
 
-import com.kemall.account.enums.WalletLogTypeEnum;
 import com.kemall.account.service.IWalletService;
 import com.kemall.api.dto.WalletDTO;
-import com.kemall.common.annotation.LoginRequire;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -32,28 +30,9 @@ public class WalletController {
 
     private final IWalletService walletService;
 
-    @PostMapping("/recharge")
-    @Operation(summary = "充值接口")
-    public void charge(@RequestBody WalletDTO dto) {
-        walletService.updateAccount(dto, WalletLogTypeEnum.RECHARGE);
+    @PostMapping("transactions")
+    @Operation(summary = "交易相关接口")
+    public void transactions(@RequestBody WalletDTO walletDTO) {
+        walletService.transaction(walletDTO);
     }
-
-    @PostMapping("/withdraw")
-    @Operation(summary = "提现接口")
-    public void withdraw(@RequestBody WalletDTO dto) {
-        walletService.updateAccount(dto, WalletLogTypeEnum.WITHDRAW);
-    }
-
-    @PostMapping("/consume")
-    @Operation(summary = "消费接口")
-    public void consume(@RequestBody WalletDTO dto) {
-        walletService.updateAccount(dto, WalletLogTypeEnum.CONSUME);
-    }
-
-    @PostMapping("/refund")
-    @Operation(summary = "退款接口")
-    public void refund(@RequestBody WalletDTO dto) {
-        walletService.updateAccount(dto, WalletLogTypeEnum.REFUND);
-    }
-
 }

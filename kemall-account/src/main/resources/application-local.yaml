@@ -1,3 +1,8 @@
 ke:
   addr: 172.24.223.134
   ip: 127.0.0.1
+
+logging:
+  level:
+    root: INFO                      # 根日志级别 INFO
+    com.kemall.account.aspect: DEBUG

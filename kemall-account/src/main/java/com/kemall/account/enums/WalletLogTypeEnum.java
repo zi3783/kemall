@@ -5,10 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum WalletLogTypeEnum {
     RECHARGE(1, "充值"),
-    WITHDRAW(2, "提现"),
-    CONSUME(3, "消费"),
-    REFUND(4, "退款"),
-    SYSTEM_ADJUST(5,"系统调整");
+    DEDUCT(2,"扣款");
 
     @EnumValue
     private final Integer code;

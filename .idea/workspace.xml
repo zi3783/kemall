@@ -4,39 +4,36 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="66418244-2992-4fb7-bf9b-b6598ee56772" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/kemall-account/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/AccountApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/enums/AccountStatusEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/enums/WalletLogTypeEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-account/src/main/resources/application-dev.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-account/src/main/resources/application-local.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-account/src/main/resources/application.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-api/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-api/src/main/java/com/kemall/api/dto/WalletDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/annotation/LoginRequire.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/config/WebAutoConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/interceptor/UserContextInterceptor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/properties/AuthProperties.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/utils/UserContext.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="66418244-2992-4fb7-bf9b-b6598ee56772" name="更改" comment="新增余额相关接口">
+      <change afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/annotation/RedissonLock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/aspect/WalletTransactionAspect.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/strategy/WalletTransactionContext.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/strategy/WalletTransactionStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/strategy/impl/WalletDeductStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/strategy/impl/WalletRechargeTransaction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-account/src/test/java/com/kemall/account/RedissonLockTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-account/src/test/java/com/kemall/account/Test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-api/src/main/java/com/kemall/api/enums/TransactionType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/980e9306-61fd-4a30-8126-002e1fff3944.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/980e9306-61fd-4a30-8126-002e1fff3944.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/data_sources_history.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/data_sources_history.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-common/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-gateway/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-gateway/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-gateway/target/classes/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-gateway/target/classes/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-gateway/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-gateway/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/domain/po/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/domain/po/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-user/src/main/java/com/kemall/user/service/impl/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-user/target/classes/com/kemall/user/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-user/target/classes/com/kemall/user/controller/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-user/target/classes/com/kemall/user/domain/po/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-user/target/classes/com/kemall/user/domain/po/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-user/target/classes/com/kemall/user/service/impl/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-user/target/classes/com/kemall/user/service/impl/UserServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-user/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-user/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/controller/WalletController.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/controller/WalletController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/domain/po/WalletLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/domain/po/WalletLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/enums/WalletLogTypeEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/enums/WalletLogTypeEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/IWalletService.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/IWalletService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/impl/WalletServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/impl/WalletServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/resources/application-local.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/resources/application-local.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/application-local.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/application-local.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/controller/WalletController.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/controller/WalletController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/domain/po/WalletLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/domain/po/WalletLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/enums/WalletLogTypeEnum.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/enums/WalletLogTypeEnum.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/IWalletService.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/IWalletService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/impl/WalletServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/impl/WalletServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-api/src/main/java/com/kemall/api/dto/WalletDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-api/src/main/java/com/kemall/api/dto/WalletDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-api/target/classes/com/kemall/api/dto/WalletDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-api/target/classes/com/kemall/api/dto/WalletDTO.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,9 +43,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="AnnotationType" />
         <option value="Enum" />
+        <option value="AnnotationType" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -153,6 +151,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "JUnit.RedissonLockTest.testAnnotation.executor": "Run",
     "Maven.kemall [compile].executor": "Run",
     "Maven.kemall-account [compile].executor": "Run",
     "Maven.kemall-common [clean].executor": "Run",
@@ -176,7 +175,7 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/develop/code/kemall/kemall-account/src/main/resources",
+    "last_opened_file_path": "D:/develop/code/kemall",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -220,7 +219,7 @@
       </map>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.GatewayApplication">
+  <component name="RunManager" selected="Spring Boot.AccountApplication">
     <configuration name="AccountApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="ACTIVE_PROFILES" value="local" />
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UnknownPolicyInFreeMode" />
@@ -277,7 +276,23 @@
       <option name="project" value="LOCAL" />
       <updated>1785957570606</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="新增余额相关接口">
+      <option name="closed" value="true" />
+      <created>1787104441909</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1787104441909</updated>
+    </task>
+    <task id="LOCAL-00003" summary="新增余额相关接口">
+      <option name="closed" value="true" />
+      <created>1787104456684</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1787104456684</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -296,7 +311,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="完成了基础的网关和用户模块" />
-    <option name="LAST_COMMIT_MESSAGE" value="完成了基础的网关和用户模块" />
+    <MESSAGE value="新增余额相关接口" />
+    <option name="LAST_COMMIT_MESSAGE" value="新增余额相关接口" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

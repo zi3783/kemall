@@ -15,6 +15,7 @@ import com.kemall.api.dto.WalletDTO;
  */
 public interface IWalletService extends IService<Wallet> {
 
-    void updateAccount(WalletDTO dto, WalletLogTypeEnum type);
+    void transaction(WalletDTO walletDTO);
 
+    void changeAmount(Long userId, Long amount);
 }

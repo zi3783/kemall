@@ -8,6 +8,8 @@ import com.kemall.account.mapper.WalletLogMapper;
 import com.kemall.account.mapper.WalletMapper;
 import com.kemall.account.service.IWalletService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.kemall.account.service.strategy.WalletTransactionContext;
+import com.kemall.account.service.strategy.WalletTransactionStrategy;
 import com.kemall.api.dto.WalletDTO;
 import com.kemall.common.exception.BusinessException;
 import com.kemall.common.utils.UserContext;
@@ -31,49 +33,59 @@ public class WalletServiceImpl extends ServiceImpl<WalletMapper, Wallet> impleme
 
     private final WalletLogMapper walletLogMapper;
 
+    private final WalletTransactionContext walletTransactionContext;
+
+    @Override
+    public void transaction(WalletDTO walletDTO) {
+        WalletTransactionStrategy execute = walletTransactionContext.getTransactionStrategy(walletDTO.getTransactionType());
+        execute.execute(walletDTO);
+    }
+
     @Override
     @Transactional
-    public void updateAccount(WalletDTO dto, WalletLogTypeEnum type) {
-        if(dto == null) {
-            throw new IllegalArgumentException("walletDTO is null");
+    public void changeAmount(Long userId, Long balance) {
+        //先查账户
+        int i = 0;
+        for(; i < 3; ++i){
+            Wallet account = lambdaQuery()
+                    .eq(Wallet::getUserId, userId)
+                    .one();
+            if (account == null) {
+                //用户不存在
+                //创建用户
+                Wallet wallet = new Wallet();
+                wallet.setUserId(userId)
+                        .setStatus(AccountStatusEnum.NORMAL)
+                        .setBalance(balance)
+                        .setVersion(0);
+                save(wallet);
+                account = wallet;
+            }
+            //检查账户
+            if (account.getStatus() == AccountStatusEnum.FROZEN) {
+                throw new BusinessException("目标账户冻结");
+            }
+            Long amount = account.getBalance() + balance;
+            if (amount < 0) {
+                throw new BusinessException("余额不足");
+            }
+            //修改数据
+            Integer row = walletMapper.updateBalance(userId, amount, account.getVersion());
+            if (row == 1) {
+                break;
+            }
         }
-        //确认更改账户
-        Long userId = dto.getUserId() != null ? dto.getUserId() : UserContext.getUserId();
-        //查询金额
-        Wallet one = lambdaQuery()
-                .eq(Wallet::getUserId, userId)
-                .one();
-        if(one == null) {
-            throw new BusinessException("未找到账户");
-        }
-        if(one.getStatus() == AccountStatusEnum.FROZEN){
-            throw new BusinessException("账户已经冻结无法操作");
-        }
-
-        //修改数据库
-        Long balance = one.getBalance() + dto.getBalance();
-        if(balance < 0) {
-            throw new BusinessException("金额不足");
-        }
-        Integer version = one.getVersion();
-
-        Integer success = walletMapper.updateBalance(userId ,balance, version);
-
+        //保存记录
         WalletLog walletLog = new WalletLog();
-        walletLog.setAmount(dto.getBalance());
-        walletLog.setWalletId(one.getId());
-        walletLog.setType(type);
+        walletLog.setAmount(balance > 0 ? balance : -balance);
+        walletLog.setType(balance > 0 ? WalletLogTypeEnum.RECHARGE : WalletLogTypeEnum.DEDUCT);
         walletLog.setUserId(userId);
-        //添加记录
-        if(success > 0) {
-            //成功
-            walletLog.setStatus(1);
-            walletLogMapper.insert(walletLog);
-        }else{
-            //失败
-            walletLog.setStatus(2);
-            walletLogMapper.insert(walletLog);
-            throw new BusinessException("操作频繁");
+        walletLog.setStatus(i == 0 ? 1 : 2);
+        walletLogMapper.insert(walletLog);
+        if(i > 0){
+            throw new BusinessException("系统繁忙");
         }
     }
+
+
 }
