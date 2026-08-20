@@ -2,7 +2,6 @@ package com.kemall.account.service;
 
 import com.kemall.account.domain.po.Wallet;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kemall.account.enums.WalletLogTypeEnum;
 import com.kemall.api.dto.WalletDTO;
 
 /**
@@ -17,5 +16,7 @@ public interface IWalletService extends IService<Wallet> {
 
     void transaction(WalletDTO walletDTO);
 
-    void changeAmount(Long userId, Long amount);
+    Wallet changeAmount(Long userId, Long amount);
+
+    Long queryBalanceByUserId();
 }

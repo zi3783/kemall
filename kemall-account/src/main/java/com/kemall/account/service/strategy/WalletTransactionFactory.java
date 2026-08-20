@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 import java.util.EnumMap;
 
 @Component
-public class WalletTransactionContext {
+public class WalletTransactionFactory {
 
     private final EnumMap<TransactionType, WalletTransactionStrategy> transactionStrategyMap;
 
-    public WalletTransactionContext(@Lazy WalletRechargeTransaction recharge,
+    public WalletTransactionFactory(@Lazy WalletRechargeTransaction recharge,
                                     @Lazy WalletDeductStrategy deduct) {
         transactionStrategyMap = new EnumMap<>(TransactionType.class);
         transactionStrategyMap.put(TransactionType.RECHARGE, recharge);

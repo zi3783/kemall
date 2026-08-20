@@ -26,7 +26,7 @@ public class WalletTransactionAspect {
 
     private final RedissonClient redissonClient;
 
-    private final ExpressionParser parser = new SpelExpressionParser();
+    private final ExpressionParser parser;
 
     @Around("@annotation(redissonLock)")
     public Object lockTransaction(ProceedingJoinPoint joinPoint,  RedissonLock redissonLock){
