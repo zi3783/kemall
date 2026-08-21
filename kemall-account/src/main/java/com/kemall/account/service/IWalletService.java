@@ -19,4 +19,8 @@ public interface IWalletService extends IService<Wallet> {
     Wallet changeAmount(Long userId, Long amount);
 
     Long queryBalanceByUserId();
+
+    boolean freezeAmount(Long balance, String bizId, Long userId);
+
+    Wallet getWalletAndUpdate(Long balance, Long userId,String bizId);
 }

@@ -1,10 +1,14 @@
 package com.kemall.account.service.impl;
 
+import com.kemall.account.annotation.RedissonLock;
 import com.kemall.account.constants.RedisConstant;
+import com.kemall.account.domain.po.FreezeLog;
 import com.kemall.account.domain.po.Wallet;
 import com.kemall.account.domain.po.WalletLog;
 import com.kemall.account.enums.AccountStatusEnum;
+import com.kemall.account.enums.FreezeLogStatusEnum;
 import com.kemall.account.enums.WalletLogTypeEnum;
+import com.kemall.account.mapper.FreezeLogMapper;
 import com.kemall.account.mapper.WalletLogMapper;
 import com.kemall.account.mapper.WalletMapper;
 import com.kemall.account.service.IWalletService;
@@ -16,12 +20,18 @@ import com.kemall.common.exception.BusinessException;
 import com.kemall.common.utils.UserContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.Nullable;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -45,6 +55,8 @@ public class WalletServiceImpl extends ServiceImpl<WalletMapper, Wallet> impleme
     private final StringRedisTemplate redisTemplate;
 
     private final DefaultRedisScript<Boolean> redisScript;
+
+    private final FreezeLogMapper freezeLogMapper;
 
     @Override
     public void transaction(WalletDTO walletDTO) {
@@ -109,7 +121,7 @@ public class WalletServiceImpl extends ServiceImpl<WalletMapper, Wallet> impleme
         walletLog.setUserId(userId);
         walletLog.setStatus(i == 0 ? 1 : 2);
         walletLogMapper.insert(walletLog);
-        if(i > 0){
+        if(i == 3){
             throw new BusinessException("系统繁忙");
         }
         return account;
@@ -141,4 +153,78 @@ public class WalletServiceImpl extends ServiceImpl<WalletMapper, Wallet> impleme
         log.debug("从mysql中读取到数据data = {}", one.getBalance());
         return one.getBalance();
     }
+
+    @Override
+    public boolean freezeAmount(Long balance, String bizId, Long userId) {
+        if(balance <= 0 || bizId == null || userId == null){
+            throw new IllegalArgumentException("参数错误");
+        }
+        IWalletService walletService = (IWalletService) AopContext.currentProxy();
+        Wallet one = walletService.getWalletAndUpdate(balance, userId, bizId);
+        if (one == null) return false;
+        //更新缓存
+        Long wallet = one.getBalance();
+        Integer version = one.getVersion();
+        redisTemplate.opsForHash().put(RedisConstant.ACCOUNT_PREFIX + userId, "balance", wallet.toString());
+        redisTemplate.opsForHash().put(RedisConstant.ACCOUNT_PREFIX + userId, "version", version.toString());
+        return true;
+    }
+
+    @RedissonLock(key = "#userId", waitTime = 3, prefix = "Account:UserId:Lock")
+    @Transactional
+    public @Nullable Wallet getWalletAndUpdate(Long balance, Long userId, String bizId) {
+        //防悬挂 取消请求先到达 创建请求后到达
+        //先查freeze_log表，如果已经cancel那么无需再插入
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("biz_id", bizId);
+        List<FreezeLog> list = freezeLogMapper.selectByMap(map);
+        if(!list.isEmpty()){
+            if(list.size() != 1){
+                throw new BusinessException("数据异常！");
+            }
+            FreezeLog freezeLog = list.get(0);
+            if(freezeLog.getStatus().equals(FreezeLogStatusEnum.CANCEL)){
+                log.info("已取消，不需要冻结");
+            } else if (freezeLog.getStatus().equals(FreezeLogStatusEnum.TRY)) {
+                log.info("已经冻结，请勿重复操作");
+            } else if (freezeLog.getStatus().equals(FreezeLogStatusEnum.CONFIRM)) {
+                log.info("此订单已经支付");
+            }
+            return null;
+        }
+        //查出旧数据
+        Wallet one = lambdaQuery()
+                .eq(Wallet::getUserId, userId)
+                .one();
+        if(one == null) {
+            log.debug("没有找到账户");
+            return null;
+        }
+        //冻结金额
+        if(one.getStatus() == AccountStatusEnum.FROZEN){
+            log.info("账户被冻结");
+            return null;
+        }
+        if(one.getBalance() < balance){
+            log.info("账户余额不足");
+            return null;
+        }
+        Integer row = walletMapper.freezeBalance(userId, balance, one.getVersion());
+        if(row != 1){
+            throw new BusinessException("冻结失败，版本号错误");
+        }
+        //记录日志
+        FreezeLog freezeLog = new FreezeLog();
+        freezeLog.setAmount(balance);
+        freezeLog.setUserId(userId);
+        freezeLog.setBizId(bizId);
+        freezeLog.setStatus(FreezeLogStatusEnum.TRY);
+        freezeLogMapper.insert(freezeLog);
+
+        one.setBalance(one.getBalance() - balance);
+        one.setVersion(one.getVersion() + 1);
+        return one;
+    }
+
+
 }

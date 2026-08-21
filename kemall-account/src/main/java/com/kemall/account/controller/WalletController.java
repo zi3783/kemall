@@ -1,15 +1,14 @@
 package com.kemall.account.controller;
 
-
 import com.kemall.account.service.IWalletService;
 import com.kemall.api.dto.WalletDTO;
 import com.kemall.common.utils.Result;
+import com.kemall.common.utils.UserContext;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.web.bind.annotation.*;
-
 
 @RestController
 @RequestMapping("/wallets")
@@ -35,4 +34,10 @@ public class WalletController {
         return Result.success(balance);
     }
 
+    @PostMapping("freeze")
+    @Operation(summary = "冻结账户")
+    public Result freezeAmount(Long balance, String bizId) {
+        boolean isSuccess = walletService.freezeAmount(balance, bizId, UserContext.getUserId());
+        return isSuccess ? Result.success() : Result.fail("冻结未成功，请查看余额或已取消");
+    }
 }

@@ -14,4 +14,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 public interface WalletMapper extends BaseMapper<Wallet> {
 
     Integer updateBalance(Long userId, Long balance, Integer version);
+
+    Integer freezeBalance(Long userId, Long balance, Integer version);
 }

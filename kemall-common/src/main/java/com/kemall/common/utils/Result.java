@@ -31,4 +31,5 @@ public class Result <T>  implements Serializable {
     public static <T> Result<T> fail(Integer code, String msg) {
         return new Result<>(code, msg, null);
     }
+
 }

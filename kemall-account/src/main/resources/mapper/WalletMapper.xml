@@ -7,4 +7,13 @@
         set balance = #{balance}, version = version + 1
         where user_id = #{userId} and version = #{version}
     </update>
+    <update id="freezeBalance">
+        update wallet
+        set frozen_balance = #{balance} + frozen_balance,
+            balance = balance - #{balance},
+            version = version + 1
+        where user_id = #{userId} and
+            version = #{version} and
+            status = 1
+    </update>
 </mapper>
