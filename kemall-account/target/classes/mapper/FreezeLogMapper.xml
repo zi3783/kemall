@@ -2,4 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kemall.account.mapper.FreezeLogMapper">
 
+    <update id="updateOnVersion">
+        update freeze_log
+            set version = #{version} + 1,
+            status = #{status}
+        where id = #{id}
+        and version = #{version}
+    </update>
 </mapper>

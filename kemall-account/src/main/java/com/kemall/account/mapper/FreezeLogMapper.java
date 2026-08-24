@@ -2,6 +2,7 @@ package com.kemall.account.mapper;
 
 import com.kemall.account.domain.po.FreezeLog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.kemall.account.enums.FreezeLogStatusEnum;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface FreezeLogMapper extends BaseMapper<FreezeLog> {
 
+    Integer updateOnVersion(FreezeLogStatusEnum status, Integer version, Long id);
 }

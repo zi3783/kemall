@@ -1,5 +1,6 @@
 package com.kemall.account.controller;
 
+import com.kemall.account.service.IFreezeLogService;
 import com.kemall.account.service.IWalletService;
 import com.kemall.api.dto.WalletDTO;
 import com.kemall.common.utils.Result;
@@ -19,6 +20,8 @@ public class WalletController {
 
     private final IWalletService walletService;
 
+    private final IFreezeLogService freezeLogService;
+
     @PostMapping("transactions")
     @Operation(summary = "交易相关接口")
     public Result transactions(@RequestBody WalletDTO walletDTO) {
@@ -34,10 +37,16 @@ public class WalletController {
         return Result.success(balance);
     }
 
-    @PostMapping("freeze")
+    @PutMapping("freeze")
     @Operation(summary = "冻结账户")
     public Result freezeAmount(Long balance, String bizId) {
-        boolean isSuccess = walletService.freezeAmount(balance, bizId, UserContext.getUserId());
-        return isSuccess ? Result.success() : Result.fail("冻结未成功，请查看余额或已取消");
+        return walletService.freezeAmount(balance, bizId, UserContext.getUserId()) ? Result.success() : Result.fail("冻结未成功，请查看余额或已取消");
     }
+
+    @PutMapping("confirm")
+    @Operation(summary = "确认扣款")
+    public Result confirmAccount(Long id) {
+        return freezeLogService.confirmAccount(id) ? Result.success() : Result.fail("扣款失败");
+    }
+
 }

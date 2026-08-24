@@ -1,5 +1,6 @@
 package com.kemall.account.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kemall.account.annotation.RedissonLock;
 import com.kemall.account.constants.RedisConstant;
 import com.kemall.account.domain.po.FreezeLog;
@@ -12,7 +13,6 @@ import com.kemall.account.mapper.FreezeLogMapper;
 import com.kemall.account.mapper.WalletLogMapper;
 import com.kemall.account.mapper.WalletMapper;
 import com.kemall.account.service.IWalletService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kemall.account.service.strategy.WalletTransactionFactory;
 import com.kemall.account.service.strategy.WalletTransactionStrategy;
 import com.kemall.api.dto.WalletDTO;
@@ -27,11 +27,9 @@ import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * <p>
@@ -170,7 +168,7 @@ public class WalletServiceImpl extends ServiceImpl<WalletMapper, Wallet> impleme
         return true;
     }
 
-    @RedissonLock(key = "#userId", waitTime = 3, prefix = "Account:UserId:Lock")
+    @RedissonLock(key = "#userId", waitTime = 3, prefix = "Account:UserId:Lock:")
     @Transactional
     public @Nullable Wallet getWalletAndUpdate(Long balance, Long userId, String bizId) {
         //防悬挂 取消请求先到达 创建请求后到达
