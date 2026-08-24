@@ -38,7 +38,7 @@ public class WalletLog implements Serializable {
     private Long amount;
 
     /**
-     * 1-充值 2-扣款
+     * 1-充值 2-扣款 3-确认扣款 4-退款/取消扣款
      */
     @TableField("type")
     private WalletLogTypeEnum type;

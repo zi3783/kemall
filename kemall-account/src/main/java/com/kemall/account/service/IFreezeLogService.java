@@ -19,4 +19,6 @@ public interface IFreezeLogService extends IService<FreezeLog> {
 
 
     boolean confirmLogic(Long freezeLogId, Long userId);
+
+    boolean cancelAccount(Long freezeLogId);
 }

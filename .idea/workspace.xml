@@ -4,22 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="66418244-2992-4fb7-bf9b-b6598ee56772" name="更改" comment="添加冻结用户余额">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+    <list default="true" id="66418244-2992-4fb7-bf9b-b6598ee56772" name="更改" comment="添加确认扣款接口">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/controller/WalletController.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/controller/WalletController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/domain/po/WalletLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/domain/po/WalletLog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/enums/WalletLogTypeEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/enums/WalletLogTypeEnum.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/mapper/FreezeLogMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/mapper/FreezeLogMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/mapper/WalletLogMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/mapper/WalletLogMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/mapper/WalletMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/mapper/WalletMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/IFreezeLogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/IFreezeLogService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/IWalletService.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/IWalletService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/impl/FreezeLogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/impl/FreezeLogServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/impl/WalletServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/impl/WalletServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/resources/mapper/FreezeLogMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/resources/mapper/FreezeLogMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/controller/WalletController.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/controller/WalletController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/enums/WalletLogTypeEnum.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/enums/WalletLogTypeEnum.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/mapper/FreezeLogMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/mapper/FreezeLogMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/mapper/WalletLogMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/mapper/WalletLogMapper.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/mapper/WalletMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/mapper/WalletMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/impl/WalletServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/impl/WalletServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/IFreezeLogService.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/IFreezeLogService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/impl/FreezeLogServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/impl/FreezeLogServiceImpl.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,49 +133,49 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;JUnit.RedissonLockTest.testAnnotation.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.kemall [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.kemall-account [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.kemall-common [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.kemall-common [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.kemall-common [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.kemall-gateway [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.kemall-gateway [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.kemall-user [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.kemall-user [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.kemall-user [package].executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;Spring Boot.AccountApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.GatewayApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.UserApplication.executor&quot;: &quot;Run&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/develop/code/kemall&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.27969348&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JUnit.RedissonLockTest.testAnnotation.executor": "Run",
+    "Maven.kemall [compile].executor": "Run",
+    "Maven.kemall-account [compile].executor": "Run",
+    "Maven.kemall-common [clean].executor": "Run",
+    "Maven.kemall-common [compile].executor": "Run",
+    "Maven.kemall-common [install].executor": "Run",
+    "Maven.kemall-gateway [clean].executor": "Run",
+    "Maven.kemall-gateway [compile].executor": "Run",
+    "Maven.kemall-user [clean].executor": "Run",
+    "Maven.kemall-user [compile].executor": "Run",
+    "Maven.kemall-user [package].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "Spring Boot.AccountApplication.executor": "Run",
+    "Spring Boot.GatewayApplication.executor": "Run",
+    "Spring Boot.UserApplication.executor": "Run",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/develop/code/kemall",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "模块",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.27969348",
+    "settings.editor.selected.configurable": "MavenSettings"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\develop\code\kemall\kemall-account\src\main\resources" />
@@ -307,7 +308,15 @@
       <option name="project" value="LOCAL" />
       <updated>1787297080093</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="添加确认扣款接口">
+      <option name="closed" value="true" />
+      <created>1787558015070</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1787558015070</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -330,7 +339,8 @@
     <MESSAGE value="调优余额相关接口" />
     <MESSAGE value="新增查询余额接口，加入redis缓存，使用lua脚本+版本号控制更新缓存" />
     <MESSAGE value="添加冻结用户余额" />
-    <option name="LAST_COMMIT_MESSAGE" value="添加冻结用户余额" />
+    <MESSAGE value="添加确认扣款接口" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加确认扣款接口" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

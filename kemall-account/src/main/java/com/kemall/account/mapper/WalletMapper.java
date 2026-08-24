@@ -2,6 +2,7 @@ package com.kemall.account.mapper;
 
 import com.kemall.account.domain.po.Wallet;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 /**
@@ -12,6 +13,7 @@ import org.apache.ibatis.annotations.Select;
  * @author author
  * @since 2026-08-07
  */
+@Mapper
 public interface WalletMapper extends BaseMapper<Wallet> {
 
     Integer updateBalance(Long userId, Long balance, Integer version);

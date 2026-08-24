@@ -22,7 +22,7 @@ public class WalletController {
 
     private final IFreezeLogService freezeLogService;
 
-    @PostMapping("transactions")
+    @PostMapping("/transactions")
     @Operation(summary = "交易相关接口")
     public Result transactions(@RequestBody WalletDTO walletDTO) {
         walletService.transaction(walletDTO);
@@ -30,23 +30,28 @@ public class WalletController {
     }
 
 
-    @GetMapping("balance")
+    @GetMapping("/balance")
     @Operation(summary = "查询余额")
     public Result<Long> getBalance() {
         Long balance = walletService.queryBalanceByUserId();
         return Result.success(balance);
     }
 
-    @PutMapping("freeze")
+    @PutMapping("/freeze")
     @Operation(summary = "冻结账户")
     public Result freezeAmount(Long balance, String bizId) {
         return walletService.freezeAmount(balance, bizId, UserContext.getUserId()) ? Result.success() : Result.fail("冻结未成功，请查看余额或已取消");
     }
 
-    @PutMapping("confirm")
+    @PutMapping("/confirm")
     @Operation(summary = "确认扣款")
-    public Result confirmAccount(Long id) {
-        return freezeLogService.confirmAccount(id) ? Result.success() : Result.fail("扣款失败");
+    public Result confirmAccount(Long freezeLogId) {
+        return freezeLogService.confirmAccount(freezeLogId) ? Result.success() : Result.fail("扣款失败");
     }
 
+    @PutMapping("/cancel")
+    @Operation(summary = "取消扣款")
+    public Result cancelAccount(Long freezeLogId){
+        return freezeLogService.cancelAccount(freezeLogId) ? Result.success() : Result.fail("取消失败");
+    }
 }

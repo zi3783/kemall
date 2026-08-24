@@ -1,7 +1,6 @@
 package com.kemall.account.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.kemall.account.annotation.RedissonLock;
 import com.kemall.account.domain.po.FreezeLog;
 import com.kemall.account.domain.po.Wallet;
@@ -71,7 +70,7 @@ public class FreezeLogServiceImpl extends ServiceImpl<FreezeLogMapper, FreezeLog
                 }
                 if (freezeLog.getStatus().equals(FreezeLogStatusEnum.CANCEL)) {
                     FreezeLogServiceImpl.log.info("已经取消");
-                    return true;
+                    return false;
                 }
                 //修改日志
                 int row = freezeLogMapper.updateOnVersion(FreezeLogStatusEnum.CONFIRM, freezeLog.getVersion(), freezeLogId);
@@ -101,7 +100,7 @@ public class FreezeLogServiceImpl extends ServiceImpl<FreezeLogMapper, FreezeLog
                 //记录日志
                 WalletLog walletLog = new WalletLog()
                         .setUserId(freezeLog.getUserId())
-                        .setType(WalletLogTypeEnum.COMFIRM)
+                        .setType(WalletLogTypeEnum.CONFIRM)
                         .setAmount(freezeLog.getAmount())
                         .setStatus(1);
                 walletLogMapper.insert(walletLog);
@@ -109,6 +108,77 @@ public class FreezeLogServiceImpl extends ServiceImpl<FreezeLogMapper, FreezeLog
             }
             throw new BusinessException("系统繁忙，请稍后重试");
         }catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean cancelAccount(Long freezeLogId) {
+        if(freezeLogId == null){
+            throw new IllegalArgumentException("freezeLogId is null");
+        }
+        FreezeLogServiceImpl freezeLogService = (FreezeLogServiceImpl) AopContext.currentProxy();
+        return freezeLogService.cancelLogic(freezeLogId, UserContext.getUserId());
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @RedissonLock(key = "#userId", waitTime = 3, prefix = "Account:UserId:Lock:")
+    public boolean cancelLogic(Long freezeLogId, Long userId) {
+        try {
+            for (int i = 0; i < 3; ++i) {
+                //查询freeze_log
+                FreezeLog user = lambdaQuery().eq(FreezeLog::getId, freezeLogId).one();
+                if(user == null){
+                    throw new BusinessException("记录不存在");
+                }
+                //校验用户
+                if(!userId.equals(user.getUserId())){
+                    throw new BusinessException("用户信息错误");
+                }
+                //检查日志状态
+                if(user.getStatus().equals(FreezeLogStatusEnum.CONFIRM)){
+                    log.info("已经付款");
+                    return false;
+                }
+                if(user.getStatus().equals(FreezeLogStatusEnum.CANCEL)){
+                    log.info("已经取消");
+                    return true;
+                }
+                //修改日志
+                int row = freezeLogMapper.updateOnVersion(FreezeLogStatusEnum.CANCEL, user.getVersion(), freezeLogId);
+                if(row != 1){
+                    log.info("freezeLog数据更改");
+                    Thread.sleep(1000);
+                    continue;
+                }
+                //执行退款逻辑
+                //1.查询wallet表
+                Wallet wallet = walletMapper.selectByUserId(user.getUserId());
+                if(wallet == null){
+                    throw new BusinessException("未找到用户");
+                }
+                //2.退款
+                LambdaUpdateWrapper<Wallet> wrapper = new LambdaUpdateWrapper<>();
+                wrapper.eq(Wallet::getUserId, userId)
+                        .eq(Wallet::getVersion, wallet.getVersion())
+                        .set(Wallet::getVersion, wallet.getVersion() + 1)
+                        .set(Wallet::getFrozenBalance, wallet.getFrozenBalance() - user.getAmount())
+                        .set(Wallet::getBalance, wallet.getBalance() + user.getAmount())
+                        .ge(Wallet::getFrozenBalance, user.getAmount());
+                row = walletMapper.update(wrapper);
+                if(row != 1){
+                    throw new RuntimeException("系统繁忙");
+                }
+                //记录wallet_log日志
+                WalletLog walletLog = new WalletLog()
+                        .setUserId(userId)
+                        .setType(WalletLogTypeEnum.REFUND)
+                        .setAmount(user.getAmount())
+                        .setStatus(1);
+                walletLogMapper.insert(walletLog);
+            }
+            throw new BusinessException("系统繁忙");
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
