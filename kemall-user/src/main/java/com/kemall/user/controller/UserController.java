@@ -2,7 +2,7 @@ package com.kemall.user.controller;
 
 
 import com.kemall.common.annotation.LoginRequire;
-import com.kemall.common.utils.Result;
+import com.kemall.common.utils.bean.result.Result;
 import com.kemall.common.utils.UserContext;
 import com.kemall.user.domain.dto.UserDTO;
 import com.kemall.user.service.IUserService;

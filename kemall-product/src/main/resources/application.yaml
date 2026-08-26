@@ -1,0 +1,27 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: product-service
+  profiles:
+    default: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${ke.addr}:8848
+        ip: ${ke.ip}
+      config:
+        server-addr: ${ke.addr}:8848
+        file-extension: yaml
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${ke.addr}:3306/product_db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: 123456
+
+  redis:
+    host: redis
+    port: 6379
+

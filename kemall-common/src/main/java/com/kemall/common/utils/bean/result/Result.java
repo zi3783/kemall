@@ -1,4 +1,4 @@
-package com.kemall.common.utils;
+package com.kemall.common.utils.bean.result;
 
 import lombok.Data;
 
@@ -31,5 +31,7 @@ public class Result <T>  implements Serializable {
     public static <T> Result<T> fail(Integer code, String msg) {
         return new Result<>(code, msg, null);
     }
-
+    public static Result<String> fail() {
+        return new Result(500, "fail", null);
+    }
 }
