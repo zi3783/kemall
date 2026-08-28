@@ -1,9 +1,7 @@
 package com.kemall.account.service;
 
-import com.kemall.account.annotation.RedissonLock;
 import com.kemall.account.domain.po.FreezeLog;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>

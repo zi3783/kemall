@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import com.kemall.product.enums.ProductStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -69,7 +71,7 @@ public class Product implements Serializable {
     /**
      * 商品状态 1:草稿 2:待审核 3:审核通过 4:上架 5:下架 6:违规下架
      */
-    private Integer status;
+    private ProductStatus status;
 
     /**
      * 创建时间

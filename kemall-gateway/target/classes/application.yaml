@@ -28,6 +28,13 @@ spring:
             - StripPrefix=0
           predicates:
             - Path=/wallets/**
+            - Path=/wallet-log/**
+        - id: order-service
+          uri: lb://order-service
+          filters:
+            - StripPrefix=0
+          predicates:
+            - Path=/orders/**
 
 
 jwt:

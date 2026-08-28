@@ -1,8 +1,7 @@
 package com.kemall.account;
 
-import com.kemall.account.annotation.RedissonLock;
+import com.kemall.common.annotation.RedissonLock;
 import com.kemall.api.dto.WalletDTO;
-import org.springframework.stereotype.Component;
 
 //@Component
 public class Test {

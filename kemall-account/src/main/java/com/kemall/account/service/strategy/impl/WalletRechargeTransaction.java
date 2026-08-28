@@ -1,6 +1,6 @@
 package com.kemall.account.service.strategy.impl;
 
-import com.kemall.account.annotation.RedissonLock;
+import com.kemall.common.annotation.RedissonLock;
 import com.kemall.account.domain.po.Wallet;
 import com.kemall.account.service.IWalletService;
 import com.kemall.account.service.strategy.WalletTransactionStrategy;

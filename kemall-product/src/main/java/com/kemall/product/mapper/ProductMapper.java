@@ -1,7 +1,10 @@
 package com.kemall.product.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kemall.product.domain.po.Product;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.kemall.product.domain.vo.ProductIntro;
+import com.kemall.product.domain.vo.ProductVO;
 
 /**
  * <p>
@@ -12,5 +15,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2026-08-26
  */
 public interface ProductMapper extends BaseMapper<Product> {
+
+    ProductVO queryProductDetailById(Long productId);
+
+    Page<ProductIntro> queryProductIntroByCondition(Page<Product> page, Long categoryId, Long brandId);
 
 }

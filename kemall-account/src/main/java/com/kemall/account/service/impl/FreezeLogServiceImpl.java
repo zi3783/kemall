@@ -1,7 +1,7 @@
 package com.kemall.account.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.kemall.account.annotation.RedissonLock;
+import com.kemall.common.annotation.RedissonLock;
 import com.kemall.account.domain.po.FreezeLog;
 import com.kemall.account.domain.po.Wallet;
 import com.kemall.account.domain.po.WalletLog;
