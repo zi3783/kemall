@@ -20,7 +20,6 @@ import com.kemall.product.service.ICategoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jspecify.annotations.NonNull;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
@@ -76,7 +75,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         return Result.success(vos);
     }
 
-    private @NonNull List<CategoryTreeVO> getCategoryTreeVOS() {
+    private List<CategoryTreeVO> getCategoryTreeVOS() {
         List<Category> list = lambdaQuery()
                 .eq(Category::getStatus, CategoryStatus.NORMAL)
                 .list();

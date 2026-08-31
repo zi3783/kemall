@@ -1,1 +1,10 @@
+com\kemall\user\domain\dto\UserDTO.class
+com\kemall\user\domain\po\User.class
+com\kemall\user\service\IUserService.class
+com\kemall\user\config\UtilConfiguration.class
+com\kemall\user\enums\AccountStatusEnum.class
 com\kemall\user\UserApplication.class
+com\kemall\user\enums\UserTypeEnum.class
+com\kemall\user\mapper\UserMapper.class
+com\kemall\user\service\impl\UserServiceImpl.class
+com\kemall\user\controller\UserController.class

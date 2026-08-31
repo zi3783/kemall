@@ -20,7 +20,6 @@ import com.kemall.common.exception.BusinessException;
 import com.kemall.common.utils.UserContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jspecify.annotations.Nullable;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -170,7 +169,7 @@ public class WalletServiceImpl extends ServiceImpl<WalletMapper, Wallet> impleme
 
     @RedissonLock(key = "#userId", waitTime = 3, prefix = "Account:UserId:Lock:")
     @Transactional
-    public @Nullable Wallet getWalletAndUpdate(Long balance, Long userId, String bizId) {
+    public Wallet getWalletAndUpdate(Long balance, Long userId, String bizId) {
         //防悬挂 取消请求先到达 创建请求后到达
         //先查freeze_log表，如果已经cancel那么无需再插入
         HashMap<String, Object> map = new HashMap<>();

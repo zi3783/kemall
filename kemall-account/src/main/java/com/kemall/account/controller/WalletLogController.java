@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +31,7 @@ public class WalletLogController {
 
     @PostMapping("page")
     @Operation(summary = "分页查询流水")
-    public Result<PageResult<WalletLogVO>> queryWalletLogByPage(WalletLogPage page){
+    public Result<PageResult<WalletLogVO>> queryWalletLogByPage(@RequestBody WalletLogPage page){
         return Result.success(walletLogService.queryWalletLogByPage(page));
     }
 }

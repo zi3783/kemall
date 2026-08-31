@@ -33,7 +33,6 @@ import com.kemall.product.service.IProductService;
 import com.kemall.product.service.VisitedCountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jspecify.annotations.NonNull;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -135,7 +134,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         return Result.success(pageResult);
     }
 
-    private @NonNull ProductVO queryProductVoOnDb(Long productId) {
+    private ProductVO queryProductVoOnDb(Long productId) {
         Product product = lambdaQuery().eq(Product::getId, productId)
                 .eq(Product::getStatus, ProductStatus.ON_SHELF)
                 .one();

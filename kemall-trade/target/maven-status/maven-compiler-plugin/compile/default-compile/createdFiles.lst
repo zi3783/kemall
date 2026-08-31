@@ -1,0 +1,11 @@
+com\kemall\trade\service\impl\OrdersServiceImpl.class
+com\kemall\trade\service\IOrderItemsService.class
+com\kemall\trade\domain\po\OrderItems.class
+com\kemall\trade\domain\po\Orders.class
+com\kemall\trade\service\impl\OrderItemsServiceImpl.class
+com\kemall\trade\service\IOrdersService.class
+com\kemall\trade\mapper\OrderItemsMapper.class
+com\kemall\trade\TradeApplication.class
+com\kemall\trade\mapper\OrdersMapper.class
+com\kemall\trade\controller\OrderItemsController.class
+com\kemall\trade\controller\OrdersController.class

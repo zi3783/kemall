@@ -1,0 +1,11 @@
+D:\develop\code\kemall\kemall-inventory\src\main\java\com\kemall\inventory\controller\InventoryController.java
+D:\develop\code\kemall\kemall-inventory\src\main\java\com\kemall\inventory\controller\InventoryLogController.java
+D:\develop\code\kemall\kemall-inventory\src\main\java\com\kemall\inventory\domain\po\InventoryLog.java
+D:\develop\code\kemall\kemall-inventory\src\main\java\com\kemall\inventory\service\IInventoryService.java
+D:\develop\code\kemall\kemall-inventory\src\main\java\com\kemall\inventory\service\IInventoryLogService.java
+D:\develop\code\kemall\kemall-inventory\src\main\java\com\kemall\inventory\domain\po\Inventory.java
+D:\develop\code\kemall\kemall-inventory\src\main\java\com\kemall\inventory\mapper\InventoryMapper.java
+D:\develop\code\kemall\kemall-inventory\src\main\java\com\kemall\inventory\service\impl\InventoryServiceImpl.java
+D:\develop\code\kemall\kemall-inventory\src\main\java\com\kemall\inventory\InventoryApplication.java
+D:\develop\code\kemall\kemall-inventory\src\main\java\com\kemall\inventory\mapper\InventoryLogMapper.java
+D:\develop\code\kemall\kemall-inventory\src\main\java\com\kemall\inventory\service\impl\InventoryLogServiceImpl.java

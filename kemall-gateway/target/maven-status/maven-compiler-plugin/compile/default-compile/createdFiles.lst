@@ -1,1 +1,3 @@
 com\kemall\gateway\GatewayApplication.class
+com\kemall\gateway\config\UtilConfiguration.class
+com\kemall\gateway\filter\AuthGlobalFilter.class

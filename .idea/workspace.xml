@@ -5,124 +5,41 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66418244-2992-4fb7-bf9b-b6598ee56772" name="更改" comment="商城服务基本业务开发">
-      <change afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/utils/BeanUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-common/target/classes/com/kemall/common/annotation/RedissonLock.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-common/target/classes/com/kemall/common/aspect/RedissonLockAspect.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-common/target/classes/com/kemall/common/utils/BeanUtil.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-common/target/classes/com/kemall/common/utils/bean/query/Page.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-inventory/target/classes/application-dev.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-inventory/target/classes/application-local.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-inventory/target/classes/application.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-inventory/target/classes/mapper/InventoryLogMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-inventory/target/classes/mapper/InventoryMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/ProductApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/config/AsyncConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/config/MyBatisPlusConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/config/RedisLuaConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/constants/RedisConstants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/controller/admin/CategoryAdminController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/controller/admin/ProductAdminController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/domain/dto/CategoryDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/domain/query/ProductCreateReq.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/domain/query/ProductQuery.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/domain/query/ProductUpdateReq.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/domain/query/SkuCreateReq.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/domain/vo/CategoryTreeVO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/domain/vo/ProductIntro.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/domain/vo/ProductSkuVO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/domain/vo/ProductVO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/enums/BrandStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/enums/CategoryStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/enums/ProductSkuStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/enums/ProductStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/service/VisitedCountService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/src/main/resources/lua/cache_fresh.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/application-dev.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/application-local.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/application.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/ProductApplication.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/config/AsyncConfiguration.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/config/MyBatisPlusConfiguration.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/config/RedisLuaConfiguration.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/constants/RedisConstants.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/controller/BrandController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/controller/CategoryController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/controller/ProductController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/controller/ProductSkuController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/controller/admin/CategoryAdminController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/controller/admin/ProductAdminController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/domain/dto/CategoryDTO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/domain/po/Brand.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/domain/po/Category.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/domain/po/Product.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/domain/po/ProductSku.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/domain/query/ProductCreateReq.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/domain/query/ProductQuery.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/domain/query/ProductUpdateReq.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/domain/query/SkuCreateReq.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/domain/vo/CategoryTreeVO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/domain/vo/ProductIntro.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/domain/vo/ProductSkuVO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/domain/vo/ProductVO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/enums/BrandStatus.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/enums/CategoryStatus.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/enums/ProductSkuStatus.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/enums/ProductStatus.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/mapper/BrandMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/mapper/CategoryMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/mapper/ProductMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/mapper/ProductSkuMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/service/IBrandService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/service/ICategoryService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/service/IProductService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/service/IProductSkuService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/service/VisitedCountService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/service/impl/BrandServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/service/impl/CategoryServiceImpl$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/service/impl/CategoryServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/service/impl/ProductServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/service/impl/ProductSkuServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/lua/cache_fresh.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/mapper/BrandMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/mapper/CategoryMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/mapper/ProductMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-product/target/classes/mapper/ProductSkuMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-trade/target/classes/application-dev.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-trade/target/classes/application-local.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-trade/target/classes/application.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-trade/target/classes/mapper/OrderItemsMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-trade/target/classes/mapper/OrdersMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/data_sources_history.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/data_sources_history.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/IAccountTccService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/impl/IAccountTccServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-inventory/src/main/java/com/kemall/inventory/InventoryApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/annotation/RedissonLock.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/annotation/RedissonLock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/aspect/WalletTransactionAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/aspect/RedissonLockAspect.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/domain/query/Page.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-common/src/main/java/com/kemall/common/utils/bean/query/Page.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/IFreezeLogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/IFreezeLogService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/impl/FreezeLogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/impl/FreezeLogServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/controller/WalletLogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/controller/WalletLogController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/impl/WalletServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/impl/WalletServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/strategy/impl/WalletDeductStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/strategy/impl/WalletDeductStrategy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/strategy/impl/WalletRechargeTransaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/strategy/impl/WalletRechargeTransaction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/src/test/java/com/kemall/account/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/test/java/com/kemall/account/Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/annotation/RedissonLock.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/aspect/WalletTransactionAspect.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/domain/query/Page.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/impl/FreezeLogServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/impl/FreezeLogServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/controller/WalletLogController.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/controller/WalletLogController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/impl/WalletServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/impl/WalletServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/strategy/impl/WalletDeductStrategy.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/strategy/impl/WalletDeductStrategy.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/strategy/impl/WalletRechargeTransaction.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/strategy/impl/WalletRechargeTransaction.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-common/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-common/target/classes/com/kemall/common/utils/bean/result/Result.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-common/target/classes/com/kemall/common/utils/bean/result/Result.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-gateway/target/classes/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-gateway/target/classes/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/controller/CategoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/domain/po/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/domain/po/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/mapper/ProductMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/mapper/ProductMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/service/ICategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/service/ICategoryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/service/IProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/service/IProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-api/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-api/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-api/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-api/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-common/target/kemall-common-1.0-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-common/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-common/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-common/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-common/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-common/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-common/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-gateway/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-gateway/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-gateway/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-gateway/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-inventory/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-inventory/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-inventory/src/main/java/com/kemall/inventory/domain/po/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-inventory/src/main/java/com/kemall/inventory/domain/po/Inventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-inventory/src/main/java/com/kemall/inventory/domain/po/InventoryLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-inventory/src/main/java/com/kemall/inventory/domain/po/InventoryLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-product/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-product/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/service/impl/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/service/impl/CategoryServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/service/impl/ProductServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-product/src/main/java/com/kemall/product/service/impl/ProductServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-product/src/main/resources/mapper/ProductMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-product/src/main/resources/mapper/ProductMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/service/impl/CategoryServiceImpl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/service/impl/CategoryServiceImpl$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/service/impl/CategoryServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/service/impl/CategoryServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/service/impl/ProductServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-product/target/classes/com/kemall/product/service/impl/ProductServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-trade/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-trade/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-user/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-user/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-user/target/classes/com/kemall/user/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-user/target/classes/com/kemall/user/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-user/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-user/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-user/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-user/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,9 +49,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="AnnotationType" />
         <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -238,6 +155,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;JUnit.RedissonLockTest.testAnnotation.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.kemall [clean].executor&quot;: &quot;Run&quot;,
     &quot;Maven.kemall [compile].executor&quot;: &quot;Run&quot;,
     &quot;Maven.kemall-account [compile].executor&quot;: &quot;Run&quot;,
     &quot;Maven.kemall-common [clean].executor&quot;: &quot;Run&quot;,
@@ -282,6 +200,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.kemall.account.service.impl" />
       <recent name="com.kemall.product.domain.dto" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
@@ -308,9 +227,9 @@
         <entry key="SpringBootApplicationConfigurationType">
           <value>
             <map>
-              <entry key="AccountApplication" value="STOPPED" />
+              <entry key="AccountApplication" value="FAILED" />
               <entry key="GatewayApplication" value="STOPPED" />
-              <entry key="ProductApplication" value="STOPPED" />
+              <entry key="ProductApplication" value="FAILED" />
               <entry key="UserApplication" value="STOPPED" />
             </map>
           </value>
@@ -481,7 +400,15 @@
       <option name="project" value="LOCAL" />
       <updated>1787733827882</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="商城服务基本业务开发">
+      <option name="closed" value="true" />
+      <created>1787897733942</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1787897733942</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

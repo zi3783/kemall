@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.0</version>
+        <version>3.2.11</version>
         <relativePath/>
     </parent>
 
@@ -30,15 +30,17 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.cloud.version>2025.0.0</spring.cloud.version>
-        <spring.cloud.alibaba.version>2023.0.1.0</spring.cloud.alibaba.version>
-        <spring.doc.version>2.8.9</spring.doc.version>
+        <spring.cloud.version>2023.0.3</spring.cloud.version>
+        <spring.cloud.alibaba.version>2023.0.3.1</spring.cloud.alibaba.version>
+        <spring.doc.version>2.7.0</spring.doc.version>
         <mybatis.plus.version>3.5.15</mybatis.plus.version>
         <druid.version>1.2.23</druid.version>
         <mysql.driver.version>9.1.0</mysql.driver.version>
         <bcrypt.version>6.4.5</bcrypt.version>
         <jwt.version>0.12.6</jwt.version>
         <redisson.version>4.5.0</redisson.version>
+        <seata.version>1.5.2</seata.version>
+        <knife4j.version>4.5.0</knife4j.version>
     </properties>
 
     <dependencyManagement>
@@ -59,12 +61,19 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!--spring doc-->
+            <!--knife4j-->
             <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-                <version>${spring.doc.version}</version>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
             </dependency>
+
+            <!--            &lt;!&ndash;spring doc&ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>org.springdoc</groupId>-->
+<!--                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>-->
+<!--                <version>${spring.doc.version}</version>-->
+<!--            </dependency>-->
             <!--mybatis plus-->
 <!--            <dependency>-->
 <!--                <groupId>com.baomidou</groupId>-->
@@ -126,6 +135,12 @@
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
                 <version>${redisson.version}</version>
+            </dependency>
+            <!--seata-->
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-spring-boot-starter</artifactId>
+                <version>${seata.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
