@@ -25,3 +25,13 @@ spring:
     host: redis
     port: 6379
 
+dubbo:
+  application:
+    name: product-service
+  registry:
+    address: ${ke.addr}:8848
+  protocol:
+    name: dubbo
+    port: ${ke.dubbo.port:20880}
+  scan:
+    base-packages: com.kemall.product.service

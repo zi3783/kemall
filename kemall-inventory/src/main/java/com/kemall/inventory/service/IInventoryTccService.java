@@ -1,9 +1,7 @@
 package com.kemall.inventory.service;
 
-import io.seata.rm.tcc.api.BusinessActionContext;
-import io.seata.rm.tcc.api.BusinessActionContextParameter;
-import io.seata.rm.tcc.api.LocalTCC;
-import io.seata.rm.tcc.api.TwoPhaseBusinessAction;
+
+import org.apache.seata.rm.tcc.api.BusinessActionContext;
 
 /**
  * <p>
@@ -19,23 +17,19 @@ import io.seata.rm.tcc.api.TwoPhaseBusinessAction;
  * @author author
  * @since 2026-08-31
  */
-@LocalTCC
 public interface IInventoryTccService {
 
     /**
      * TCC Try：锁定库存
      *
-     * @param actionContext 事务上下文（本地调用传 null，由 Seata 拦截器注入）
      * @param skuId         商品SKU id
      * @param amount        锁定数量
      * @param orderNo       订单编号（幂等标识）
      * @return true-锁定成功 false-锁定失败（触发全局回滚）
      */
-    @TwoPhaseBusinessAction(name = "inventoryTccDeduct", commitMethod = "commitDeduct", rollbackMethod = "rollbackDeduct")
-    boolean prepareDeduct(BusinessActionContext actionContext,
-                          @BusinessActionContextParameter(paramName = "skuId") Long skuId,
-                          @BusinessActionContextParameter(paramName = "amount") Integer amount,
-                          @BusinessActionContextParameter(paramName = "orderNo") String orderNo);
+    boolean prepareDeduct(Long skuId,
+                          Integer amount,
+                          String orderNo);
 
     /**
      * TCC Confirm：确认扣减（由 TC 调用，需幂等）

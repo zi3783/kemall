@@ -17,6 +17,7 @@
         <module>kemall-trade</module>
         <module>kemall-production</module>
         <module>kemall-inventory</module>
+        <module>kemall-cart</module>
     </modules>
 
     <parent>

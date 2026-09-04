@@ -14,9 +14,9 @@ import com.kemall.account.mapper.WalletLogMapper;
 import com.kemall.account.mapper.WalletMapper;
 import com.kemall.account.service.IAccountTccService;
 import com.kemall.common.exception.BusinessException;
-import io.seata.rm.tcc.api.BusinessActionContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.seata.rm.tcc.api.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +40,7 @@ import java.util.Map;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@LocalTCC
 public class AccountTccServiceImpl implements IAccountTccService {
 
     private final FreezeLogMapper freezeLogMapper;
@@ -53,17 +54,19 @@ public class AccountTccServiceImpl implements IAccountTccService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     @RedissonLock(key = "#userId", waitTime = 3, prefix = "Account:UserId:Lock:")
-    public boolean prepareDeduct(BusinessActionContext actionContext, Long userId, Long amount, String bizId) {
+    @TwoPhaseBusinessAction(name = "accountTccDeduct", commitMethod = "commitDeduct", rollbackMethod = "rollbackDeduct")
+    public boolean prepareDeduct(@BusinessActionContextParameter(paramName = "userId") Long userId,
+                                 @BusinessActionContextParameter(paramName = "amount") Long amount,
+                                 @BusinessActionContextParameter(paramName = "bizId") String bizId) {
+        BusinessActionContext actionContext = BusinessActionContextUtil.getContext();
+        log.info("TCC参数已保存: userId={}, amount={}, bizId={}", userId, amount, bizId);
         if (userId == null || amount == null || amount <= 0 || bizId == null || bizId.isBlank()) {
             throw new IllegalArgumentException("TCC冻结参数错误");
         }
-        // 保存参数到上下文，供 commit/rollback 使用
-        if (actionContext != null) {
-            actionContext.getActionContext().put("userId", userId);
-            actionContext.getActionContext().put("amount", amount);
-            actionContext.getActionContext().put("bizId", bizId);
-            log.info("TCC参数已保存: userId={}, amount={}, bizId={}", userId, amount, bizId);
-        }
+//        // 保存参数到上下文，供 commit/rollback 使用
+//        actionContext.getActionContext().put("userId", userId);
+//        actionContext.getActionContext().put("amount", amount);
+//        actionContext.getActionContext().put("bizId", bizId);
         //幂等/防悬挂检查
         FreezeLog freezeLog = getFreezeLog(bizId);
         if (freezeLog != null) {
@@ -107,7 +110,7 @@ public class AccountTccServiceImpl implements IAccountTccService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean commitDeduct(BusinessActionContext actionContext) {
-        log.info("commitDeduct依旧调用");
+        log.debug("commitDeduct调用");
         Long userId = getLongFromContext(actionContext, "userId");
         String bizId = getStringFromContext(actionContext, "bizId");
         if (userId == null || bizId == null) {

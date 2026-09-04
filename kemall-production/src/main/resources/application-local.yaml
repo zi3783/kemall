@@ -1,6 +1,8 @@
 ke:
   addr: 172.24.223.134
   ip: 127.0.0.1
+  dubbo:
+    port: 20881
 
 logging:
   level:

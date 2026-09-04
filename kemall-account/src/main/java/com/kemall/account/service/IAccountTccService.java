@@ -1,10 +1,10 @@
 package com.kemall.account.service;
 
-import io.seata.rm.tcc.api.BusinessActionContext;
-import io.seata.rm.tcc.api.BusinessActionContextParameter;
-import io.seata.rm.tcc.api.LocalTCC;
-import io.seata.rm.tcc.api.TwoPhaseBusinessAction;
-import org.apache.dubbo.config.annotation.DubboService;
+
+import org.apache.seata.rm.tcc.api.BusinessActionContext;
+import org.apache.seata.rm.tcc.api.BusinessActionContextParameter;
+import org.apache.seata.rm.tcc.api.LocalTCC;
+import org.apache.seata.rm.tcc.api.TwoPhaseBusinessAction;
 
 /**
  * <p>
@@ -20,23 +20,20 @@ import org.apache.dubbo.config.annotation.DubboService;
  * @author author
  * @since 2026-08-31
  */
-@LocalTCC
+//@LocalTCC
 public interface IAccountTccService {
 
     /**
      * TCC Try：冻结金额
      *
-     * @param actionContext 事务上下文（本地调用传 null，由 Seata 拦截器注入）
      * @param userId        用户id
      * @param amount        扣款金额（分）
      * @param bizId         业务id（幂等标识）
      * @return true-冻结成功 false-冻结失败（触发全局回滚）
      */
-    @TwoPhaseBusinessAction(name = "accountTccDeduct", commitMethod = "commitDeduct", rollbackMethod = "rollbackDeduct")
-    boolean prepareDeduct(BusinessActionContext actionContext,
-                          @BusinessActionContextParameter(paramName = "userId") Long userId,
-                          @BusinessActionContextParameter(paramName = "amount") Long amount,
-                          @BusinessActionContextParameter(paramName = "bizId") String bizId);
+    boolean prepareDeduct( Long userId,
+                           Long amount,
+                           String bizId);
 
     /**
      * TCC Confirm：确认扣款（由 TC 调用，需幂等）

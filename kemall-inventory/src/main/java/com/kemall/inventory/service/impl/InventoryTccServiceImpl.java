@@ -9,9 +9,12 @@ import com.kemall.inventory.enums.InventoryChangeTypeEnum;
 import com.kemall.inventory.mapper.InventoryLogMapper;
 import com.kemall.inventory.mapper.InventoryMapper;
 import com.kemall.inventory.service.IInventoryTccService;
-import io.seata.rm.tcc.api.BusinessActionContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.seata.rm.tcc.api.BusinessActionContext;
+import org.apache.seata.rm.tcc.api.BusinessActionContextParameter;
+import org.apache.seata.rm.tcc.api.LocalTCC;
+import org.apache.seata.rm.tcc.api.TwoPhaseBusinessAction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@LocalTCC
 public class InventoryTccServiceImpl implements IInventoryTccService {
 
     private final InventoryMapper inventoryMapper;
@@ -44,7 +48,10 @@ public class InventoryTccServiceImpl implements IInventoryTccService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     @RedissonLock(key = "#skuId", waitTime = 3, prefix = "Inventory:SkuId:Lock:")
-    public boolean prepareDeduct(BusinessActionContext actionContext, Long skuId, Integer amount, String orderNo) {
+    @TwoPhaseBusinessAction(name = "inventoryTccDeduct", commitMethod = "commitDeduct", rollbackMethod = "rollbackDeduct")
+    public boolean prepareDeduct(@BusinessActionContextParameter(paramName = "skuId") Long skuId,
+                                 @BusinessActionContextParameter(paramName = "amount") Integer amount,
+                                 @BusinessActionContextParameter(paramName = "orderNo") String orderNo) {
         if (skuId == null || amount == null || amount <= 0 || orderNo == null || orderNo.isBlank()) {
             throw new IllegalArgumentException("TCC锁定库存参数错误");
         }

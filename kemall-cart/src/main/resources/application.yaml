@@ -1,0 +1,52 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: cart-service
+  profiles:
+    default: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${ke.addr}:8848
+        ip: ${ke.ip}
+      config:
+        server-addr: ${ke.addr}:8848
+        file-extension: yaml
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${ke.addr}:3306/cart_db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: 123456
+
+  redis:
+    host: redis
+    port: 6379
+  rabbitmq:
+    host: ${ke.addr}
+    port: 5672
+    username: admin
+    password: 123456
+    virtual-host: /kemall
+    connection-timeout: 5s
+    publisher-confirm-type: correlated
+
+seata:
+  enabled: true
+  application-id: cart-service
+  tx-service-group: default_tx_group
+
+  # 不使用 Nacos 服务发现
+  registry:
+    type: file
+
+  config:
+    type: file
+
+  service:
+    vgroup-mapping:
+      default_tx_group: default
+    grouplist:
+      default: ${ke.addr}:8091  # 直连宿主机 IP

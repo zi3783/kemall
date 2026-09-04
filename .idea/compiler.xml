@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="kemall-production" />
+        <module name="kemall-cart" />
         <module name="kemall-user" />
         <module name="kemall-common" />
         <module name="kemall-api" />
@@ -26,6 +27,7 @@
       <module name="demo" options="-parameters" />
       <module name="kemall-account" options="-parameters" />
       <module name="kemall-api" options="-parameters" />
+      <module name="kemall-cart" options="-parameters" />
       <module name="kemall-common" options="-parameters" />
       <module name="kemall-gateway" options="-parameters" />
       <module name="kemall-inventory" options="-parameters" />
