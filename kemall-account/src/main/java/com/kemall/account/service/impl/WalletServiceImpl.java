@@ -12,12 +12,14 @@ import com.kemall.account.enums.WalletLogTypeEnum;
 import com.kemall.account.mapper.FreezeLogMapper;
 import com.kemall.account.mapper.WalletLogMapper;
 import com.kemall.account.mapper.WalletMapper;
+import com.kemall.account.service.IAccountTccService;
 import com.kemall.account.service.IWalletService;
 import com.kemall.account.service.strategy.WalletTransactionFactory;
 import com.kemall.account.service.strategy.WalletTransactionStrategy;
 import com.kemall.api.dto.WalletDTO;
 import com.kemall.common.exception.BusinessException;
 import com.kemall.common.utils.UserContext;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.framework.AopContext;
@@ -54,6 +56,8 @@ public class WalletServiceImpl extends ServiceImpl<WalletMapper, Wallet> impleme
     private final DefaultRedisScript<Boolean> redisScript;
 
     private final FreezeLogMapper freezeLogMapper;
+
+    private final IAccountTccService accountTccService;
 
     @Override
     public void transaction(WalletDTO walletDTO) {
@@ -221,6 +225,18 @@ public class WalletServiceImpl extends ServiceImpl<WalletMapper, Wallet> impleme
         one.setBalance(one.getBalance() - balance);
         one.setVersion(one.getVersion() + 1);
         return one;
+    }
+
+    @Override
+    @GlobalTransactional(timeoutMills = 300000, name = "account-tcc-deduct")
+    public boolean deductByTcc(Long userId, Long amount, String bizId) {
+        //Try：冻结金额（上下文参数为 null，由 Seata TCC 拦截器注入）
+        boolean prepare = accountTccService.prepareDeduct(null, userId, amount, bizId);
+        if (!prepare) {
+            //Try 失败，抛出异常触发全局回滚，TC 会调用 rollbackDeduct
+            throw new BusinessException("TCC冻结失败");
+        }
+        return true;
     }
 
 

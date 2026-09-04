@@ -2,6 +2,7 @@ package com.kemall.common.aspect;
 
 
 import com.kemall.common.annotation.RedissonLock;
+import com.kemall.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -35,7 +36,7 @@ public class RedissonLockAspect {
     private final Map<String, Expression> expressionCache = new ConcurrentHashMap<>();
 
     @Around("@annotation(redissonLock)")
-    public Object lockTransaction(ProceedingJoinPoint joinPoint,  RedissonLock redissonLock){
+    public Object lockTransaction(ProceedingJoinPoint joinPoint,  RedissonLock redissonLock) throws Throwable {
         //解析锁的key
         String lockKey = parseKey(joinPoint, redissonLock);
         //获得锁
@@ -44,7 +45,13 @@ public class RedissonLockAspect {
         boolean locked = false;
         log.debug("尝试加锁");
         try {
-            locked = lock.tryLock(redissonLock.waitTime(), TimeUnit.SECONDS);
+            //leaseTime > 0 使用固定租期（不会自动续期，需保证业务在租期内完成）
+            //leaseTime = 0 走看门狗模式，自动续期
+            if (redissonLock.leaseTime() > 0) {
+                locked = lock.tryLock(redissonLock.waitTime(), redissonLock.leaseTime(), TimeUnit.SECONDS);
+            } else {
+                locked = lock.tryLock(redissonLock.waitTime(), TimeUnit.SECONDS);
+            }
             if(!locked){
                 log.debug("加锁失败");
                 throw new RuntimeException("系统繁忙");
@@ -54,7 +61,10 @@ public class RedissonLockAspect {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new RuntimeException("获取锁被中断", e);
-        } catch (Throwable e) {
+        } catch (BusinessException e) {
+            //业务异常原样抛出，避免包装后丢失类型
+            throw e;
+        } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
             //释放锁

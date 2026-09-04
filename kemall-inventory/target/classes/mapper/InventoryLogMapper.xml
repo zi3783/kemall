@@ -2,4 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kemall.inventory.mapper.InventoryLogMapper">
 
+    <update id="updateChangeType">
+        update inventory_log
+        set change_type = #{newType}
+        where id = #{id} and change_type = #{oldType}
+    </update>
 </mapper>

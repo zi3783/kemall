@@ -9,6 +9,7 @@ com\kemall\account\service\impl\WalletServiceImpl.class
 com\kemall\account\config\MyBatisPlusConfiguration.class
 com\kemall\account\service\impl\FreezeLogServiceImpl.class
 com\kemall\account\service\strategy\impl\WalletRechargeTransaction.class
+com\kemall\account\service\IAccountTccService.class
 com\kemall\account\enums\WalletLogTypeEnum.class
 com\kemall\account\domain\po\FreezeLog.class
 com\kemall\account\controller\WalletController.class
@@ -17,6 +18,7 @@ com\kemall\account\constants\RedisConstant.class
 com\kemall\account\service\strategy\impl\WalletDeductStrategy.class
 com\kemall\account\config\RedisLuaConfiguration.class
 com\kemall\account\domain\vo\WalletLogVO.class
+com\kemall\account\service\impl\AccountTccServiceImpl.class
 com\kemall\account\domain\query\WalletLogPage.class
 com\kemall\account\domain\result\PageResult.class
 com\kemall\account\domain\po\WalletLog.class

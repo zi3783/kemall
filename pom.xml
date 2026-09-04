@@ -15,7 +15,7 @@
         <module>kemall-account</module>
         <module>kemall-api</module>
         <module>kemall-trade</module>
-        <module>kemall-product</module>
+        <module>kemall-production</module>
         <module>kemall-inventory</module>
     </modules>
 
@@ -39,8 +39,9 @@
         <bcrypt.version>6.4.5</bcrypt.version>
         <jwt.version>0.12.6</jwt.version>
         <redisson.version>4.5.0</redisson.version>
-        <seata.version>1.5.2</seata.version>
+        <seata.version>2.5.0</seata.version>
         <knife4j.version>4.5.0</knife4j.version>
+        <dubbo.version>3.2.7</dubbo.version>
     </properties>
 
     <dependencyManagement>
@@ -138,9 +139,17 @@
             </dependency>
             <!--seata-->
             <dependency>
-                <groupId>io.seata</groupId>
+                <groupId>org.apache.seata</groupId>
                 <artifactId>seata-spring-boot-starter</artifactId>
                 <version>${seata.version}</version>
+            </dependency>
+            <!--dubbo-->
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-bom</artifactId>
+                <version>${dubbo.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

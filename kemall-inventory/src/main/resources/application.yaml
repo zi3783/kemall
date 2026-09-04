@@ -25,3 +25,22 @@ spring:
     host: redis
     port: 6379
 
+seata:
+  enabled: true
+  application-id: ${spring.application.name}
+  # 事务分组，TC端 service.vgroupMapping 中需要配置相同的分组
+  tx-service-group: kemall-tx-group
+  service:
+    vgroup-mapping:
+      kemall-tx-group: default
+  # 通过nacos发现seata-server
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      server-addr: ${ke.addr}:8848
+      group: DEFAULT_GROUP
+      namespace: ""
+      username: nacos
+      password: nacos
+

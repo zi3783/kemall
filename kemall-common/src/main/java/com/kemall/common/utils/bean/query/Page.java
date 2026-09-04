@@ -1,12 +1,12 @@
 package com.kemall.common.utils.bean.query;
 
-import com.esotericsoftware.kryo.serializers.FieldSerializer.NotNull;
+import com.esotericsoftware.kryo.serializers.FieldSerializer;
 import lombok.Data;
 
 @Data
 public class Page {
-    @NotNull
+    @FieldSerializer.NotNull
     private Integer pageNo;
-    @NotNull
+    @FieldSerializer.NotNull
     private Integer pageSize;
 }

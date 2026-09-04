@@ -2,4 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kemall.inventory.mapper.InventoryMapper">
 
+    <update id="lockQuantity">
+        update inventory
+        set available_quantity = available_quantity - #{amount},
+            locked_quantity = locked_quantity + #{amount},
+            version = version + 1
+        where sku_id = #{skuId} and
+            version = #{version} and
+            available_quantity >= #{amount}
+    </update>
+
+    <update id="deductLockedQuantity">
+        update inventory
+        set locked_quantity = locked_quantity - #{amount},
+            version = version + 1
+        where sku_id = #{skuId} and
+            version = #{version} and
+            locked_quantity >= #{amount}
+    </update>
+
+    <update id="releaseLockedQuantity">
+        update inventory
+        set locked_quantity = locked_quantity - #{amount},
+            available_quantity = available_quantity + #{amount},
+            version = version + 1
+        where sku_id = #{skuId} and
+            version = #{version} and
+            locked_quantity >= #{amount}
+    </update>
 </mapper>

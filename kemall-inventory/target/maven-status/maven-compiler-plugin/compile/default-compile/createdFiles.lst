@@ -1,9 +1,12 @@
 com\kemall\inventory\mapper\InventoryMapper.class
 com\kemall\inventory\controller\InventoryLogController.class
+com\kemall\inventory\service\IInventoryTccService.class
 com\kemall\inventory\InventoryApplication.class
 com\kemall\inventory\service\IInventoryLogService.class
+com\kemall\inventory\enums\InventoryChangeTypeEnum.class
 com\kemall\inventory\controller\InventoryController.class
 com\kemall\inventory\service\impl\InventoryServiceImpl.class
+com\kemall\inventory\service\impl\InventoryTccServiceImpl.class
 com\kemall\inventory\service\IInventoryService.class
 com\kemall\inventory\mapper\InventoryLogMapper.class
 com\kemall\inventory\service\impl\InventoryLogServiceImpl.class

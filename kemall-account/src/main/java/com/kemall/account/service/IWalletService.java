@@ -24,4 +24,14 @@ public interface IWalletService extends IService<Wallet> {
 
     Wallet getWalletAndUpdate(Long balance, Long userId,String bizId);
 
+    /**
+     * TCC全局事务扣款入口：Try 阶段冻结金额，全局提交后由 TC 调用确认扣款
+     *
+     * @param userId 用户id
+     * @param amount 扣款金额（分）
+     * @param bizId  业务id（幂等标识）
+     * @return true-扣款成功
+     */
+    boolean deductByTcc(Long userId, Long amount, String bizId);
+
 }
