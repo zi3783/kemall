@@ -35,6 +35,12 @@ spring:
             - StripPrefix=0
           predicates:
             - Path=/orders/**
+        - id: cart-service
+          uri: lb://cart-service
+          filters:
+            - StripPrefix=0
+          predicates:
+            - Path=/cart/**
 
 
 jwt:
