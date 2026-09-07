@@ -15,4 +15,6 @@ import org.apache.ibatis.annotations.Param;
 public interface CartMapper extends BaseMapper<Cart> {
 
     void insertByUserId(@Param("cart") Cart cart);
+
+    Long deleteFromCartAndItemByUserId(Long userId);
 }

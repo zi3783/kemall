@@ -55,8 +55,6 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
         Long userId = UserContext.getUserId();
         String key = RedisConstant.CART_PREFIX + userId;
 
-
-        //todo 发送lua脚本进行更新
         Result<Long> result = productionDubboService.getSkuPrice(pId, skuId);
         if(result.getCode() != 200) {
             throw new ProductionNotExistException("未找到商品");
@@ -74,7 +72,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
             CartUpdateDTO response = objectMapper.readValue(json, CartUpdateDTO.class);
 
             rabbitTemplate.convertAndSend(
-                    CartMqConstant.EXCHANGE_NAME,
+                    CartMqConstant.SYNC_EXCHANGE_NAME,
                     CartMqConstant.ROUTING_KEY_SYNC,
                     ProductionDTO.builder()
                             .userId(userId)

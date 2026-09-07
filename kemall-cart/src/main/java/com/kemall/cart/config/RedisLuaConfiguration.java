@@ -21,4 +21,16 @@ public class RedisLuaConfiguration {
         stringDefaultRedisScript.setResultType(String.class);
         return stringDefaultRedisScript;
     }
+
+    @Bean("clearCartScript")
+    public DefaultRedisScript<Long> clearCartScript() {
+        DefaultRedisScript<Long> stringDefaultRedisScript = new DefaultRedisScript<>();
+        stringDefaultRedisScript.setScriptSource(
+                new ResourceScriptSource(
+                        new ClassPathResource("lua/clear_cart.lua")
+                )
+        );
+        stringDefaultRedisScript.setResultType(Long.class);
+        return stringDefaultRedisScript;
+    }
 }

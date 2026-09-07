@@ -17,4 +17,6 @@ public class CartApplication {
         log.info("CartApplication started");
         log.info("||---------------------||");
     }
+
+    //todo 优化了购物车相关常量 添加清空购物车功能 未测试
 }

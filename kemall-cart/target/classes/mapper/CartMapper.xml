@@ -22,4 +22,10 @@
         total_price = #{cart.totalPrice},
         id = LAST_INSERT_ID(id)
     </insert>
+    <delete id="deleteFromCartAndItemByUserId">
+        delete cart, cart_item
+        from cart
+        left join cart_item on cart.id = cart_item.cart_id
+        where cart.user_id = #{userId}
+    </delete>
 </mapper>

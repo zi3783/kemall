@@ -22,9 +22,9 @@ public class MqConfiguration {
      */
     @Bean
     public DirectExchange cartMessageExchange(){
-        return new ExchangeBuilder(CartMqConstant.EXCHANGE_NAME, ExchangeTypes.DIRECT)
+        return new ExchangeBuilder(CartMqConstant.SYNC_EXCHANGE_NAME, ExchangeTypes.DIRECT)
                 .durable(true)
-                .alternate(CartMqConstant.BACKUP_EXCHANGE_NAME)
+                .alternate(CartMqConstant.SYNC_BACKUP_EXCHANGE)
                 .build();
     }
 
@@ -33,7 +33,7 @@ public class MqConfiguration {
      */
     @Bean
     public FanoutExchange backupExchange(){
-        return ExchangeBuilder.fanoutExchange(CartMqConstant.BACKUP_EXCHANGE_NAME)
+        return ExchangeBuilder.fanoutExchange(CartMqConstant.SYNC_BACKUP_EXCHANGE)
                 .durable(true)
                 .build();
     }
@@ -43,7 +43,7 @@ public class MqConfiguration {
      */
     @Bean
     public Queue backupQueue(){
-        return new Queue(CartMqConstant.BACKUP_QUEUE_NAME, true);
+        return new Queue(CartMqConstant.SYNC_BACKUP_QUEUE, true);
     }
 
     /**
@@ -53,5 +53,32 @@ public class MqConfiguration {
     @Bean
     public Binding backupBinding(){
         return BindingBuilder.bind(backupQueue()).to(backupExchange());
+    }
+
+
+    @Bean
+    public DirectExchange cleanExchange() {
+        return ExchangeBuilder
+                .directExchange(CartMqConstant.CLEAN_EXCHANGE_NAME)
+                .alternate(CartMqConstant.CLEAN_BACKUP_EXCHANGE)
+                .durable(true)
+                .build();
+    }
+
+    @Bean
+    public FanoutExchange cleanBackupExchange() {
+        return new FanoutExchange(CartMqConstant.CLEAN_BACKUP_EXCHANGE, true, false);
+    }
+
+    @Bean
+    public Queue cleanBackupQueue() {
+        return QueueBuilder.durable(CartMqConstant.CLEAN_BACKUP_QUEUE).build();
+    }
+
+    @Bean
+    public Binding cleanBackupBinding() {
+        return BindingBuilder
+                .bind(cleanBackupQueue())
+                .to(cleanBackupExchange());
     }
 }

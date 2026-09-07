@@ -9,8 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 class CartMessageListenerTest {
     @Autowired
@@ -22,7 +20,7 @@ class CartMessageListenerTest {
         CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
 
         rabbitTemplate.convertAndSend(
-                CartMqConstant.EXCHANGE_NAME,        // exchange（需要定义）
+                CartMqConstant.SYNC_EXCHANGE_NAME,        // exchange（需要定义）
                 CartMqConstant.ROUTING_KEY_SYNC,     // routingKey
                 messageBody,                         // 消息体
                 correlationData                      // 消息确认数据

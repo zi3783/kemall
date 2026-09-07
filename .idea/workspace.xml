@@ -5,10 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66418244-2992-4fb7-bf9b-b6598ee56772" name="更改" comment="优化购物车">
+      <change afterPath="$PROJECT_DIR$/kemall-cart/src/main/resources/lua/clear_cart.lua" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/controller/CartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/controller/CartController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-cart/target/classes/com/kemall/cart/controller/CartController.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/target/classes/com/kemall/cart/controller/CartController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-gateway/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-gateway/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/config/MqConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/config/MqConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/config/RedisLuaConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/config/RedisLuaConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/constant/CartMqConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/constant/CartMqConstant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/listener/CartMessageListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/listener/CartMessageListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/mapper/CartMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/mapper/CartMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/service/impl/CartDubboServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/service/impl/CartServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/service/impl/CartServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/src/main/resources/mapper/CartMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/src/main/resources/mapper/CartMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/src/test/java/com/kemall/cart/listener/CartMessageListenerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/src/test/java/com/kemall/cart/listener/CartMessageListenerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,7 +155,7 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.AccountApplication.executor": "Run",
-    "Spring Boot.CartApplication.executor": "Debug",
+    "Spring Boot.CartApplication.executor": "Run",
     "Spring Boot.GatewayApplication.executor": "Run",
     "Spring Boot.InventoryApplication.executor": "Run",
     "Spring Boot.ProductApplication.executor": "Run",
@@ -488,7 +495,15 @@
       <option name="project" value="LOCAL" />
       <updated>1788767942482</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="优化购物车">
+      <option name="closed" value="true" />
+      <created>1788769378131</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1788769378131</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -544,11 +559,6 @@
           <url>file://$PROJECT_DIR$/kemall-production/src/main/java/com/kemall/product/service/impl/ProductionDubboServiceImpl.java</url>
           <line>35</line>
           <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/service/impl/CartServiceImpl.java</url>
-          <line>60</line>
-          <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/controller/CartController.java</url>
