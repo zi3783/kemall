@@ -3,6 +3,8 @@ package com.kemall.cart.listener;
 import com.kemall.cart.constant.CartMqConstant;
 import com.kemall.cart.domain.dto.ProductionDTO;
 import com.kemall.cart.domain.po.Cart;
+import com.kemall.cart.domain.po.CartItem;
+import com.kemall.cart.mapper.CartItemMapper;
 import com.kemall.cart.mapper.CartMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +20,8 @@ import org.springframework.stereotype.Component;
 public class CartMessageListener {
 
     private final CartMapper cartMapper;
+
+    private final CartItemMapper cartItemMapper;
 
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(
@@ -36,7 +40,13 @@ public class CartMessageListener {
                 .setTotalPrice(dto.getPrice())
                 .setTotalQuantity(dto.getQuantity())
                 .setSelectedCount(dto.getSelected());
-
         cartMapper.insertByUserId(cart);
+        CartItem cartItem = new CartItem().setCartId(cart.getId())
+                .setQuantity(dto.getQuantity())
+                .setSelected(0)
+                .setProductId(dto.getProductionId())
+                .setSkuId(dto.getSkuId())
+                .setIsValid(1);
+        cartItemMapper.insertByCartId(cartItem);
     }
 }
