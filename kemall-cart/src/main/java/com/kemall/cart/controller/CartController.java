@@ -29,8 +29,8 @@ public class CartController {
 
     @Operation(description = "新增商品到购物车")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Result<String> addToCart(Long skuId, Integer quantity){
-        iCartService.addToCart(skuId, quantity);
+    public Result<String> addToCart(Long productionId,Long skuId, Integer quantity){
+        iCartService.addToCart(productionId, skuId, quantity);
         return Result.success();
     }
 }

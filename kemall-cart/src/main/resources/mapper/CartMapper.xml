@@ -2,4 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kemall.cart.mapper.CartMapper">
 
+    <insert id="insertByUserId">
+        insert into cart(
+        user_id,
+        total_quantity,
+        selected_count,
+        total_price
+        ) values(
+        #{cart.userId},
+        #{cart.totalQuantity},
+        #{cart.selectedCount},
+        #{cart.totalPrice}
+        ) on duplicate key update
+        total_quantity = #{cart.totalQuantity},
+        selected_count = #{cart.selectedCount},
+        total_price = #{cart.totalPrice}
+    </insert>
 </mapper>

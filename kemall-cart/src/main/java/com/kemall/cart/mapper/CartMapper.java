@@ -2,6 +2,7 @@ package com.kemall.cart.mapper;
 
 import com.kemall.cart.domain.po.Cart;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface CartMapper extends BaseMapper<Cart> {
 
+    void insertByUserId(@Param("cart") Cart cart);
 }

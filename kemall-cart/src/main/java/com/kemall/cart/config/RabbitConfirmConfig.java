@@ -2,6 +2,7 @@ package com.kemall.cart.config;
 
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,7 +10,8 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitConfirmConfig {
 
     @Bean
-    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory,
+                                         MessageConverter messageConverter) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         
         // 👇 设置 Confirm 回调
@@ -23,7 +25,8 @@ public class RabbitConfirmConfig {
                 // TODO: 记录失败日志，后续人工补偿或定时重发
             }
         });
-        
+        rabbitTemplate.setMessageConverter(messageConverter);
+
         return rabbitTemplate;
     }
 }

@@ -29,7 +29,7 @@ dubbo:
   application:
     name: product-service
   registry:
-    address: ${ke.addr}:8848
+    address: nacos://${ke.addr}:8848
   protocol:
     name: dubbo
     port: ${ke.dubbo.port:20880}

@@ -4,47 +4,36 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="66418244-2992-4fb7-bf9b-b6598ee56772" name="更改" comment="新增account服务tcc扣款">
-      <change afterPath="$PROJECT_DIR$/kemall-api/src/main/java/com/kemall/api/dubbo/ProductionDubboService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-cart/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/CartApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/config/MqConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/config/RabbitConfirmConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/constant/CartMqConstant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/constant/RedisConstant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/domain/dto/ProductionDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/listener/CartMessageListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-cart/src/main/resources/application-dev.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-cart/src/main/resources/application-local.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-cart/src/main/resources/application.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-cart/src/test/java/com/kemall/cart/listener/CartMessageListenerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kemall-production/src/main/java/com/kemall/product/service/impl/ProductionDubboServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+    <list default="true" id="66418244-2992-4fb7-bf9b-b6598ee56772" name="更改" comment="新增购物车相关接口，引入rabbitMQ中间件和dubbo">
+      <change afterPath="$PROJECT_DIR$/kemall-api/src/main/java/com/kemall/api/result/Result.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/config/RedisLuaConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/domain/dto/CartUpdateDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/exception/ProductionNotExistException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-cart/src/main/resources/lua/cart_item_update.lua" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/980e9306-61fd-4a30-8126-002e1fff3944.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/980e9306-61fd-4a30-8126-002e1fff3944.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/data_sources_history.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/data_sources_history.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/IAccountTccService.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/IAccountTccService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/impl/AccountTccServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/impl/AccountTccServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/impl/WalletServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/impl/WalletServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/IAccountTccService.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/IAccountTccService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/impl/AccountTccServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/impl/AccountTccServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/impl/WalletServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/target/classes/com/kemall/account/service/impl/WalletServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-inventory/src/main/java/com/kemall/inventory/service/IInventoryTccService.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-inventory/src/main/java/com/kemall/inventory/service/IInventoryTccService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-inventory/src/main/java/com/kemall/inventory/service/impl/InventoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-inventory/src/main/java/com/kemall/inventory/service/impl/InventoryServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-inventory/src/main/java/com/kemall/inventory/service/impl/InventoryTccServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-inventory/src/main/java/com/kemall/inventory/service/impl/InventoryTccServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-inventory/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-inventory/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-inventory/target/classes/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-inventory/target/classes/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-inventory/target/classes/com/kemall/inventory/service/IInventoryTccService.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-inventory/target/classes/com/kemall/inventory/service/IInventoryTccService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-inventory/target/classes/com/kemall/inventory/service/impl/InventoryServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-inventory/target/classes/com/kemall/inventory/service/impl/InventoryServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-inventory/target/classes/com/kemall/inventory/service/impl/InventoryTccServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-inventory/target/classes/com/kemall/inventory/service/impl/InventoryTccServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-api/src/main/java/com/kemall/api/dubbo/ProductionDubboService.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-api/src/main/java/com/kemall/api/dubbo/ProductionDubboService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/config/MqConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/config/MqConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/config/RabbitConfirmConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/config/RabbitConfirmConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/controller/CartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/controller/CartController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/domain/dto/ProductionDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/domain/dto/ProductionDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/listener/CartMessageListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/listener/CartMessageListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/mapper/CartMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/mapper/CartMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/service/ICartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/service/ICartService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/service/impl/CartServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/service/impl/CartServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/src/main/resources/mapper/CartMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/src/main/resources/mapper/CartMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/target/classes/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/target/classes/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/target/classes/com/kemall/cart/config/MqConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/target/classes/com/kemall/cart/config/MqConfiguration.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/target/classes/com/kemall/cart/config/RabbitConfirmConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/target/classes/com/kemall/cart/config/RabbitConfirmConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/target/classes/com/kemall/cart/controller/CartController.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/target/classes/com/kemall/cart/controller/CartController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/target/classes/com/kemall/cart/service/ICartService.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/target/classes/com/kemall/cart/service/ICartService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-cart/target/classes/com/kemall/cart/service/impl/CartServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-cart/target/classes/com/kemall/cart/service/impl/CartServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kemall-production/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-production/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-production/src/main/resources/application-local.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-production/src/main/resources/application-local.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-production/src/main/java/com/kemall/product/service/impl/ProductionDubboServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-production/src/main/java/com/kemall/product/service/impl/ProductionDubboServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kemall-production/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-production/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-production/target/classes/application-local.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-production/target/classes/application-local.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kemall-production/target/classes/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-production/target/classes/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,6 +135,9 @@
       <entry key="W1" value="174.62634913990442" />
     </decayedShown>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5,
   &quot;fromUser&quot;: false
@@ -184,7 +176,7 @@
     "Spring Boot.CartApplication.executor": "Run",
     "Spring Boot.GatewayApplication.executor": "Run",
     "Spring Boot.InventoryApplication.executor": "Run",
-    "Spring Boot.ProductApplication.executor": "Run",
+    "Spring Boot.ProductApplication.executor": "Debug",
     "Spring Boot.UserApplication.executor": "Run",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
@@ -198,7 +190,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "模块",
+    "project.structure.last.edited": "项目",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.27969348",
     "settings.editor.selected.configurable": "preferences.lookFeel",
@@ -229,6 +221,8 @@
       <recent name="com.kemall.cart.listener" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.kemall.api.result" />
+      <recent name="com.kemall.cart.domain.result" />
       <recent name="com.kemall.product.config" />
       <recent name="com.kemall.product" />
       <recent name="com.kemall.order" />
@@ -369,8 +363,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.CartMessageListenerTest.sendMessage" />
         <item itemvalue="Spring Boot.CartApplication" />
+        <item itemvalue="JUnit.CartMessageListenerTest.sendMessage" />
         <item itemvalue="应用程序.TestJVM" />
       </list>
     </recent_temporary>
@@ -495,7 +489,15 @@
       <option name="project" value="LOCAL" />
       <updated>1788482528103</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="新增购物车相关接口，引入rabbitMQ中间件和dubbo">
+      <option name="closed" value="true" />
+      <created>1788523782497</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1788523782497</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -524,7 +526,8 @@
     <MESSAGE value="商城服务基本业务开发" />
     <MESSAGE value="修改了pom文件，降低了springboot版本，更换了测试文档" />
     <MESSAGE value="新增account服务tcc扣款" />
-    <option name="LAST_COMMIT_MESSAGE" value="新增account服务tcc扣款" />
+    <MESSAGE value="新增购物车相关接口，引入rabbitMQ中间件和dubbo" />
+    <option name="LAST_COMMIT_MESSAGE" value="新增购物车相关接口，引入rabbitMQ中间件和dubbo" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -543,6 +546,21 @@
           <url>file://$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/impl/AccountTccServiceImpl.java</url>
           <line>112</line>
           <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/listener/CartMessageListener.java</url>
+          <line>33</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/kemall-production/src/main/java/com/kemall/product/service/impl/ProductionDubboServiceImpl.java</url>
+          <line>35</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/kemall-cart/src/main/java/com/kemall/cart/service/impl/CartServiceImpl.java</url>
+          <line>60</line>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -14,7 +14,8 @@ spring:
       config:
         server-addr: ${ke.addr}:8848
         file-extension: yaml
-
+  jackson:
+    property-naming-strategy: SNAKE_CASE
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${ke.addr}:3306/cart_db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
@@ -50,3 +51,9 @@ seata:
       default_tx_group: default
     grouplist:
       default: ${ke.addr}:8091  # 直连宿主机 IP
+
+dubbo:
+  application:
+    name: cart-service
+  registry:
+    address: nacos://${ke.addr}:8848
