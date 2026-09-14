@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import com.kemall.inventory.enums.InventoryChangeTypeEnum;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -20,8 +23,9 @@ import lombok.experimental.Accessors;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
+//@Accessors(chain = true)
 @TableName("inventory_log")
+@Builder
 public class InventoryLog implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,7 +52,7 @@ public class InventoryLog implements Serializable {
      * 1-锁定 2-扣减 3-释放 4-入库
      */
     @TableField("change_type")
-    private Integer changeType;
+    private InventoryChangeTypeEnum changeType;
 
     @TableField("change_amount")
     private Integer changeAmount;

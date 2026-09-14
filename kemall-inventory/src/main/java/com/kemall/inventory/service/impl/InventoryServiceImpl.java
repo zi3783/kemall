@@ -26,13 +26,13 @@ public class InventoryServiceImpl extends ServiceImpl<InventoryMapper, Inventory
 
     private final IInventoryTccService inventoryTccService;
 
-    @Override
-    @GlobalTransactional(timeoutMills = 300000, name = "inventory-tcc-deduct")
-    public boolean deductByTcc(Long skuId, Integer amount, String orderNo) {
-        boolean prepare = inventoryTccService.prepareDeduct(skuId, amount, orderNo);
-        if (!prepare) {
-            throw new BusinessException("TCC锁定库存失败");
-        }
-        return true;
-    }
+//    @Override
+//    @GlobalTransactional(timeoutMills = 300000, name = "inventory-tcc-deduct")
+//    public boolean deductByTcc(Long skuId, Integer amount, String orderNo) {
+//        boolean prepare = inventoryTccService.prepareDeduct(skuId, amount, orderNo);
+//        if (!prepare) {
+//            throw new BusinessException("TCC锁定库存失败");
+//        }
+//        return true;
+//    }
 }

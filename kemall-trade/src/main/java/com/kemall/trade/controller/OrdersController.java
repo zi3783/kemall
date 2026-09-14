@@ -26,7 +26,7 @@ public class OrdersController {
     private final IOrdersService ordersService;
 
     public Result<String> generateOrder(){
-//        return ordersService.generateOrder() ? Result.success() : Result.fail();
+        return ordersService.generateOrder() ? Result.success() : Result.fail();
         return null;
     }
 

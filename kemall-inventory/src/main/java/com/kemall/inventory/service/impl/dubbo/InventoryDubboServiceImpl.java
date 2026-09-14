@@ -1,0 +1,21 @@
+package com.kemall.inventory.service.impl.dubbo;
+
+import com.kemall.api.dubbo.InventoryDubboService;
+import com.kemall.inventory.service.IInventoryTccService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboService;
+
+@DubboService
+@Slf4j
+@RequiredArgsConstructor
+public class InventoryDubboServiceImpl implements InventoryDubboService {
+
+    private final IInventoryTccService inventoryTccService;
+
+    @Override
+    public void deductByTcc(Long skuId, Integer amount, String orderNo) {
+        inventoryTccService.prepareFreeze(skuId,amount,orderNo);
+        log.debug("成功扣减库存");
+    }
+}

@@ -3,6 +3,7 @@ package com.kemall.inventory.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.kemall.common.annotation.RedissonLock;
 import com.kemall.common.exception.BusinessException;
+import com.kemall.inventory.constant.RedisConstant;
 import com.kemall.inventory.domain.po.Inventory;
 import com.kemall.inventory.domain.po.InventoryLog;
 import com.kemall.inventory.enums.InventoryChangeTypeEnum;
@@ -17,6 +18,8 @@ import org.apache.seata.rm.tcc.api.LocalTCC;
 import org.apache.seata.rm.tcc.api.TwoPhaseBusinessAction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * <p>
@@ -43,229 +46,345 @@ public class InventoryTccServiceImpl implements IInventoryTccService {
 
     private final InventoryLogMapper inventoryLogMapper;
 
-    // ==================== TCC Try：锁定库存 ====================
-
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    @RedissonLock(key = "#skuId", waitTime = 3, prefix = "Inventory:SkuId:Lock:")
-    @TwoPhaseBusinessAction(name = "inventoryTccDeduct", commitMethod = "commitDeduct", rollbackMethod = "rollbackDeduct")
-    public boolean prepareDeduct(@BusinessActionContextParameter(paramName = "skuId") Long skuId,
+    @Transactional
+    @RedissonLock(key = "#skuId", waitTime = 3, prefix = RedisConstant.INVENTORY_SKU_LOCK_PREFIX)
+    @TwoPhaseBusinessAction(name = "inventoryPrepareFreeze", commitMethod = "commitFreeze", rollbackMethod = "rollbackFreeze", useTCCFence = true)
+    public boolean prepareFreeze(@BusinessActionContextParameter(paramName = "skuId") Long skuId,
                                  @BusinessActionContextParameter(paramName = "amount") Integer amount,
-                                 @BusinessActionContextParameter(paramName = "orderNo") String orderNo) {
-        if (skuId == null || amount == null || amount <= 0 || orderNo == null || orderNo.isBlank()) {
-            throw new IllegalArgumentException("TCC锁定库存参数错误");
+                                 @BusinessActionContextParameter(paramName = "orderNo") String orderNo){
+        //冻结库存
+        //先查出版本号
+        LambdaQueryWrapper<Inventory> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Inventory::getSkuId, skuId);
+        List<Inventory> list = inventoryMapper.selectList(wrapper);
+        if(list.isEmpty()){
+            //库存不存在，应该回滚
+            return false;
         }
-        //幂等/防悬挂检查
-        InventoryLog stateLog = getLatestLog(orderNo);
-        if (stateLog != null) {
-            if (stateLog.getChangeType().equals(InventoryChangeTypeEnum.RELEASE.getCode())) {
-                //rollback先于try到达（空回滚），防悬挂：不再锁定
-                log.info("TCC锁定库存：orderNo={} 已空回滚，不再锁定", orderNo);
-                return false;
-            }
-            //已经锁定或已经扣减，幂等返回成功
-            log.info("TCC锁定库存：orderNo={} changeType={}，幂等返回", orderNo, stateLog.getChangeType());
-            return true;
+        if(list.size() != 1){
+            throw new BusinessException("数据库数据错误，错误skuId：" + skuId);
         }
-        //查询库存
-        Inventory inventory = inventoryMapper.selectById(skuId);
-        if (inventory == null) {
-            throw new BusinessException("库存不存在");
+        Inventory oldPo = list.get(0);
+        Integer version = oldPo.getVersion();
+
+        int row = inventoryMapper.freezeInventory(skuId, amount, version);
+
+        if(row == 0){
+            return false;
         }
-        if (inventory.getAvailableQuantity() < amount) {
-            throw new BusinessException("库存不足");
-        }
-        //锁定：available -= amount，locked += amount（version 乐观锁）
-        int row = inventoryMapper.lockQuantity(skuId, amount, inventory.getVersion());
-        if (row != 1) {
-            throw new BusinessException("锁定库存失败，版本号错误");
-        }
-        //记录流水（锁定）
-        inventoryLogMapper.insert(new InventoryLog()
-                .setSkuId(skuId)
-                .setOrderNo(orderNo)
-                .setChangeType(InventoryChangeTypeEnum.LOCK.getCode())
-                .setChangeAmount(amount)
-                .setBeforeAvailable(inventory.getAvailableQuantity())
-                .setAfterAvailable(inventory.getAvailableQuantity() - amount)
-                .setBeforeLocked(inventory.getLockedQuantity())
-                .setAfterLocked(inventory.getLockedQuantity() + amount));
-        log.info("TCC锁定库存成功：orderNo={} skuId={} amount={}", orderNo, skuId, amount);
+        //添加日志
+        InventoryLog inLog = InventoryLog.builder().skuId(skuId).orderNo(orderNo).changeType(InventoryChangeTypeEnum.LOCK)
+                .changeAmount(amount)
+                .beforeAvailable(oldPo.getAvailableQuantity())
+                .afterAvailable(oldPo.getAvailableQuantity() - amount)
+                .beforeLocked(oldPo.getLockedQuantity())
+                .afterLocked(oldPo.getLockedQuantity() + amount)
+                .build();
+
+        inventoryLogMapper.insert(inLog);
+
         return true;
     }
 
-    // ==================== TCC Confirm：确认扣减 ====================
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean commitDeduct(BusinessActionContext actionContext) {
-        String orderNo = getStringFromContext(actionContext, "orderNo");
-        if (orderNo == null) {
-            throw new BusinessException("TCC上下文参数缺失，无法确认扣减");
-        }
-        InventoryLog stateLog = getLatestLog(orderNo);
-        if (stateLog == null) {
-            throw new BusinessException("锁定记录不存在，无法确认扣减");
-        }
-        //幂等：已确认扣减直接返回
-        if (stateLog.getChangeType().equals(InventoryChangeTypeEnum.DEDUCT.getCode())) {
-            log.info("TCC确认：orderNo={} 已确认扣减，幂等返回", orderNo);
-            return true;
-        }
-        if (stateLog.getChangeType().equals(InventoryChangeTypeEnum.RELEASE.getCode())) {
-            throw new BusinessException("库存已释放，无法确认扣减");
-        }
-        //CAS：锁定(1) -> 扣减(2)，保证只扣一次
-        int row = inventoryLogMapper.updateChangeType(
-                InventoryChangeTypeEnum.DEDUCT.getCode(),
-                InventoryChangeTypeEnum.LOCK.getCode(),
-                stateLog.getId());
-        if (row != 1) {
-            InventoryLog latest = inventoryLogMapper.selectById(stateLog.getId());
-            if (latest != null && latest.getChangeType().equals(InventoryChangeTypeEnum.DEDUCT.getCode())) {
-                //并发下已被确认，幂等返回
-                return true;
-            }
-            throw new BusinessException("确认扣减失败，锁定记录状态冲突");
-        }
-        //扣减锁定库存：locked -= amount（version 乐观锁）
-        Long skuId = stateLog.getSkuId();
-        Integer amount = stateLog.getChangeAmount();
-        Inventory inventory = inventoryMapper.selectById(skuId);
-        if (inventory == null) {
-            throw new BusinessException("库存不存在");
-        }
-        row = inventoryMapper.deductLockedQuantity(skuId, amount, inventory.getVersion());
-        if (row != 1) {
-            throw new BusinessException("确认扣减失败，库存版本冲突");
-        }
-        //记录流水（扣减）
-        inventoryLogMapper.insert(new InventoryLog()
-                .setSkuId(skuId)
-                .setOrderNo(orderNo)
-                .setChangeType(InventoryChangeTypeEnum.DEDUCT.getCode())
-                .setChangeAmount(amount)
-                .setBeforeAvailable(inventory.getAvailableQuantity())
-                .setAfterAvailable(inventory.getAvailableQuantity())
-                .setBeforeLocked(inventory.getLockedQuantity())
-                .setAfterLocked(inventory.getLockedQuantity() - amount));
-        log.info("TCC确认扣减成功：orderNo={} skuId={} amount={}", orderNo, skuId, amount);
+    public boolean commitFreeze(BusinessActionContext actionContext){
+        //无逻辑 无中间状态
+        log.debug("确认执行commitFreeze");
         return true;
     }
 
-    // ==================== TCC Cancel：取消扣减 ====================
+    @Transactional
+    public boolean rollbackFreeze(BusinessActionContext actionContext){
+        //回滚逻辑
+        //回滚inventory
+        Long skuId = (Long) actionContext.getActionContext().get("skuId");
+        Integer amount = (Integer) actionContext.getActionContext().get("amount");
+        String orderNo = (String) actionContext.getActionContext().get("orderNo");
+        LambdaQueryWrapper<Inventory> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Inventory::getSkuId, skuId);
+        List<Inventory> list = inventoryMapper.selectList(wrapper);
+        if(list.isEmpty()){
+            log.warn("库存消失！！！");
+            return true;
+        }
+        if(list.size() != 1){
+            throw new BusinessException("数据库数据错误，错误skuId：" + skuId);
+        }
+        Inventory oldPo = list.get(0);
+        Integer version = oldPo.getVersion();
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean rollbackDeduct(BusinessActionContext actionContext) {
-        Long skuId = getLongFromContext(actionContext, "skuId");
-        Integer amount = getIntFromContext(actionContext, "amount");
-        String orderNo = getStringFromContext(actionContext, "orderNo");
-        if (skuId == null || amount == null || orderNo == null) {
-            throw new BusinessException("TCC上下文参数缺失，无法释放库存");
+        int row = inventoryMapper.rollbackFreezeInventory(skuId, amount, version);
+
+        if(row == 0){
+            return false;
         }
-        InventoryLog stateLog = getLatestLog(orderNo);
-        if (stateLog == null) {
-            //空回滚：try未执行，插入释放(3)记录防悬挂
-            Inventory inventory = inventoryMapper.selectById(skuId);
-            int available = inventory == null ? 0 : inventory.getAvailableQuantity();
-            int locked = inventory == null ? 0 : inventory.getLockedQuantity();
-            inventoryLogMapper.insert(new InventoryLog()
-                    .setSkuId(skuId)
-                    .setOrderNo(orderNo)
-                    .setChangeType(InventoryChangeTypeEnum.RELEASE.getCode())
-                    .setChangeAmount(amount)
-                    .setBeforeAvailable(available)
-                    .setAfterAvailable(available)
-                    .setBeforeLocked(locked)
-                    .setAfterLocked(locked));
-            log.info("TCC空回滚：orderNo={} 已记录释放记录防悬挂", orderNo);
-            return true;
+        //再删除log
+        row = inventoryLogMapper.delete(new LambdaQueryWrapper<InventoryLog>().eq(InventoryLog::getSkuId, skuId).eq(InventoryLog::getOrderNo, orderNo));
+
+        if(row == 0){
+            log.debug("inventory_log表数据插入错误");
+            throw new BusinessException("数据库数据错误，错误skuId" + skuId);
         }
-        //幂等：已释放直接返回
-        if (stateLog.getChangeType().equals(InventoryChangeTypeEnum.RELEASE.getCode())) {
-            log.info("TCC取消：orderNo={} 已释放，幂等返回", orderNo);
-            return true;
-        }
-        if (stateLog.getChangeType().equals(InventoryChangeTypeEnum.DEDUCT.getCode())) {
-            //已确认扣减，不允许回滚
-            throw new BusinessException("已确认扣减，无法释放库存");
-        }
-        //CAS：锁定(1) -> 释放(3)，保证只释放一次
-        int row = inventoryLogMapper.updateChangeType(
-                InventoryChangeTypeEnum.RELEASE.getCode(),
-                InventoryChangeTypeEnum.LOCK.getCode(),
-                stateLog.getId());
-        if (row != 1) {
-            InventoryLog latest = inventoryLogMapper.selectById(stateLog.getId());
-            if (latest != null) {
-                if (latest.getChangeType().equals(InventoryChangeTypeEnum.RELEASE.getCode())) {
-                    return true;
-                }
-                if (latest.getChangeType().equals(InventoryChangeTypeEnum.DEDUCT.getCode())) {
-                    throw new BusinessException("已确认扣减，无法释放库存");
-                }
-            }
-            throw new BusinessException("释放库存失败，锁定记录状态冲突");
-        }
-        //释放：locked -= amount，available += amount（version 乐观锁）
-        Long stateSkuId = stateLog.getSkuId();
-        Integer stateAmount = stateLog.getChangeAmount();
-        Inventory inventory = inventoryMapper.selectById(stateSkuId);
-        if (inventory == null) {
-            throw new BusinessException("库存不存在");
-        }
-        row = inventoryMapper.releaseLockedQuantity(stateSkuId, stateAmount, inventory.getVersion());
-        if (row != 1) {
-            throw new BusinessException("释放库存失败，库存版本冲突");
-        }
-        //记录流水（释放）
-        inventoryLogMapper.insert(new InventoryLog()
-                .setSkuId(stateSkuId)
-                .setOrderNo(orderNo)
-                .setChangeType(InventoryChangeTypeEnum.RELEASE.getCode())
-                .setChangeAmount(stateAmount)
-                .setBeforeAvailable(inventory.getAvailableQuantity())
-                .setAfterAvailable(inventory.getAvailableQuantity() + stateAmount)
-                .setBeforeLocked(inventory.getLockedQuantity())
-                .setAfterLocked(inventory.getLockedQuantity() - stateAmount));
-        log.info("TCC释放库存成功：orderNo={} skuId={} amount={}", orderNo, stateSkuId, stateAmount);
         return true;
     }
 
-    // ==================== 工具方法 ====================
 
-    /**
-     * 按订单号查询流水（取最新一条保证幂等判断稳定）
-     */
-    private InventoryLog getLatestLog(String orderNo) {
-        return inventoryLogMapper.selectOne(new LambdaQueryWrapper<InventoryLog>()
-                .eq(InventoryLog::getOrderNo, orderNo)
-                .orderByDesc(InventoryLog::getId)
-                .last("LIMIT 1"));
-    }
 
-    /**
-     * 从事务上下文读取 Long 值（上下文经过序列化，数值类型可能是 Integer/Long，统一 toString 转换）
-     */
-    private Long getLongFromContext(BusinessActionContext context, String key) {
-        Object value = context.getActionContext(key);
-        return value == null ? null : Long.valueOf(value.toString());
-    }
 
-    /**
-     * 从事务上下文读取 Integer 值
-     */
-    private Integer getIntFromContext(BusinessActionContext context, String key) {
-        Object value = context.getActionContext(key);
-        return value == null ? null : Integer.valueOf(value.toString());
-    }
 
-    /**
-     * 从事务上下文读取 String 值
-     */
-    private String getStringFromContext(BusinessActionContext context, String key) {
-        Object value = context.getActionContext(key);
-        return value == null ? null : value.toString();
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+//    // ==================== TCC Try：锁定库存 ====================
+//
+//    @Override
+//    @Transactional(rollbackFor = Exception.class)
+//    @RedissonLock(key = "#skuId", waitTime = 3, prefix = "Inventory:SkuId:Lock:")
+//    @TwoPhaseBusinessAction(name = "inventoryTccDeduct", commitMethod = "commitDeduct", rollbackMethod = "rollbackDeduct")
+//    public boolean prepareDeduct(@BusinessActionContextParameter(paramName = "skuId") Long skuId,
+//                                 @BusinessActionContextParameter(paramName = "amount") Integer amount,
+//                                 @BusinessActionContextParameter(paramName = "orderNo") String orderNo) {
+//        if (skuId == null || amount == null || amount <= 0 || orderNo == null || orderNo.isBlank()) {
+//            throw new IllegalArgumentException("TCC锁定库存参数错误");
+//        }
+//        //幂等/防悬挂检查
+//        InventoryLog stateLog = getLatestLog(orderNo);
+//        if (stateLog != null) {
+//            if (stateLog.getChangeType().equals(InventoryChangeTypeEnum.RELEASE.getCode())) {
+//                //rollback先于try到达（空回滚），防悬挂：不再锁定
+//                log.info("TCC锁定库存：orderNo={} 已空回滚，不再锁定", orderNo);
+//                return false;
+//            }
+//            //已经锁定或已经扣减，幂等返回成功
+//            log.info("TCC锁定库存：orderNo={} changeType={}，幂等返回", orderNo, stateLog.getChangeType());
+//            return true;
+//        }
+//        //查询库存
+//        Inventory inventory = inventoryMapper.selectById(skuId);
+//        if (inventory == null) {
+//            throw new BusinessException("库存不存在");
+//        }
+//        if (inventory.getAvailableQuantity() < amount) {
+//            throw new BusinessException("库存不足");
+//        }
+//        //锁定：available -= amount，locked += amount（version 乐观锁）
+//        int row = inventoryMapper.lockQuantity(skuId, amount, inventory.getVersion());
+//        if (row != 1) {
+//            throw new BusinessException("锁定库存失败，版本号错误");
+//        }
+//        //记录流水（锁定）
+//        inventoryLogMapper.insert(new InventoryLog()
+//                .setSkuId(skuId)
+//                .setOrderNo(orderNo)
+//                .setChangeType(InventoryChangeTypeEnum.LOCK)
+//                .setChangeAmount(amount)
+//                .setBeforeAvailable(inventory.getAvailableQuantity())
+//                .setAfterAvailable(inventory.getAvailableQuantity() - amount)
+//                .setBeforeLocked(inventory.getLockedQuantity())
+//                .setAfterLocked(inventory.getLockedQuantity() + amount));
+//        log.info("TCC锁定库存成功：orderNo={} skuId={} amount={}", orderNo, skuId, amount);
+//        return true;
+//    }
+//
+//    // ==================== TCC Confirm：确认扣减 ====================
+//
+//    @Override
+//    @Transactional(rollbackFor = Exception.class)
+//    public boolean commitDeduct(BusinessActionContext actionContext) {
+//        String orderNo = getStringFromContext(actionContext, "orderNo");
+//        if (orderNo == null) {
+//            throw new BusinessException("TCC上下文参数缺失，无法确认扣减");
+//        }
+//        InventoryLog stateLog = getLatestLog(orderNo);
+//        if (stateLog == null) {
+//            throw new BusinessException("锁定记录不存在，无法确认扣减");
+//        }
+//        //幂等：已确认扣减直接返回
+//        if (stateLog.getChangeType().equals(InventoryChangeTypeEnum.DEDUCT.getCode())) {
+//            log.info("TCC确认：orderNo={} 已确认扣减，幂等返回", orderNo);
+//            return true;
+//        }
+//        if (stateLog.getChangeType().equals(InventoryChangeTypeEnum.RELEASE.getCode())) {
+//            throw new BusinessException("库存已释放，无法确认扣减");
+//        }
+//        //CAS：锁定(1) -> 扣减(2)，保证只扣一次
+//        int row = inventoryLogMapper.updateChangeType(
+//                InventoryChangeTypeEnum.DEDUCT.getCode(),
+//                InventoryChangeTypeEnum.LOCK.getCode(),
+//                stateLog.getId());
+//        if (row != 1) {
+//            InventoryLog latest = inventoryLogMapper.selectById(stateLog.getId());
+//            if (latest != null && latest.getChangeType().equals(InventoryChangeTypeEnum.DEDUCT.getCode())) {
+//                //并发下已被确认，幂等返回
+//                return true;
+//            }
+//            throw new BusinessException("确认扣减失败，锁定记录状态冲突");
+//        }
+//        //扣减锁定库存：locked -= amount（version 乐观锁）
+//        Long skuId = stateLog.getSkuId();
+//        Integer amount = stateLog.getChangeAmount();
+//        Inventory inventory = inventoryMapper.selectById(skuId);
+//        if (inventory == null) {
+//            throw new BusinessException("库存不存在");
+//        }
+//        row = inventoryMapper.deductLockedQuantity(skuId, amount, inventory.getVersion());
+//        if (row != 1) {
+//            throw new BusinessException("确认扣减失败，库存版本冲突");
+//        }
+//        //记录流水（扣减）
+//        inventoryLogMapper.insert(new InventoryLog()
+//                .setSkuId(skuId)
+//                .setOrderNo(orderNo)
+//                .setChangeType(InventoryChangeTypeEnum.DEDUCT.getCode())
+//                .setChangeAmount(amount)
+//                .setBeforeAvailable(inventory.getAvailableQuantity())
+//                .setAfterAvailable(inventory.getAvailableQuantity())
+//                .setBeforeLocked(inventory.getLockedQuantity())
+//                .setAfterLocked(inventory.getLockedQuantity() - amount));
+//        log.info("TCC确认扣减成功：orderNo={} skuId={} amount={}", orderNo, skuId, amount);
+//        return true;
+//    }
+//
+//    // ==================== TCC Cancel：取消扣减 ====================
+//
+//    @Override
+//    @Transactional(rollbackFor = Exception.class)
+//    public boolean rollbackDeduct(BusinessActionContext actionContext) {
+//        Long skuId = getLongFromContext(actionContext, "skuId");
+//        Integer amount = getIntFromContext(actionContext, "amount");
+//        String orderNo = getStringFromContext(actionContext, "orderNo");
+//        if (skuId == null || amount == null || orderNo == null) {
+//            throw new BusinessException("TCC上下文参数缺失，无法释放库存");
+//        }
+//        InventoryLog stateLog = getLatestLog(orderNo);
+//        if (stateLog == null) {
+//            //空回滚：try未执行，插入释放(3)记录防悬挂
+//            Inventory inventory = inventoryMapper.selectById(skuId);
+//            int available = inventory == null ? 0 : inventory.getAvailableQuantity();
+//            int locked = inventory == null ? 0 : inventory.getLockedQuantity();
+//            inventoryLogMapper.insert(new InventoryLog()
+//                    .setSkuId(skuId)
+//                    .setOrderNo(orderNo)
+//                    .setChangeType(InventoryChangeTypeEnum.RELEASE.getCode())
+//                    .setChangeAmount(amount)
+//                    .setBeforeAvailable(available)
+//                    .setAfterAvailable(available)
+//                    .setBeforeLocked(locked)
+//                    .setAfterLocked(locked));
+//            log.info("TCC空回滚：orderNo={} 已记录释放记录防悬挂", orderNo);
+//            return true;
+//        }
+//        //幂等：已释放直接返回
+//        if (stateLog.getChangeType().equals(InventoryChangeTypeEnum.RELEASE.getCode())) {
+//            log.info("TCC取消：orderNo={} 已释放，幂等返回", orderNo);
+//            return true;
+//        }
+//        if (stateLog.getChangeType().equals(InventoryChangeTypeEnum.DEDUCT.getCode())) {
+//            //已确认扣减，不允许回滚
+//            throw new BusinessException("已确认扣减，无法释放库存");
+//        }
+//        //CAS：锁定(1) -> 释放(3)，保证只释放一次
+//        int row = inventoryLogMapper.updateChangeType(
+//                InventoryChangeTypeEnum.RELEASE.getCode(),
+//                InventoryChangeTypeEnum.LOCK.getCode(),
+//                stateLog.getId());
+//        if (row != 1) {
+//            InventoryLog latest = inventoryLogMapper.selectById(stateLog.getId());
+//            if (latest != null) {
+//                if (latest.getChangeType().equals(InventoryChangeTypeEnum.RELEASE.getCode())) {
+//                    return true;
+//                }
+//                if (latest.getChangeType().equals(InventoryChangeTypeEnum.DEDUCT.getCode())) {
+//                    throw new BusinessException("已确认扣减，无法释放库存");
+//                }
+//            }
+//            throw new BusinessException("释放库存失败，锁定记录状态冲突");
+//        }
+//        //释放：locked -= amount，available += amount（version 乐观锁）
+//        Long stateSkuId = stateLog.getSkuId();
+//        Integer stateAmount = stateLog.getChangeAmount();
+//        Inventory inventory = inventoryMapper.selectById(stateSkuId);
+//        if (inventory == null) {
+//            throw new BusinessException("库存不存在");
+//        }
+//        row = inventoryMapper.releaseLockedQuantity(stateSkuId, stateAmount, inventory.getVersion());
+//        if (row != 1) {
+//            throw new BusinessException("释放库存失败，库存版本冲突");
+//        }
+//        //记录流水（释放）
+//        inventoryLogMapper.insert(new InventoryLog()
+//                .setSkuId(stateSkuId)
+//                .setOrderNo(orderNo)
+//                .setChangeType(InventoryChangeTypeEnum.RELEASE.getCode())
+//                .setChangeAmount(stateAmount)
+//                .setBeforeAvailable(inventory.getAvailableQuantity())
+//                .setAfterAvailable(inventory.getAvailableQuantity() + stateAmount)
+//                .setBeforeLocked(inventory.getLockedQuantity())
+//                .setAfterLocked(inventory.getLockedQuantity() - stateAmount));
+//        log.info("TCC释放库存成功：orderNo={} skuId={} amount={}", orderNo, stateSkuId, stateAmount);
+//        return true;
+//    }
+//
+//    // ==================== 工具方法 ====================
+//
+//    /**
+//     * 按订单号查询流水（取最新一条保证幂等判断稳定）
+//     */
+//    private InventoryLog getLatestLog(String orderNo) {
+//        return inventoryLogMapper.selectOne(new LambdaQueryWrapper<InventoryLog>()
+//                .eq(InventoryLog::getOrderNo, orderNo)
+//                .orderByDesc(InventoryLog::getId)
+//                .last("LIMIT 1"));
+//    }
+//
+//    /**
+//     * 从事务上下文读取 Long 值（上下文经过序列化，数值类型可能是 Integer/Long，统一 toString 转换）
+//     */
+//    private Long getLongFromContext(BusinessActionContext context, String key) {
+//        Object value = context.getActionContext(key);
+//        return value == null ? null : Long.valueOf(value.toString());
+//    }
+//
+//    /**
+//     * 从事务上下文读取 Integer 值
+//     */
+//    private Integer getIntFromContext(BusinessActionContext context, String key) {
+//        Object value = context.getActionContext(key);
+//        return value == null ? null : Integer.valueOf(value.toString());
+//    }
+//
+//    /**
+//     * 从事务上下文读取 String 值
+//     */
+//    private String getStringFromContext(BusinessActionContext context, String key) {
+//        Object value = context.getActionContext(key);
+//        return value == null ? null : value.toString();
+//    }
 }

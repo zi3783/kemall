@@ -30,4 +30,20 @@
             version = #{version} and
             locked_quantity >= #{amount}
     </update>
+    <update id="freezeInventory">
+        update inventory
+        set available_quantity = available_quantity - #{amount},
+            locked_quantity = locked_quantity + #{amount},
+            version = version + 1
+        where version = #{version}
+           and sku_id = #{skuId}
+    </update>
+    <update id="rollbackFreezeInventory">
+        update inventory
+        set available_quantity = available_quantity + #{amount},
+            locked_quantity = locked_quantity - #{amount},
+            version = version + 1
+        where version = #{version}
+            and sku_id = #{skuId}
+    </update>
 </mapper>

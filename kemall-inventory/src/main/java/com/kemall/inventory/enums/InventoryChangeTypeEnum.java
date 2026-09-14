@@ -1,5 +1,8 @@
 package com.kemall.inventory.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * <p>
  * 库存流水变更类型枚举
@@ -33,8 +36,11 @@ public enum InventoryChangeTypeEnum {
      */
     STOCK_IN(4, "入库");
 
+
+    @EnumValue
     private final Integer code;
 
+    @JsonValue
     private final String msg;
 
     InventoryChangeTypeEnum(Integer code, String msg) {

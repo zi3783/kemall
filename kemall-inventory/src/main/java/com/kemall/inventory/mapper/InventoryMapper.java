@@ -30,4 +30,8 @@ public interface InventoryMapper extends BaseMapper<Inventory> {
      * TCC Cancel：释放库存 locked_quantity -= amount，available_quantity += amount（version 乐观锁）
      */
     Integer releaseLockedQuantity(@Param("skuId") Long skuId, @Param("amount") Integer amount, @Param("version") Integer version);
+
+    int freezeInventory(Long skuId, Integer amount, Integer version);
+
+    int rollbackFreezeInventory(Long skuId, Integer amount, Integer version);
 }

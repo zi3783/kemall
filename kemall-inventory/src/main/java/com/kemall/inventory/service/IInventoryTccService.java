@@ -19,31 +19,37 @@ import org.apache.seata.rm.tcc.api.BusinessActionContext;
  */
 public interface IInventoryTccService {
 
-    /**
-     * TCC Try：锁定库存
-     *
-     * @param skuId         商品SKU id
-     * @param amount        锁定数量
-     * @param orderNo       订单编号（幂等标识）
-     * @return true-锁定成功 false-锁定失败（触发全局回滚）
-     */
-    boolean prepareDeduct(Long skuId,
-                          Integer amount,
-                          String orderNo);
-
-    /**
-     * TCC Confirm：确认扣减（由 TC 调用，需幂等）
-     *
-     * @param actionContext 事务上下文
-     * @return true-确认成功
-     */
-    boolean commitDeduct(BusinessActionContext actionContext);
-
-    /**
-     * TCC Cancel：取消扣减（由 TC 调用，需幂等、支持空回滚）
-     *
-     * @param actionContext 事务上下文
-     * @return true-取消成功
-     */
-    boolean rollbackDeduct(BusinessActionContext actionContext);
+    boolean prepareFreeze(Long skuId, Integer amount, String orderNo);
+//
+//    boolean commitFreeze(BusinessActionContext actionContext);
+//
+//    boolean rollbackFreeze(BusinessActionContext actionContext);
+//
+//    /**
+//     * TCC Try：锁定库存
+//     *
+//     * @param skuId         商品SKU id
+//     * @param amount        锁定数量
+//     * @param orderNo       订单编号（幂等标识）
+//     * @return true-锁定成功 false-锁定失败（触发全局回滚）
+//     */
+//    boolean prepareDeduct(Long skuId,
+//                          Integer amount,
+//                          String orderNo);
+//
+//    /**
+//     * TCC Confirm：确认扣减（由 TC 调用，需幂等）
+//     *
+//     * @param actionContext 事务上下文
+//     * @return true-确认成功
+//     */
+//    boolean commitDeduct(BusinessActionContext actionContext);
+//
+//    /**
+//     * TCC Cancel：取消扣减（由 TC 调用，需幂等、支持空回滚）
+//     *
+//     * @param actionContext 事务上下文
+//     * @return true-取消成功
+//     */
+//    boolean rollbackDeduct(BusinessActionContext actionContext);
 }

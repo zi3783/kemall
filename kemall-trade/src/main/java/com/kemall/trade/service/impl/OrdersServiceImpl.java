@@ -17,4 +17,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> implements IOrdersService {
 
+    @Override
+    public boolean generateOrder() {
+        //查询当前购物车
+        //扣减库存
+        //生成对应的po
+        //将订单信息
+    }
 }
