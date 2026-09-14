@@ -83,5 +83,5 @@ public class Product implements Serializable {
      */
     private LocalDateTime updateTime;
 
-
+    private Long version;
 }

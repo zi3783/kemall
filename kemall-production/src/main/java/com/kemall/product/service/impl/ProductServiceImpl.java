@@ -12,6 +12,8 @@ import com.kemall.common.utils.BeanUtil;
 import com.kemall.common.utils.bean.result.PageResult;
 import com.kemall.common.utils.bean.result.Result;
 import com.kemall.product.constants.RedisConstants;
+import com.kemall.product.domain.cache.SkuCache;
+import com.kemall.product.domain.cache.SpuCache;
 import com.kemall.product.domain.po.Brand;
 import com.kemall.product.domain.po.Category;
 import com.kemall.product.domain.po.Product;
@@ -31,6 +33,8 @@ import com.kemall.product.mapper.ProductMapper;
 import com.kemall.product.mapper.ProductSkuMapper;
 import com.kemall.product.service.IProductService;
 import com.kemall.product.service.VisitedCountService;
+import com.kemall.product.service.lock.SkuLockService;
+import com.kemall.product.service.lock.SpuLockService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.framework.AopContext;
@@ -74,6 +78,10 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
 
     private final ProductMapper productMapper;
 
+    private final SpuLockService spuLockService;
+
+    private final SkuLockService skuLockService;
+
     @Override
     public Result<ProductVO> getProductDetail(Long productId) {
         if(productId == null){
@@ -83,7 +91,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         ValueOperations<String, String> ops = redisTemplate.opsForValue();
         String visitKey = buildHourKey(productId, 0);
         //查询redis缓存
-        String key = RedisConstants.PRODUCT_DETAIL_PREFIX + productId;
+        String key = RedisConstants.PRODUCT_SPU_PREFIX + productId;
         String json = ops.get(key);
         //命中 则返回 异步计数器 + 1
         if(json != null){
@@ -285,4 +293,34 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         // 删除缓存
         redisTemplate.delete(RedisConstants.PRODUCT_DETAIL_PREFIX + productId);
     }
+
+    public SpuCache getProductSpu(Long spuId) {
+        //查redis
+        String spuKey = RedisConstants.PRODUCT_SPU_PREFIX + spuId;
+        String json = redisTemplate.opsForValue().get(spuKey);
+        if(json != null){
+            try {
+                return objectMapper.readValue(json, SpuCache.class);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException("json to object is fail:", e);
+            }
+        }
+        //查数据库回写redis
+        return spuLockService.getSpuFromDBAndToRedis(spuId);
+    }
+
+    public SkuCache getProductSku(Long skuId) {
+        String skuKey = RedisConstants.PRODUCT_SKU_PREFIX + skuId;
+        String json = redisTemplate.opsForValue().get(skuKey);
+        if(json != null){
+            try {
+                return objectMapper.readValue(json, SkuCache.class);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException("json to object is fail:", e);
+            }
+        }
+        return skuLockService.getSkuFromDBAndToRedis(skuId);
+    }
+
+
 }

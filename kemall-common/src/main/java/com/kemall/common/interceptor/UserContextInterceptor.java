@@ -32,7 +32,7 @@ public class UserContextInterceptor implements HandlerInterceptor {
         Method method = ((HandlerMethod) handler).getMethod();
         LoginRequire annotation = method.getAnnotation(LoginRequire.class);
         if(annotation != null && annotation.login() == false){
-            log.info("有@LoginRequire注解放行");
+            log.info("@LoginRequire注解为false");
             //不需要登录
             return true;
         }

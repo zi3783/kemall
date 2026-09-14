@@ -14,4 +14,18 @@ public class RedisConstants {
 
     public static final String CATEGORY_TREE_VERSION = "category:tree:version";
 
+    /** spu */
+    public static final String PRODUCT_SPU_PREFIX = "product:spu:";
+    /** sku */
+    public static final String PRODUCT_SKU_PREFIX = "product:sku:";
+    /** spu_skus */
+    public static final String PRODUCT_SKUS_PREFIX = "product:spu:";
+
+    /** spu分布式锁 */
+    public static final String PRODUCT_SPU_LOCK_PREFIX = "product:lock:";
+    /** sku分布式锁 */
+    public static final String PRODUCT_SKU_LOCK_PREFIX = "product:lock:";
+
+
+
 }

@@ -71,5 +71,5 @@ public class ProductSku implements Serializable {
      */
     private LocalDateTime updateTime;
 
-
+    private Long version;
 }
