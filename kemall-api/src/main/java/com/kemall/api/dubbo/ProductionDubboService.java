@@ -1,9 +1,10 @@
 package com.kemall.api.dubbo;
 
 
-import com.kemall.api.result.Result;
+import java.util.List;
+import java.util.Map;
 
 public interface ProductionDubboService {
-    boolean skuExist(Long productId,Long skuId);
-    Result<Long> getSkuPrice(Long productId, Long skuId);
+
+    Map<Long, Long> getSkuPriceByIds(List<Long> skuIds);
 }

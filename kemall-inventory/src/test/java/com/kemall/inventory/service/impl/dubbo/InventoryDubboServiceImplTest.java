@@ -13,7 +13,7 @@ class InventoryDubboServiceImplTest {
 
     @Test
     public void test(){
-        inventoryDubboService.deductByTcc(3L, 1, "tcctransaction");
+        inventoryDubboService.prepareDeductByTcc(3L, 1, "tcctransaction");
     }
 
 }

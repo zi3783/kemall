@@ -33,8 +33,8 @@ public class InventoryController {
 //    @PostMapping("/tcc/deduct")
 //    @LoginRequire(login = false)
 //    @Operation(summary = "TCC事务扣减库存（Try锁定，全局提交后确认扣减）")
-//    public Result<String> deductByTcc(Long skuId, Integer amount, String orderNo) {
-//        return inventoryService.deductByTcc(skuId, amount, orderNo) ? Result.success() : Result.fail("扣减失败");
+//    public Result<String> prepareDeductByTcc(Long skuId, Integer amount, String orderNo) {
+//        return inventoryService.prepareDeductByTcc(skuId, amount, orderNo) ? Result.success() : Result.fail("扣减失败");
 //    }
 
 

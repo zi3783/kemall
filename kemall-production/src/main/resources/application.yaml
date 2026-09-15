@@ -35,3 +35,5 @@ dubbo:
     port: ${ke.dubbo.port:20880}
   scan:
     base-packages: com.kemall.product.service
+  consumer:
+    check: false

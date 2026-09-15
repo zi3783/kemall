@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import com.kemall.trade.enums.OrderStatusEnum;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -15,12 +18,12 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author author
- * @since 2026-08-26
+ * @since 2026-09-14
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @TableName("orders")
+@Builder
 public class Orders implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,6 +45,11 @@ public class Orders implements Serializable {
     private Long userId;
 
     /**
+     * 幂等键
+     */
+    private String idempotencyKey;
+
+    /**
      * 订单总金额
      */
     private Long totalAmount;
@@ -52,9 +60,19 @@ public class Orders implements Serializable {
     private Long actualAmount;
 
     /**
-     * 订单状态
+     * 订单状态 1:待付款 2:待发货 3:待收货 4:待评价 5:已完成 6:已取消
      */
-    private Integer status;
+    private OrderStatusEnum status;
+
+    /**
+     * 支付时间
+     */
+    private LocalDateTime payTime;
+
+    /**
+     * 订单过期时间
+     */
+    private LocalDateTime expireTime;
 
     /**
      * 创建时间

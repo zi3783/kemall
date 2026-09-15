@@ -1,5 +1,7 @@
 package com.kemall.trade.service;
 
+import com.kemall.common.utils.bean.result.Result;
+import com.kemall.trade.domain.dto.OrderRequest;
 import com.kemall.trade.domain.po.Orders;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -9,9 +11,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author author
- * @since 2026-08-26
+ * @since 2026-09-14
  */
 public interface IOrdersService extends IService<Orders> {
 
-    boolean generateOrder();
+    Result<Object> placeOrder(OrderRequest request);
 }

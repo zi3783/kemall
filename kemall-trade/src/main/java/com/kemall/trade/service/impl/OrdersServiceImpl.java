@@ -1,10 +1,27 @@
 package com.kemall.trade.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.kemall.api.dubbo.ProductionDubboService;
+import com.kemall.common.annotation.RedissonLock;
+import com.kemall.common.exception.BusinessException;
+import com.kemall.common.utils.bean.result.Result;
+import com.kemall.trade.constant.RedisConstant;
+import com.kemall.trade.domain.dto.OrderItemRequest;
+import com.kemall.trade.domain.dto.OrderRequest;
 import com.kemall.trade.domain.po.Orders;
 import com.kemall.trade.mapper.OrdersMapper;
+import com.kemall.trade.service.GlobalTransactionManageService;
 import com.kemall.trade.service.IOrdersService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -12,16 +29,48 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author author
- * @since 2026-08-26
+ * @since 2026-09-14
  */
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> implements IOrdersService {
 
+    private final StringRedisTemplate redisTemplate;
+
+    @DubboReference
+    private final ProductionDubboService productionDubboService;
+
+    private final GlobalTransactionManageService globalTransactionManageService;
+    @DubboReference
+
     @Override
-    public boolean generateOrder() {
-        //查询当前购物车
-        //扣减库存
-        //生成对应的po
-        //将订单信息
+    public Result<Object> placeOrder(OrderRequest request) {
+        //校验幂等
+        String idempotencyKey = RedisConstant.REQUEST_LOCK_PREFIX + request.getIdempotencyKey();
+        //查询redis校验
+        Boolean ok = redisTemplate.opsForValue().setIfAbsent(idempotencyKey, "exist", 5, TimeUnit.MINUTES);
+        if(Boolean.FALSE.equals(ok)){
+            log.info("请求重复");
+            return Result.success("操作频繁");
+        }
+        //获得商品项目
+        List<OrderItemRequest> cartItems = request.getOrderItemList();
+        List<Long> skuIds = cartItems.stream().map(OrderItemRequest::getSkuId).toList();
+        //查询商品服务获得商品金额
+        Map<Long, Long> priceMap = productionDubboService.getSkuPriceByIds(skuIds);
+        if(priceMap.size() != skuIds.size()){
+            throw new BusinessException("有不存在或下架的商品被选中");
+        }
+        //todo 计算金额 无
+        try {
+            globalTransactionManageService.deductStorageAndPlaceOrder(cartItems, priceMap, idempotencyKey);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+        //异步mq解耦调用清空购物车
+        //返回结果
+        return null;
     }
+
 }

@@ -14,8 +14,7 @@ public class InventoryDubboServiceImpl implements InventoryDubboService {
     private final IInventoryTccService inventoryTccService;
 
     @Override
-    public void deductByTcc(Long skuId, Integer amount, String orderNo) {
-        inventoryTccService.prepareFreeze(skuId,amount,orderNo);
-        log.debug("成功扣减库存");
+    public boolean prepareDeductByTcc(Long skuId, Integer amount, String orderNo) {
+        return inventoryTccService.prepareFreeze(skuId,amount,orderNo);
     }
 }

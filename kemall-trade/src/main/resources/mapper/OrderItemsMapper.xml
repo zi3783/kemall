@@ -2,4 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kemall.trade.mapper.OrderItemsMapper">
 
+    <insert id="insertBatch">
+        insert into order_items(order_id, sku_id, product_name, sku_price, product_quantity)
+        values
+        <foreach collection="items" separator="," item="item">
+            (#{item.orderId}, #{item.skuId}, #{item.productName}, #{item.skuPrice}, #{item.productQuantity})
+        </foreach>
+    </insert>
+    <delete id="deleteByOrderNo">
+        DELETE FROM order_items
+        WHERE order_id IN (
+        SELECT id FROM orders WHERE order_no = #{orderNo}
+        )
+    </delete>
 </mapper>

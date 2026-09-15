@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -15,12 +17,12 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author author
- * @since 2026-08-26
+ * @since 2026-09-14
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @TableName("order_items")
+@Builder
 public class OrderItems implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,7 +41,7 @@ public class OrderItems implements Serializable {
     /**
      * 商品id
      */
-    private Long productId;
+    private Long skuId;
 
     /**
      * 商品名称
@@ -49,7 +51,7 @@ public class OrderItems implements Serializable {
     /**
      * 商品价格
      */
-    private Long productPrice;
+    private Long skuPrice;
 
     /**
      * 商品数量

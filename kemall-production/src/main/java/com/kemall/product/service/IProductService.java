@@ -11,6 +11,9 @@ import com.kemall.product.domain.vo.ProductIntro;
 import com.kemall.product.domain.vo.ProductVO;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 商品表 服务类
@@ -36,4 +39,5 @@ public interface IProductService extends IService<Product> {
 
     @Transactional
     void deleteProduct(Long productId);
+
 }

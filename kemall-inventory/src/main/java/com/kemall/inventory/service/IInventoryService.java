@@ -21,6 +21,6 @@ public interface IInventoryService extends IService<Inventory> {
 //     * @param orderNo 订单编号（幂等标识）
 //     * @return true-扣减成功
 //     */
-//    boolean deductByTcc(Long skuId, Integer amount, String orderNo);
+//    boolean prepareDeductByTcc(Long skuId, Integer amount, String orderNo);
 
 }

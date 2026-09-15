@@ -48,6 +48,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
@@ -294,7 +295,8 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         redisTemplate.delete(RedisConstants.PRODUCT_DETAIL_PREFIX + productId);
     }
 
-    public SpuCache getProductSpu(Long spuId) {
+
+    public SpuCache getProductSpu(Long spuId) { //todo 只查了redis
         //查redis
         String spuKey = RedisConstants.PRODUCT_SPU_PREFIX + spuId;
         String json = redisTemplate.opsForValue().get(spuKey);
@@ -309,7 +311,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         return spuLockService.getSpuFromDBAndToRedis(spuId);
     }
 
-    public SkuCache getProductSku(Long skuId) {
+    public SkuCache getProductSku(Long skuId) { //todo 只查了redis
         String skuKey = RedisConstants.PRODUCT_SKU_PREFIX + skuId;
         String json = redisTemplate.opsForValue().get(skuKey);
         if(json != null){

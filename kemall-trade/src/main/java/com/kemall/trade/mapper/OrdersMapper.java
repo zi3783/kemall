@@ -2,6 +2,8 @@ package com.kemall.trade.mapper;
 
 import com.kemall.trade.domain.po.Orders;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.kemall.trade.enums.OrderStatusEnum;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -9,8 +11,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author author
- * @since 2026-08-26
+ * @since 2026-09-14
  */
 public interface OrdersMapper extends BaseMapper<Orders> {
 
+    int updateStatusByOrderNo(String orderNo,@Param("status") OrderStatusEnum orderStatusEnum);
+
+    void deleteByOrderNo(String orderNo);
 }
