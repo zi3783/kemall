@@ -1,9 +1,7 @@
 import com.kemall.product.ProductApplication;
-import com.kemall.product.domain.cache.SkuCache;
-import com.kemall.product.domain.cache.SpuCache;
-import com.kemall.product.domain.po.ProductSku;
+import com.kemall.api.dto.SkuCache;
+import com.kemall.api.dto.SpuCache;
 import com.kemall.product.service.impl.ProductServiceImpl;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

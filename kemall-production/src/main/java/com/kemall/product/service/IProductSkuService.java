@@ -2,6 +2,7 @@ package com.kemall.product.service;
 
 import com.kemall.product.domain.po.ProductSku;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.kemall.product.domain.vo.SkuVo;
 
 import java.util.List;
 import java.util.Map;
@@ -17,4 +18,8 @@ import java.util.Map;
 public interface IProductSkuService extends IService<ProductSku> {
 
     Map<Long, Long> getSkuPriceByIds(List<Long> skuIds);
+
+    SkuVo queryById(Long skuId);
+
+    List<SkuVo> queryBySpuId(Long spuId);
 }

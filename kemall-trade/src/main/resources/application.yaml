@@ -28,12 +28,31 @@ spring:
 dubbo:
   application:
     name: trade-service
+    qos-enable: false
   registry:
     address: nacos://${ke.addr}:8848
   protocol:
     name: dubbo
-    port: ${ke.dubbo.port:20880}
   scan:
     base-packages: com.kemall.trade.service
   consumer:
     check: false
+
+seata:
+  enabled: true
+  application-id: trade-service
+  tx-service-group: default_tx_group
+  enable-auto-data-source-proxy: false
+
+  # 不使用 Nacos 服务发现
+  registry:
+    type: file
+
+  config:
+    type: file
+
+  service:
+    vgroup-mapping:
+      default_tx_group: default
+    grouplist:
+      default: ${ke.addr}:8091  # 直连宿主机 IP

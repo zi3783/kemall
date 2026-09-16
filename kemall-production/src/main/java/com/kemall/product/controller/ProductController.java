@@ -1,15 +1,18 @@
 package com.kemall.product.controller;
 
 
+import com.kemall.api.dto.SpuCache;
 import com.kemall.common.annotation.LoginRequire;
 import com.kemall.common.utils.bean.result.PageResult;
 import com.kemall.common.utils.bean.result.Result;
 import com.kemall.product.domain.query.ProductQuery;
 import com.kemall.product.domain.vo.ProductIntro;
 import com.kemall.product.domain.vo.ProductVO;
+import com.kemall.product.domain.vo.SpuVo;
 import com.kemall.product.service.IProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,17 +32,25 @@ public class ProductController {
 
     private final IProductService productService;
 
-    @Operation(description = "查询商品详情")
-    @GetMapping("/detail/{productId}")
-    @LoginRequire(login = false)
-    public Result<ProductVO> getProductDetail(@PathVariable Long productId) {
-        return productService.getProductDetail(productId);
-    }
+//    @Operation(description = "查询商品详情")
+//    @GetMapping("/detail/{productId}")
+//    @LoginRequire(login = false)
+//    public Result<ProductVO> getProductDetail(@PathVariable Long productId) {
+//        return productService.getProductDetail(productId);
+//    }
 
-    @Operation(description = "分页查询商品/商品页")
+    @Operation(summary = "分页查询商品/商品页")
     @PostMapping("/list")
     @LoginRequire(login = false)
     public Result<PageResult<ProductIntro>> queryProductIntroByCondition(@RequestBody ProductQuery query){
         return productService.queryProductIntroByCondition(query);
     }
+
+    @Operation(summary = "查询商品spu")
+    @GetMapping("/{spuId}")
+    @LoginRequire(login = false)
+    public Result<SpuVo> querySpuById(@PathVariable Long spuId){
+        return Result.success(productService.queryById(spuId));
+    }
+
 }

@@ -9,10 +9,8 @@ import com.kemall.product.domain.query.ProductQuery;
 import com.kemall.product.domain.query.ProductUpdateReq;
 import com.kemall.product.domain.vo.ProductIntro;
 import com.kemall.product.domain.vo.ProductVO;
+import com.kemall.product.domain.vo.SpuVo;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -40,4 +38,5 @@ public interface IProductService extends IService<Product> {
     @Transactional
     void deleteProduct(Long productId);
 
+    SpuVo queryById(Long spuId);
 }

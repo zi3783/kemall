@@ -54,6 +54,9 @@ seata:
 
 dubbo:
   application:
+    qos-enable: false
     name: cart-service
   registry:
     address: nacos://${ke.addr}:8848
+  consumer:
+    check: false

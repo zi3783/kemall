@@ -7,6 +7,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.env.Environment;
 
+import java.net.InetAddress;
 import java.util.Arrays;
 
 @Slf4j
@@ -19,11 +20,13 @@ public class AccountApplication {
         log.info("AccountApplication Started");
         log.info("||----------------------||");
         Environment env = context.getEnvironment();
-        System.out.println("========== Seata 配置来源检查 ==========");
-        System.out.println("Active Profiles: " + Arrays.toString(env.getActiveProfiles()));
-        System.out.println("seata.registry.type: " + env.getProperty("seata.registry.type"));
-        System.out.println("seata.registry.nacos.server-addr: " + env.getProperty("seata.registry.nacos.server-addr"));
-        System.out.println("seata.service.grouplist.DEFAULT: " + env.getProperty("seata.service.grouplist.DEFAULT"));
-        System.out.println("=======================================");
+        String port = env.getProperty("local.server.port");
+        String ip = "127.0.0.1";
+        try {
+            ip = InetAddress.getLocalHost().getHostAddress();
+        } catch (Exception e) {
+            // ignore
+        }
+        System.out.println("==========> 应用启动完成，访问地址: http://" + ip + ":" + port);
     }
 }

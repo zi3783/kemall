@@ -1,6 +1,6 @@
 package com.kemall.cart.listener;
 
-import com.kemall.cart.constant.CartMqConstant;
+import com.kemall.api.constant.CartMqConstant;
 import com.kemall.cart.constant.RedisConstant;
 import com.kemall.cart.domain.dto.ProductionDTO;
 import com.kemall.cart.domain.po.Cart;

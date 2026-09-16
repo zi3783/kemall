@@ -1,10 +1,9 @@
-package com.kemall.product.domain.cache;
+package com.kemall.product.domain.vo;
 
-import com.kemall.product.enums.ProductStatus;
 import lombok.Data;
 
 @Data
-public class SpuCache {
+public class SpuVo {
     private Long id;
 
     /**
@@ -45,5 +44,5 @@ public class SpuCache {
     /**
      * 商品状态 1:草稿 2:待审核 3:审核通过 4:上架 5:下架 6:违规下架
      */
-    private ProductStatus status;
+    private Integer status;
 }

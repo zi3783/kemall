@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kemall.api.dubbo.ProductionDubboService;
 import com.kemall.api.result.Result;
-import com.kemall.cart.constant.CartMqConstant;
+import com.kemall.api.constant.CartMqConstant;
 import com.kemall.cart.constant.RedisConstant;
 import com.kemall.cart.domain.dto.CartDto;
 import com.kemall.cart.domain.dto.CartUpdateDTO;
@@ -25,10 +25,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.lang.reflect.Array;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -62,11 +60,11 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
         Long userId = UserContext.getUserId();
         String key = RedisConstant.CART_PREFIX + userId;
 
-        Result<Long> result = productionDubboService.getSkuPrice(pId, skuId);
-        if(result.getCode() != 200) {
-            throw new ProductionNotExistException("未找到商品");
+        Map<Long, Long> prices = productionDubboService.getSkuPriceByIds(List.of(skuId));
+        if(prices.isEmpty()){
+            throw new BusinessException("商品已下架");
         }
-        Long price = result.getData();
+        Long price = prices.get(skuId);
         String json = redisTemplate.execute(
                 cartItemUpdateScript,
                 List.of(key,key + ":" + "selected"),

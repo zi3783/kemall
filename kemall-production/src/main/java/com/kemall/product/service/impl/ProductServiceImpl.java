@@ -12,8 +12,10 @@ import com.kemall.common.utils.BeanUtil;
 import com.kemall.common.utils.bean.result.PageResult;
 import com.kemall.common.utils.bean.result.Result;
 import com.kemall.product.constants.RedisConstants;
-import com.kemall.product.domain.cache.SkuCache;
-import com.kemall.product.domain.cache.SpuCache;
+import com.kemall.api.dto.SkuCache;
+import com.kemall.api.dto.SpuCache;
+import com.kemall.product.convert.SpuCacheConvert;
+import com.kemall.product.convert.SpuConvert;
 import com.kemall.product.domain.po.Brand;
 import com.kemall.product.domain.po.Category;
 import com.kemall.product.domain.po.Product;
@@ -25,6 +27,7 @@ import com.kemall.product.domain.query.SkuCreateReq;
 import com.kemall.product.domain.vo.ProductIntro;
 import com.kemall.product.domain.vo.ProductSkuVO;
 import com.kemall.product.domain.vo.ProductVO;
+import com.kemall.product.domain.vo.SpuVo;
 import com.kemall.product.enums.ProductSkuStatus;
 import com.kemall.product.enums.ProductStatus;
 import com.kemall.product.mapper.BrandMapper;
@@ -48,7 +51,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
@@ -83,12 +85,15 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
 
     private final SkuLockService skuLockService;
 
+    private final SpuConvert spuConvert;
+
+    private final SpuCacheConvert spuCacheConvert;
+
     @Override
     public Result<ProductVO> getProductDetail(Long productId) {
         if(productId == null){
             throw new IllegalArgumentException("productId is null");
         }
-        //代码最准备
         ValueOperations<String, String> ops = redisTemplate.opsForValue();
         String visitKey = buildHourKey(productId, 0);
         //查询redis缓存
@@ -293,6 +298,30 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
 
         // 删除缓存
         redisTemplate.delete(RedisConstants.PRODUCT_DETAIL_PREFIX + productId);
+    }
+
+    @Override
+    public SpuVo queryById(Long spuId) {
+        //先查redis
+        String spuKey = RedisConstants.PRODUCT_SPU_PREFIX + spuId;
+        String spuJson = redisTemplate.opsForValue().get(spuKey);
+        try {
+            if (spuJson != null) {
+                SpuCache spuCache = objectMapper.readValue(spuJson, SpuCache.class);
+                return spuCacheConvert.toTarget(spuCache);
+            }
+            //再查db
+            Product spu = lambdaQuery().eq(Product::getId, spuId).one();
+            if(spu == null){
+                throw new BusinessException("商品已下架");
+            }
+            SpuCache spuCache = spuConvert.toSpuCache(spu);
+            String json = objectMapper.writeValueAsString(spuCache);
+            redisTemplate.opsForValue().set(spuKey, json);
+            return spuConvert.toTarget(spu);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

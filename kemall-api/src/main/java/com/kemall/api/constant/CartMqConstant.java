@@ -1,4 +1,4 @@
-package com.kemall.cart.constant;
+package com.kemall.api.constant;
 
 public class CartMqConstant {
     // ========== 数据同步（Redis → MySQL）==========

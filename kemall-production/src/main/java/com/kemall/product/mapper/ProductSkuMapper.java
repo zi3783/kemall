@@ -3,6 +3,8 @@ package com.kemall.product.mapper;
 import com.kemall.product.domain.po.ProductSku;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface ProductSkuMapper extends BaseMapper<ProductSku> {
 
+    List<ProductSku> selectBySpuId(Long spuId);
 }

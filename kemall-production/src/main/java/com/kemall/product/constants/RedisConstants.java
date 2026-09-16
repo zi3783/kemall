@@ -19,7 +19,7 @@ public class RedisConstants {
     /** sku */
     public static final String PRODUCT_SKU_PREFIX = "product:sku:";
     /** spu_skus */
-    public static final String PRODUCT_SKUS_PREFIX = "product:spu:";
+    public static final String PRODUCT_SKUS_PREFIX = "product:skus:";
 
     /** spu分布式锁 */
     public static final String PRODUCT_SPU_LOCK_PREFIX = "product:lock:";

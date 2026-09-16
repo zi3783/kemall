@@ -1,6 +1,6 @@
 package com.kemall.cart.config;
 
-import com.kemall.cart.constant.CartMqConstant;
+import com.kemall.api.constant.CartMqConstant;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;

@@ -1,4 +1,4 @@
-package com.kemall.product.domain.cache;
+package com.kemall.api.dto;
 
 import lombok.Data;
 

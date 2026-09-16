@@ -39,12 +39,13 @@ public class OrderTccServiceImpl implements OrderTccService {
     )
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean tryCreateOrder(@BusinessActionContextParameter(paramName = "orderNo") String orderNo,
-                               @BusinessActionContextParameter(paramName = "userId") Long userId,
-                               @BusinessActionContextParameter(paramName = "idempotencyKey") String idempotencyKey,
-                               @BusinessActionContextParameter(paramName = "totalAmount") Long totalAmount,
-                               @BusinessActionContextParameter(paramName = "items") List<OrderItemRequest> items,
-                               @BusinessActionContextParameter(paramName = "priceMap") Map<Long, Long> priceMap) {
+    public Long tryCreateOrder(@BusinessActionContextParameter(paramName = "orderNo") String orderNo,
+                               Long userId,
+                               String idempotencyKey,
+                               LocalDateTime expireTime,
+                               Long totalAmount,
+                               List<OrderItemRequest> items,
+                               Map<Long, Long> priceMap) {
         // 本地事务包住订单和明细的插入
         Orders order = Orders.builder()
                 .orderNo(orderNo)
@@ -53,7 +54,7 @@ public class OrderTccServiceImpl implements OrderTccService {
                 .totalAmount(totalAmount)
                 .actualAmount(totalAmount)
                 .status(OrderStatusEnum.PENDING)
-                .expireTime(LocalDateTime.now().plusMinutes(30))
+                .expireTime(expireTime)
                 .build();
         ordersMapper.insert(order);
 
@@ -67,9 +68,9 @@ public class OrderTccServiceImpl implements OrderTccService {
         int row = orderItemsMapper.insertBatch(orderItems);
         if(row != items.size()){
             log.error("插入的数据与实际数据数目不一致");
-            return false;
+            throw new RuntimeException("插入的数据与实际数据数目不一致");
         }
-        return true;
+        return order.getId();
     }
 
     @Transactional(rollbackFor = Exception.class)

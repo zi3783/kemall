@@ -1,6 +1,6 @@
 package com.kemall.cart.listener;
 
-import com.kemall.cart.constant.CartMqConstant;
+import com.kemall.api.constant.CartMqConstant;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

@@ -4,6 +4,8 @@ package com.kemall.trade.service.impl;
 import com.kemall.api.dubbo.InventoryDubboService;
 import com.kemall.common.utils.UserContext;
 import com.kemall.trade.domain.dto.OrderItemRequest;
+import com.kemall.trade.domain.vo.OrderBrief;
+import com.kemall.trade.enums.OrderStatusEnum;
 import com.kemall.trade.enums.OrderTypeEnum;
 import com.kemall.trade.service.GlobalTransactionManageService;
 import com.kemall.trade.service.OrderTccService;
@@ -19,6 +21,7 @@ import org.apache.seata.tm.api.transaction.RollbackRule;
 import org.apache.seata.tm.api.transaction.TransactionInfo;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -44,9 +47,9 @@ public class GlobalTransactionManageServiceImpl implements GlobalTransactionMana
 
 
     @Override
-    public boolean deductStorageAndPlaceOrder(List<OrderItemRequest> cartItems, Map<Long, Long> priceMap, String idempotencyKey) throws Throwable {
+    public OrderBrief deductStorageAndPlaceOrder(List<OrderItemRequest> cartItems, Map<Long, Long> priceMap, String idempotencyKey) throws Throwable {
         try {
-            TEMPLATE.execute(new TransactionalExecutor() {
+            return (OrderBrief) TEMPLATE.execute(new TransactionalExecutor() {
                 //生成订单编号
                 @Override
                 public Object execute() throws Throwable {
@@ -81,19 +84,26 @@ public class GlobalTransactionManageServiceImpl implements GlobalTransactionMana
                     long totalAmount = cartItems.stream()
                             .mapToLong(item -> priceMap.get(item.getSkuId()) * item.getQuantity())
                             .sum();
-
-                    boolean b = orderTccService.tryCreateOrder(
+                    LocalDateTime expireTime = LocalDateTime.now().plusMinutes(30);
+                    Long orderId = orderTccService.tryCreateOrder(
                             orderNo,
                             UserContext.getUserId(),
                             idempotencyKey,
+                            expireTime,
                             totalAmount,
                             cartItems,
                             priceMap
                     );
-                    if(!b){
-                        throw new RuntimeException("插入数据数量异常");
-                    }
-                    return null;
+
+
+                    OrderBrief orderBrief = new OrderBrief();
+                    orderBrief.setOrderNo(orderNo);
+                    orderBrief.setId(orderId);
+                    orderBrief.setStatus(OrderStatusEnum.WAIT_PAY);
+                    orderBrief.setActualAmount(totalAmount);
+                    orderBrief.setExpireTime(expireTime);
+
+                    return orderBrief;
                 }
 
                 @Override
@@ -124,7 +134,6 @@ public class GlobalTransactionManageServiceImpl implements GlobalTransactionMana
             log.error("全局事务异常, name=createOrder, xid={}", RootContext.getXID(), e);
             throw e;
         }
-        return true;
     }
 
 }

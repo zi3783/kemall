@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kemall.common.annotation.RedissonLock;
 import com.kemall.common.utils.BeanUtil;
 import com.kemall.product.constants.RedisConstants;
-import com.kemall.product.domain.cache.SkuCache;
+import com.kemall.api.dto.SkuCache;
 import com.kemall.product.domain.po.ProductSku;
 import com.kemall.product.mapper.ProductSkuMapper;
 import lombok.RequiredArgsConstructor;
