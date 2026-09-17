@@ -42,3 +42,16 @@ seata:
       default_tx_group: default
     grouplist:
       default: ${ke.addr}:8091  # 直连宿主机 IP
+
+dubbo:
+  application:
+    name: account-service
+    qos-enable: false
+  registry:
+    address: nacos://${ke.addr}:8848
+  protocol:
+    name: dubbo
+  scan:
+    base-packages: com.kemall.account.service
+  consumer:
+    check: false

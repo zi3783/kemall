@@ -18,6 +18,7 @@
         <module>kemall-production</module>
         <module>kemall-inventory</module>
         <module>kemall-cart</module>
+        <module>kemall-pay</module>
 
     </modules>
 

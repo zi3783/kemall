@@ -1,0 +1,39 @@
+server:
+  port: 8087
+
+spring:
+  application:
+    name: pay-service
+  profiles:
+    default: local
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${ke.addr}:8848
+        ip: ${ke.ip}
+      config:
+        server-addr: ${ke.addr}:8848
+        file-extension: yaml
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${ke.addr}:3306/pay_db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: 123456
+
+  redis:
+    host: redis
+    port: 6379
+
+dubbo:
+  application:
+    name: pay-service
+    qos-enable: false
+  registry:
+    address: nacos://${ke.addr}:8848
+  protocol:
+    name: dubbo
+  scan:
+    base-packages: com.kemall.pay.service
+  consumer:
+    check: false

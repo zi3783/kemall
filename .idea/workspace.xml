@@ -4,27 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="66418244-2992-4fb7-bf9b-b6598ee56772" name="更改" comment="修改production模块bug，优化trade生成订单接口，未测试">
+    <list default="true" id="66418244-2992-4fb7-bf9b-b6598ee56772" name="更改" comment="修改生成订单扣减库存逻辑，原来是每件商品异步独立调用库存服务，独立注册tc分支，修改后改成批量商品一次调用库存服务，然后在库存服务异步注册tc分支，减小网络开销">
+      <change afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/service/impl/AccountDubboServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-api/src/main/java/com/kemall/api/dto/OrderDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-api/src/main/java/com/kemall/api/dubbo/AccountDubboService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-api/src/main/java/com/kemall/api/dubbo/OrderDubboService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-pay/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-pay/src/main/java/com/kemall/pay/PayApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-pay/src/main/resources/application-dev.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-pay/src/main/resources/application-local.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-pay/src/main/resources/application.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-trade/src/main/java/com/kemall/trade/service/impl/OrderDubboServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kemall-trade/src/test/java/com/kemall/trade/service/impl/OrderDubboServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-api/src/main/java/com/kemall/api/dubbo/InventoryDubboService.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-api/src/main/java/com/kemall/api/dubbo/InventoryDubboService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-api/target/classes/com/kemall/api/dubbo/InventoryDubboService.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-api/target/classes/com/kemall/api/dubbo/InventoryDubboService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-inventory/src/main/java/com/kemall/inventory/service/impl/InventoryTccServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-inventory/src/main/java/com/kemall/inventory/service/impl/InventoryTccServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-inventory/src/main/java/com/kemall/inventory/service/impl/dubbo/InventoryDubboServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-inventory/src/main/java/com/kemall/inventory/service/impl/dubbo/InventoryDubboServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-inventory/src/main/resources/application-local.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-inventory/src/main/resources/application-local.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-inventory/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-inventory/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-production/src/main/java/com/kemall/product/service/impl/ProductSkuServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-production/src/main/java/com/kemall/product/service/impl/ProductSkuServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-production/target/classes/com/kemall/product/service/impl/ProductSkuServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-production/target/classes/com/kemall/product/service/impl/ProductSkuServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-trade/src/main/java/com/kemall/trade/config/TccThreadPoolConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-inventory/src/main/java/com/kemall/inventory/config/TccDeductInventoryThreadPoolConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-trade/src/main/java/com/kemall/trade/service/impl/GlobalTransactionManageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-trade/src/main/java/com/kemall/trade/service/impl/GlobalTransactionManageServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-trade/src/main/java/com/kemall/trade/service/impl/OrderTccServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-trade/src/main/java/com/kemall/trade/service/impl/OrderTccServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/controller/WalletController.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/java/com/kemall/account/controller/WalletController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-account/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-account/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-trade/src/main/java/com/kemall/trade/mapper/OrdersMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-trade/src/main/java/com/kemall/trade/mapper/OrdersMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kemall-trade/src/main/java/com/kemall/trade/service/impl/OrdersServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-trade/src/main/java/com/kemall/trade/service/impl/OrdersServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-trade/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-trade/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-trade/target/classes/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-trade/target/classes/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-trade/target/classes/com/kemall/trade/config/TccThreadPoolConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/kemall-trade/target/classes/com/kemall/trade/mapper/OrdersMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-trade/target/classes/com/kemall/trade/mapper/OrdersMapper.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kemall-trade/target/classes/com/kemall/trade/service/impl/GlobalTransactionManageServiceImpl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-trade/target/classes/com/kemall/trade/service/impl/GlobalTransactionManageServiceImpl$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kemall-trade/target/classes/com/kemall/trade/service/impl/GlobalTransactionManageServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-trade/target/classes/com/kemall/trade/service/impl/GlobalTransactionManageServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-trade/target/classes/com/kemall/trade/service/impl/OrderTccServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-trade/target/classes/com/kemall/trade/service/impl/OrderTccServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kemall-trade/target/classes/com/kemall/trade/service/impl/OrdersServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/kemall-trade/target/classes/com/kemall/trade/service/impl/OrdersServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,10 +41,10 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="AnnotationType" />
-        <option value="JUnit5 Test Class" />
         <option value="Enum" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -72,61 +75,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0000017919975628" />
-      <entry key="MS500" value="1.0735567613330068" />
-      <entry key="S2" value="1.742978830705181" />
-      <entry key="S5" value="2.320038273878212" />
-      <entry key="S10" value="2.6194020517891294" />
-      <entry key="S30" value="2.8627155144290555" />
-      <entry key="S60" value="2.930227584125144" />
-      <entry key="M2" value="3.010612002171459" />
-      <entry key="M5" value="4.635440193008288" />
-      <entry key="M10" value="10.386431549706963" />
-      <entry key="M15" value="17.16547959745924" />
-      <entry key="M30" value="43.5523402364004" />
-      <entry key="H1" value="114.50594597266063" />
-      <entry key="H2" value="255.5625712303548" />
-      <entry key="H4" value="507.43538633807026" />
-      <entry key="D1" value="1573.286788905491" />
-      <entry key="W1" value="2118.9097183826707" />
+      <entry key="MS100" value="3.727821651045958E-51" />
+      <entry key="MS500" value="8.209014547082996E-11" />
+      <entry key="S2" value="0.0030100433920250426" />
+      <entry key="S5" value="0.09804600039048245" />
+      <entry key="S10" value="0.31358535383098957" />
+      <entry key="S30" value="0.8596599399853192" />
+      <entry key="S60" value="2.149980402992254" />
+      <entry key="M2" value="6.493840864535542" />
+      <entry key="M5" value="22.11992181549448" />
+      <entry key="M10" value="44.202458790393806" />
+      <entry key="M15" value="59.492981697534816" />
+      <entry key="M30" value="85.20039376181312" />
+      <entry key="H1" value="110.9302677370076" />
+      <entry key="H2" value="157.0462041693483" />
+      <entry key="H4" value="308.37260588913824" />
+      <entry key="D1" value="1485.9917471799445" />
+      <entry key="W1" value="2277.5482619205904" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="0.0" />
-      <entry key="S2" value="2.2732201978336247E-94" />
-      <entry key="S5" value="5.217408824695905E-38" />
-      <entry key="S10" value="3.2348265800672496E-19" />
-      <entry key="S30" value="1.2987872096404808E-6" />
-      <entry key="S60" value="0.0026019864314765547" />
-      <entry key="M2" value="0.1648572395470971" />
-      <entry key="M5" value="2.8130196735698507" />
-      <entry key="M10" value="9.235744029394972" />
-      <entry key="M15" value="15.380685569078253" />
-      <entry key="M30" value="35.5774257483016" />
-      <entry key="H1" value="87.82698769857795" />
-      <entry key="H2" value="187.9368114688398" />
-      <entry key="H4" value="349.2183382337426" />
-      <entry key="D1" value="912.3081774721273" />
-      <entry key="W1" value="1170.4272137408984" />
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.000126550787192" />
+      <entry key="S2" value="1.110418824505142" />
+      <entry key="S5" value="1.521252940349708" />
+      <entry key="S10" value="1.9755654530200457" />
+      <entry key="S30" value="2.56873868554879" />
+      <entry key="S60" value="3.0182712311468993" />
+      <entry key="M2" value="4.3355427940473446" />
+      <entry key="M5" value="9.097845994828912" />
+      <entry key="M10" value="16.07185462499043" />
+      <entry key="M15" value="20.899671501413152" />
+      <entry key="M30" value="29.07473995642207" />
+      <entry key="H1" value="38.0317070914158" />
+      <entry key="H2" value="60.84660554570785" />
+      <entry key="H4" value="151.4967229750175" />
+      <entry key="D1" value="798.9692773473122" />
+      <entry key="W1" value="1195.8360747570566" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.972656496660906" />
-      <entry key="MS500" value="1.0659560032639943" />
-      <entry key="S2" value="1.7370662940897283" />
-      <entry key="S5" value="2.3164873804047263" />
-      <entry key="S10" value="2.6173354919220144" />
-      <entry key="S30" value="2.8619509373833503" />
-      <entry key="S60" value="2.932378026893425" />
-      <entry key="M2" value="3.1725822700451998" />
-      <entry key="M5" value="7.4274999234701" />
-      <entry key="M10" value="19.588096570220014" />
-      <entry key="M15" value="32.50888978528771" />
-      <entry key="M30" value="79.08489092843251" />
-      <entry key="H1" value="202.27156223279545" />
-      <entry key="H2" value="443.4294712010866" />
-      <entry key="H4" value="856.5861196064226" />
-      <entry key="D1" value="2485.5639110648754" />
-      <entry key="W1" value="3289.3311801095656" />
+      <entry key="MS100" value="0.002919627438740113" />
+      <entry key="MS500" value="0.311244114623278" />
+      <entry key="S2" value="0.8238979432258123" />
+      <entry key="S5" value="1.4313209952690447" />
+      <entry key="S10" value="2.156131016005599" />
+      <entry key="S30" value="3.3585878131987075" />
+      <entry key="S60" value="5.097635307744167" />
+      <entry key="M2" value="10.74504957761769" />
+      <entry key="M5" value="31.123068646621284" />
+      <entry key="M10" value="60.183886910621915" />
+      <entry key="M15" value="80.3127453883954" />
+      <entry key="M30" value="114.21879773971216" />
+      <entry key="H1" value="148.92520548888356" />
+      <entry key="H2" value="217.86504440688302" />
+      <entry key="H4" value="459.83749630121207" />
+      <entry key="D1" value="2284.9334597088955" />
+      <entry key="W1" value="3473.3784091177436" />
     </decayedShown>
   </component>
   <component name="ProblemsViewState">
@@ -149,6 +152,7 @@
     "JUnit.CartMessageListenerTest.sendMessage.executor": "Run",
     "JUnit.InventoryDubboServiceImplTest.test.executor": "Run",
     "JUnit.MapStructTest.Main.executor": "Run",
+    "JUnit.OrderDubboServiceImplTest.test.executor": "Run",
     "JUnit.RedissonLockTest.testAnnotation.executor": "Run",
     "JUnit.Test.test.executor": "Run",
     "Maven.kemall [clean].executor": "Run",
@@ -174,6 +178,7 @@
     "Spring Boot.CartApplication.executor": "Run",
     "Spring Boot.GatewayApplication.executor": "Run",
     "Spring Boot.InventoryApplication.executor": "Run",
+    "Spring Boot.PayApplication.executor": "Run",
     "Spring Boot.ProductApplication.executor": "Run",
     "Spring Boot.TradeApplication.executor": "Run",
     "Spring Boot.UserApplication.executor": "Run",
@@ -183,7 +188,7 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/develop/code/kemall/kemall-cart/src/main/resources",
+    "last_opened_file_path": "D:/develop/code/kemall/kemall-pay/src/main/resources",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -210,11 +215,11 @@
       <recent name="com.kemall.account.service.impl" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\develop\code\kemall\kemall-pay\src\main\resources" />
       <recent name="D:\develop\code\kemall\kemall-cart\src\main\resources" />
       <recent name="D:\develop\code\kemall\db" />
       <recent name="D:\develop\code\kemall\kemall-inventory\src\main\resources" />
       <recent name="D:\develop\code\kemall\kemalll-product\src\main\resources" />
-      <recent name="D:\develop\code\kemall\kemall-trade\src\main\resources" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -223,6 +228,7 @@
       <recent name="com.kemall.trade" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.kemall.trade.service.impl" />
       <recent name="com.kemall.inventory.service.impl.dubbo" />
       <recent name="com.kemall.cart.listener" />
     </key>
@@ -249,8 +255,9 @@
               <entry key="CartApplication" value="STOPPED" />
               <entry key="GatewayApplication" value="STOPPED" />
               <entry key="InventoryApplication" value="STOPPED" />
+              <entry key="PayApplication" value="STOPPED" />
               <entry key="ProductApplication" value="STOPPED" />
-              <entry key="TradeApplication" value="FAILED" />
+              <entry key="TradeApplication" value="STOPPED" />
               <entry key="UserApplication" value="STOPPED" />
             </map>
           </value>
@@ -258,26 +265,7 @@
       </map>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.CartMessageListenerTest.sendMessage">
-    <configuration name="CartMessageListenerTest.sendMessage" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="kemall-cart" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.kemall.cart.listener.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.kemall.cart.listener" />
-      <option name="MAIN_CLASS_NAME" value="com.kemall.cart.listener.CartMessageListenerTest" />
-      <option name="METHOD_NAME" value="sendMessage" />
-      <option name="TEST_OBJECT" value="method" />
-      <envs>
-        <env name="SPRING_PROFILES_ACTIVE" value="local" />
-      </envs>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.OrderDubboServiceImplTest.test">
     <configuration name="InventoryDubboServiceImplTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="kemall-inventory" />
       <extension name="coverage">
@@ -304,10 +292,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Test.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="kemall-production" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="Test" />
+    <configuration name="OrderDubboServiceImplTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="kemall-trade" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.kemall.trade.service.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.kemall.trade.service.impl" />
+      <option name="MAIN_CLASS_NAME" value="com.kemall.trade.service.impl.OrderDubboServiceImplTest" />
       <option name="METHOD_NAME" value="test" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
@@ -367,6 +361,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="PayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UnknownPolicyInFreeMode" />
+      <module name="kemall-pay" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.kemall.pay.PayApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.kemall.pay.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ProductApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="ACTIVE_PROFILES" value="local" />
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UnknownPolicyInFreeMode" />
@@ -407,11 +415,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.OrderDubboServiceImplTest.test" />
+        <item itemvalue="Spring Boot.PayApplication" />
         <item itemvalue="Spring Boot.CartApplication" />
         <item itemvalue="JUnit.MapStructTest.Main" />
         <item itemvalue="JUnit.InventoryDubboServiceImplTest.test" />
-        <item itemvalue="JUnit.Test.test" />
-        <item itemvalue="JUnit.CartMessageListenerTest.sendMessage" />
       </list>
     </recent_temporary>
   </component>
@@ -607,7 +615,15 @@
       <option name="project" value="LOCAL" />
       <updated>1789551148603</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="修改生成订单扣减库存逻辑，原来是每件商品异步独立调用库存服务，独立注册tc分支，修改后改成批量商品一次调用库存服务，然后在库存服务异步注册tc分支，减小网络开销">
+      <option name="closed" value="true" />
+      <created>1789611686367</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1789611686367</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -644,7 +660,8 @@
     <MESSAGE value="添加库存冻结dubbo接口" />
     <MESSAGE value="完成下单功能，未测试" />
     <MESSAGE value="修改production模块bug，优化trade生成订单接口，未测试" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改production模块bug，优化trade生成订单接口，未测试" />
+    <MESSAGE value="修改生成订单扣减库存逻辑，原来是每件商品异步独立调用库存服务，独立注册tc分支，修改后改成批量商品一次调用库存服务，然后在库存服务异步注册tc分支，减小网络开销" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改生成订单扣减库存逻辑，原来是每件商品异步独立调用库存服务，独立注册tc分支，修改后改成批量商品一次调用库存服务，然后在库存服务异步注册tc分支，减小网络开销" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

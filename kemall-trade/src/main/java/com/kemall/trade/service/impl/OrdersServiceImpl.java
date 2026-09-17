@@ -67,7 +67,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         if(priceMap.size() != skuIds.size()){
             throw new BusinessException("有不存在或下架的商品被选中");
         }
-        //todo 计算金额 无
+        //todo 计算金额 暂时没有这个业务
         try {
             OrderBrief orderBrief = globalTransactionManageService.deductStorageAndPlaceOrder(cartItems, priceMap, request.getIdempotencyKey());
             //异步mq解耦调用清空购物车

@@ -16,16 +16,14 @@
           <entry name="$PROJECT_DIR$/../../../MavenRepo/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
           <entry name="$PROJECT_DIR$/../../../MavenRepo/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
           <entry name="$PROJECT_DIR$/../../../MavenRepo/org/mapstruct/mapstruct-processor/1.6.3/mapstruct-processor-1.6.3.jar" />
-          <entry name="$PROJECT_DIR$/../../../MavenRepo/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
-          <entry name="$PROJECT_DIR$/../../../MavenRepo/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
-          <entry name="$PROJECT_DIR$/../../../MavenRepo/org/mapstruct/mapstruct-processor/1.6.3/mapstruct-processor-1.6.3.jar" />
         </processorPath>
         <module name="kemall-production" />
         <module name="kemall-cart" />
-        <module name="kemall-user" />
         <module name="kemall-common" />
+        <module name="kemall-user" />
         <module name="kemall-api" />
         <module name="kemall-trade" />
+        <module name="kemall-pay" />
         <module name="kemall-account" />
         <module name="kemall-gateway" />
         <module name="kemall-inventory" />
@@ -45,6 +43,7 @@
       <module name="kemall-common" options="-parameters" />
       <module name="kemall-gateway" options="-parameters" />
       <module name="kemall-inventory" options="-parameters" />
+      <module name="kemall-pay" options="-parameters" />
       <module name="kemall-production" options="-parameters" />
       <module name="kemall-trade" options="-parameters" />
       <module name="kemall-user" options="-parameters" />

@@ -23,12 +23,12 @@ public class WalletController {
 
     private final IFreezeLogService freezeLogService;
 
-//    @PostMapping("/transactions")
-//    @Operation(summary = "交易相关接口")
-//    public Result<String> transactions(@RequestBody WalletDTO walletDTO) {
-//        walletService.transaction(walletDTO);
-//        return Result.success();
-//    }
+    @PostMapping("/transactions")
+    @Operation(summary = "交易相关接口")
+    public Result<String> transactions(@RequestBody WalletDTO walletDTO) {
+        walletService.transaction(walletDTO);
+        return Result.success();
+    }
 
     @GetMapping("/balance")
     @Operation(summary = "查询余额") //todo 有问题
