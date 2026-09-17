@@ -1,4 +1,4 @@
-package com.kemall.trade.config;
+package com.kemall.inventory.config;
 
 
 import org.springframework.context.annotation.Bean;
@@ -10,10 +10,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
-public class TccThreadPoolConfig {
+public class TccDeductInventoryThreadPoolConfig {
 
-    @Bean(name = "placeOrderThreadPool")
-    public ThreadPoolExecutor placeOrderThreadPool() {
+    @Bean(name = "tccDeductInventoryThreadPool")
+    public ThreadPoolExecutor tccDeductInventoryThreadPool() {
         int corePoolSize = Runtime.getRuntime().availableProcessors() * 2;
         return new ThreadPoolExecutor(
                 corePoolSize,

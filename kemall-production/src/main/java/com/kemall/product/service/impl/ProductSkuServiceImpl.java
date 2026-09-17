@@ -43,8 +43,8 @@ public class ProductSkuServiceImpl extends ServiceImpl<ProductSkuMapper, Product
     @Override
     public Map<Long, Long> getSkuPriceByIds(List<Long> skuIds) {
         //todo 只查了redis 没查mysql
-        List<String> skuIdsStr = skuIds.stream().map(Object::toString).toList();
-        List<String> skus = redisTemplate.opsForValue().multiGet(skuIdsStr);
+        List<String> skuKeys = skuIds.stream().map(skuId -> RedisConstants.PRODUCT_SKU_PREFIX + skuId).toList();
+        List<String> skus = redisTemplate.opsForValue().multiGet(skuKeys);
         Map<Long, Long> result = new HashMap<>();
         try {
             if (skus != null) {

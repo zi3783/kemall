@@ -41,7 +41,7 @@ public class OrderTccServiceImpl implements OrderTccService {
     @Override
     public Long tryCreateOrder(@BusinessActionContextParameter(paramName = "orderNo") String orderNo,
                                Long userId,
-                               String idempotencyKey,
+                               String idempotency,
                                LocalDateTime expireTime,
                                Long totalAmount,
                                List<OrderItemRequest> items,
@@ -50,7 +50,7 @@ public class OrderTccServiceImpl implements OrderTccService {
         Orders order = Orders.builder()
                 .orderNo(orderNo)
                 .userId(userId)
-                .idempotencyKey(idempotencyKey)
+                .idempotencyKey(idempotency)
                 .totalAmount(totalAmount)
                 .actualAmount(totalAmount)
                 .status(OrderStatusEnum.PENDING)

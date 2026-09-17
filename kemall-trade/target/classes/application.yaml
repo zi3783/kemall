@@ -24,6 +24,14 @@ spring:
   redis:
     host: redis
     port: 6379
+  rabbitmq:
+    host: ${ke.addr}
+    port: 5672
+    username: admin
+    password: 123456
+    virtual-host: /kemall
+    connection-timeout: 5s
+    publisher-confirm-type: correlated
 
 dubbo:
   application:

@@ -97,9 +97,9 @@ public class InventoryTccServiceImpl implements IInventoryTccService {
     public boolean rollbackFreeze(BusinessActionContext actionContext){
         //回滚逻辑
         //回滚inventory
-        Long skuId = (Long) actionContext.getActionContext().get("skuId");
-        Integer amount = (Integer) actionContext.getActionContext().get("amount");
-        String orderNo = (String) actionContext.getActionContext().get("orderNo");
+        Long skuId = getLongFromContext(actionContext, "skuId");
+        Integer amount = getIntFromContext(actionContext, "amount");
+        String orderNo = getStringFromContext(actionContext, "orderNo");
         LambdaQueryWrapper<Inventory> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Inventory::getSkuId, skuId);
         List<Inventory> list = inventoryMapper.selectList(wrapper);
@@ -128,37 +128,20 @@ public class InventoryTccServiceImpl implements IInventoryTccService {
         return true;
     }
 
+    private String getStringFromContext(BusinessActionContext actionContext, String orderNo) {
+        Object value = actionContext.getActionContext(orderNo);
+        return value == null ? null : value.toString();
+    }
 
+    private Integer getIntFromContext(BusinessActionContext actionContext, String amount) {
+        Object value = actionContext.getActionContext(amount);
+        return value == null ? null : Integer.valueOf(value.toString());
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    private Long getLongFromContext(BusinessActionContext context, String key) {
+        Object value = context.getActionContext(key);
+        return value == null ? null : Long.valueOf(value.toString());
+    }
 
 
 //

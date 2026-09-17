@@ -22,10 +22,7 @@ import org.apache.seata.tm.api.transaction.TransactionInfo;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -36,50 +33,30 @@ public class GlobalTransactionManageServiceImpl implements GlobalTransactionMana
 
     private static final TransactionalTemplate TEMPLATE = new TransactionalTemplate();
 
-    @DubboReference
+    @DubboReference(timeout = 5000)
     private final InventoryDubboService inventoryDubboService;
 
     private final OrderUtil orderUtil;
-
-    private final ThreadPoolExecutor placeOrderThreadPool;
 
     private final OrderTccService orderTccService;
 
 
     @Override
-    public OrderBrief deductStorageAndPlaceOrder(List<OrderItemRequest> cartItems, Map<Long, Long> priceMap, String idempotencyKey) throws Throwable {
+    public OrderBrief deductStorageAndPlaceOrder(List<OrderItemRequest> cartItems, Map<Long, Long> priceMap, String idempotency) throws Throwable {
         try {
             return (OrderBrief) TEMPLATE.execute(new TransactionalExecutor() {
                 //生成订单编号
                 @Override
                 public Object execute() throws Throwable {
                     String orderNo = orderUtil.generateOrderNo(OrderTypeEnum.OX);
-                    String xid = RootContext.getXID();
-                    List<CompletableFuture<Boolean>> futureList = cartItems.stream().map(item -> {
-                        Long skuId = item.getSkuId();
-                        Integer amount = item.getQuantity();
-                        return CompletableFuture.supplyAsync(() -> {
-                            if (xid == null) {
-                                throw new RuntimeException("全局事务 XID 为空，无法执行库存 TCC 调用");
-                            }
-                            RootContext.bind(xid);
-                            try {
-                                boolean result = inventoryDubboService.prepareDeductByTcc(skuId, amount, orderNo);
-                                if (!result) {
-                                    throw new RuntimeException("库存预扣失败, skuId=" + skuId);
-                                }
-                                return true;
-                            } finally {
-                                RootContext.unbind();
-                            }
-                        }, placeOrderThreadPool);
-                    }).toList();
 
-                    for (CompletableFuture<Boolean> future : futureList) {
-                        if(!future.get()){
-                            throw new RuntimeException("异步调用库存服务扣减库存异常");
-                        }
+                    List<Long> skuIds = new ArrayList<>();
+                    List<Integer> quantities = new ArrayList<>();
+                    for (OrderItemRequest cartItem : cartItems) {
+                        skuIds.add(cartItem.getSkuId());
+                        quantities.add(cartItem.getQuantity());
                     }
+                    inventoryDubboService.prepareBatchDeductByTcc(skuIds, quantities, orderNo);
 
                     long totalAmount = cartItems.stream()
                             .mapToLong(item -> priceMap.get(item.getSkuId()) * item.getQuantity())
@@ -88,7 +65,7 @@ public class GlobalTransactionManageServiceImpl implements GlobalTransactionMana
                     Long orderId = orderTccService.tryCreateOrder(
                             orderNo,
                             UserContext.getUserId(),
-                            idempotencyKey,
+                            idempotency,
                             expireTime,
                             totalAmount,
                             cartItems,
@@ -131,7 +108,9 @@ public class GlobalTransactionManageServiceImpl implements GlobalTransactionMana
                 }
             });
         } catch (TransactionalExecutor.ExecutionException e) {
-            log.error("全局事务异常, name=createOrder, xid={}", RootContext.getXID(), e);
+            Throwable originalException = e.getOriginalException();
+            log.error("全局事务异常, name=createOrder, xid={}: {}", RootContext.getXID(),
+                    originalException != null ? originalException : e);
             throw e;
         }
     }

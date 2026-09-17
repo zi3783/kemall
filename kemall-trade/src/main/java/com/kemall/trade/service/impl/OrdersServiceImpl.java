@@ -69,7 +69,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         }
         //todo 计算金额 无
         try {
-            OrderBrief orderBrief = globalTransactionManageService.deductStorageAndPlaceOrder(cartItems, priceMap, idempotencyKey);
+            OrderBrief orderBrief = globalTransactionManageService.deductStorageAndPlaceOrder(cartItems, priceMap, request.getIdempotencyKey());
             //异步mq解耦调用清空购物车
             rabbitTemplate.convertAndSend(
                     CartMqConstant.CLEAN_EXCHANGE_NAME,
