@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import com.kemall.pay.domain.enums.PaymentStatusEnum;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
  * <p>
@@ -19,7 +21,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
+@Builder
 @TableName("payment")
 public class Payment implements Serializable {
 
@@ -59,7 +61,7 @@ public class Payment implements Serializable {
     /**
      * 0-待支付 1-支付成功 2-支付失败 3-已关闭
      */
-    private Integer status;
+    private PaymentStatusEnum status;
 
     /**
      * 已退款金额（分）

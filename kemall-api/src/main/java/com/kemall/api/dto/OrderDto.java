@@ -1,11 +1,14 @@
 package com.kemall.api.dto;
 
+import lombok.Data;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @ToString
-public class OrderDto {
+@Data
+public class OrderDto implements Serializable {
     /**
      * 订单id
      */

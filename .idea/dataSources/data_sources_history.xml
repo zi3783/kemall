@@ -18,6 +18,7 @@
             <name qname="account_db" />
             <name qname="cart_db" />
             <name qname="inventory_db" />
+            <name qname="pay_db" />
             <name qname="product_db" />
             <name qname="trade_db" />
             <name qname="user_db" />

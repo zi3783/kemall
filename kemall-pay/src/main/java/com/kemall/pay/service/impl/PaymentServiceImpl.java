@@ -1,10 +1,15 @@
 package com.kemall.pay.service.impl;
 
+import com.kemall.api.dto.OrderDto;
 import com.kemall.api.dubbo.AccountDubboService;
+import com.kemall.api.dubbo.OrderDubboService;
+import com.kemall.common.exception.BusinessException;
+import com.kemall.pay.domain.enums.PaymentChannelEnum;
 import com.kemall.pay.domain.po.Payment;
 import com.kemall.pay.mapper.PaymentMapper;
 import com.kemall.pay.service.IPaymentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.kemall.pay.service.strategy.PaymentStrategy;
 import lombok.RequiredArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
@@ -24,22 +29,21 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentMapper, Payment> impl
     @DubboReference
     private final AccountDubboService accountDubboService;
 
-    private final
+    @DubboReference(timeout = 5000, check = false)
+    private final OrderDubboService orderDubboService;
 
+    private final PaymentStrategy  paymentStrategy;
+
+    //todo 支付接口未完成，仍有很多bug
     @Override
-    public void payment(Long orderNo, String channel, String requestId) {
+    public void payment(String orderNo, PaymentChannelEnum channel, String requestId) {
         //查询订单
-
+        OrderDto orderBrief = orderDubboService.queryOrderBrief(orderNo);
+        if(orderBrief == null) {
+            throw new BusinessException("为找到订单");
+        }
         //选择支付方式
-        //内部账户支付
-        //生成支付单插入数据库 （事务1）
-        //调用账户服务扣款
-        //（事务2开始）
-        //保存支付单
-        //保存确认扣减库存消息到本地消息队列
-        //保存修改订单状态到本地消息队列
-        //（事务2结束）
-        //完成支付
+        paymentStrategy.pay(orderBrief);
         //异步扫描消息队列使用mq发送消息
     }
 }

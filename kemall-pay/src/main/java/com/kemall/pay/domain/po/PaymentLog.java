@@ -5,9 +5,12 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import com.kemall.pay.domain.enums.PaymentLogChangeTypeEnum;
+import com.kemall.pay.domain.enums.PaymentStatusEnum;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
  * <p>
@@ -19,8 +22,8 @@ import lombok.experimental.Accessors;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @TableName("payment_log")
+@Builder
 public class PaymentLog implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,17 +57,17 @@ public class PaymentLog implements Serializable {
     /**
      * 1-发起支付 2-支付成功 3-支付失败 4-退款
      */
-    private Integer changeType;
+    private PaymentLogChangeTypeEnum changeType;
 
     /**
      * 变更前状态
      */
-    private Integer beforeStatus;
+    private PaymentStatusEnum beforeStatus;
 
     /**
      * 变更后状态
      */
-    private Integer afterStatus;
+    private PaymentStatusEnum afterStatus;
 
     /**
      * 备注

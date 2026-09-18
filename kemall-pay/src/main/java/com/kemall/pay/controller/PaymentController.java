@@ -2,6 +2,7 @@ package com.kemall.pay.controller;
 
 
 import com.kemall.common.utils.bean.result.Result;
+import com.kemall.pay.domain.enums.PaymentChannelEnum;
 import com.kemall.pay.service.IPaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,12 +28,11 @@ public class PaymentController {
 
     private final IPaymentService paymentService;
 
+    //todo 需要重新设计
     @GetMapping
     @Operation(summary = "发起支付")
-    public Result<String> payment(Long orderNo, String channel, String requestId){
-        paymentService.payment(orderNo, channel, requestId);
+    public Result<String> payment(String orderNo, String channelStr, String requestId){
+        paymentService.payment(orderNo, PaymentChannelEnum.fromString(channelStr), requestId);
         return Result.success();
     }
-
-
 }

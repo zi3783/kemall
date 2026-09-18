@@ -1,5 +1,6 @@
 package com.kemall.pay.service;
 
+import com.kemall.pay.domain.enums.PaymentChannelEnum;
 import com.kemall.pay.domain.po.Payment;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,5 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IPaymentService extends IService<Payment> {
 
-    void payment(Long orderNo, String channel, String requestId);
+    void payment(String orderNo, PaymentChannelEnum channel, String requestId);
 }

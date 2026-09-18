@@ -25,7 +25,7 @@ public class OrderUtil {
 
         String key = RedisConstant.ORDER_SEQUENCE_PREFIX + date;
 
-        Long seq = redisTemplate.opsForValue().increment(date);
+        Long seq = redisTemplate.opsForValue().increment(key);
         if(seq != null && seq == 1){
             redisTemplate.expire(key, 2, TimeUnit.DAYS);
         }
