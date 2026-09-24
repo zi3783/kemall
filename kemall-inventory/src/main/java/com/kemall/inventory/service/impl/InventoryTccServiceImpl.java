@@ -1,8 +1,8 @@
 package com.kemall.inventory.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.kemall.common.annotation.RedissonLock;
-import com.kemall.common.exception.BusinessException;
+import com.kemall.common.core.annotation.RedissonLock;
+import com.kemall.common.core.exception.BusinessException;
 import com.kemall.inventory.constant.RedisConstant;
 import com.kemall.inventory.domain.po.Inventory;
 import com.kemall.inventory.domain.po.InventoryLog;

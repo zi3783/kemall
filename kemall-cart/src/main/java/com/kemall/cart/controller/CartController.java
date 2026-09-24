@@ -2,8 +2,7 @@ package com.kemall.cart.controller;
 
 
 import com.kemall.cart.service.ICartService;
-import com.kemall.common.annotation.LoginRequire;
-import com.kemall.common.utils.bean.result.Result;
+import com.kemall.common.core.utils.bean.result.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +31,7 @@ public class CartController {
 
     @Operation(description = "新增商品到购物车")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Result<String> addToCart(Long productId,Long skuId, Integer quantity){
+    public Result<String> addToCart(Long productId, Long skuId, Integer quantity){
         cartService.addToCart(productId, skuId, quantity);
         return Result.success();
     }

@@ -4,8 +4,8 @@ import com.kemall.api.dto.OrderDto;
 import com.kemall.api.dto.WalletDTO;
 import com.kemall.api.dubbo.AccountDubboService;
 import com.kemall.api.enums.TransactionType;
-import com.kemall.common.exception.BusinessException;
-import com.kemall.common.utils.UserContext;
+import com.kemall.common.core.exception.BusinessException;
+import com.kemall.common.core.utils.UserContext;
 import com.kemall.pay.domain.model.PaymentContext;
 import com.kemall.pay.domain.po.Payment;
 import com.kemall.pay.domain.po.PaymentLog;
@@ -23,7 +23,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 @Slf4j
 public class InsidePay implements PaymentStrategy {
@@ -40,17 +40,16 @@ public class InsidePay implements PaymentStrategy {
     private final PaymentLogMapper paymentLogMapper;
 
     //todo 基本功能没完成，并发问题没处理
-    @Override
     public void pay(OrderDto order) {
         Long userId = UserContext.getUserId();
         String orderNo = order.getOrderNo();
         //内部账户支付
         //生成支付单插入数据库 （事务1）
-        Payment payment = Payment.builder().paymentNo(paymentUtil.generateOrderNo(PaymentChannelEnum.BALANCE))
+        Payment payment = Payment.builder().paymentNo(paymentUtil.generateOrderNo())
                 .orderNo(order.getOrderNo())
                 .userId(userId)
                 .amount(order.getActualAmount())
-                .channel(PaymentChannelEnum.BALANCE.getChannel())
+                .channel(PaymentChannelEnum.BALANCE)
                 .status(PaymentStatusEnum.PENDING)
                 .build();
         try {
@@ -70,7 +69,6 @@ public class InsidePay implements PaymentStrategy {
         try{
             accountDubboService.deductWallet(
                     WalletDTO.builder()
-                            .userId(userId)
                             .balance(order.getActualAmount())
                             .transactionType(TransactionType.CONSUME)
                             .paymentNo(payment.getPaymentNo())
@@ -121,6 +119,11 @@ public class InsidePay implements PaymentStrategy {
         });
         //（事务2结束）
         //完成支付
+    }
+
+    @Override
+    public void pay(String paymentNo) {
+
     }
 
     @Override

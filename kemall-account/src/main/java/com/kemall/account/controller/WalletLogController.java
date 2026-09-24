@@ -4,7 +4,7 @@ import com.kemall.account.domain.query.WalletLogPage;
 import com.kemall.account.domain.result.PageResult;
 import com.kemall.account.domain.vo.WalletLogVO;
 import com.kemall.account.service.IWalletLogService;
-import com.kemall.common.utils.bean.result.Result;
+import com.kemall.common.core.utils.bean.result.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

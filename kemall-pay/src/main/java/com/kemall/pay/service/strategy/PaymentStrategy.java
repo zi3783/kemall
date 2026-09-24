@@ -5,7 +5,7 @@ import com.kemall.pay.domain.enums.PaymentChannelEnum;
 
 public interface PaymentStrategy {
 
-    void pay(OrderDto order);
+    void pay(String paymentNo);
 
     PaymentChannelEnum getPaymentChannel();
 }

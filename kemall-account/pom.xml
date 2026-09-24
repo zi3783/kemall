@@ -50,9 +50,13 @@
         <!--common-->
         <dependency>
             <groupId>com.kemall</groupId>
-            <artifactId>kemall-common</artifactId>
+            <artifactId>common-core</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.kemall</groupId>
+            <artifactId>common-dubbo</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <!--knife4j-->
         <dependency>

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
+import com.kemall.pay.domain.enums.PaymentChannelEnum;
 import com.kemall.pay.domain.enums.PaymentStatusEnum;
 import lombok.Builder;
 import lombok.Data;
@@ -56,7 +57,7 @@ public class Payment implements Serializable {
     /**
      * 支付渠道 BALANCE-余额支付
      */
-    private String channel;
+    private PaymentChannelEnum channel;
 
     /**
      * 0-待支付 1-支付成功 2-支付失败 3-已关闭

@@ -11,7 +11,6 @@
     <modules>
         <module>kemall-gateway</module>
         <module>kemall-user</module>
-        <module>kemall-common</module>
         <module>kemall-account</module>
         <module>kemall-api</module>
         <module>kemall-trade</module>
@@ -19,7 +18,7 @@
         <module>kemall-inventory</module>
         <module>kemall-cart</module>
         <module>kemall-pay</module>
-
+        <module>kemall-common</module>
     </modules>
 
     <parent>

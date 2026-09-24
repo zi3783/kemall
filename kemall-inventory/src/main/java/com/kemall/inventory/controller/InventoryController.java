@@ -1,16 +1,11 @@
 package com.kemall.inventory.controller;
 
 
-import com.kemall.common.annotation.LoginRequire;
-import com.kemall.common.utils.bean.result.Result;
 import com.kemall.inventory.service.IInventoryService;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
 /**

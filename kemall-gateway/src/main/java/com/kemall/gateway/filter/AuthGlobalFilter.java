@@ -1,6 +1,6 @@
 package com.kemall.gateway.filter;
 
-import com.kemall.common.utils.JwtUtil;
+import com.kemall.common.core.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

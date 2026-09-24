@@ -1,7 +1,6 @@
 package com.kemall.account.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.kemall.common.annotation.RedissonLock;
 import com.kemall.account.constants.RedisConstant;
 import com.kemall.account.domain.po.FreezeLog;
 import com.kemall.account.domain.po.Wallet;
@@ -17,8 +16,9 @@ import com.kemall.account.service.IWalletService;
 import com.kemall.account.service.strategy.WalletTransactionFactory;
 import com.kemall.account.service.strategy.WalletTransactionStrategy;
 import com.kemall.api.dto.WalletDTO;
-import com.kemall.common.exception.BusinessException;
-import com.kemall.common.utils.UserContext;
+import com.kemall.common.core.annotation.RedissonLock;
+import com.kemall.common.core.exception.BusinessException;
+import com.kemall.common.core.utils.UserContext;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -61,13 +61,14 @@ public class WalletServiceImpl extends ServiceImpl<WalletMapper, Wallet> impleme
 
     @Override
     public void transaction(WalletDTO walletDTO) {
+        Long userId = UserContext.getUserId();
         //选择业务执行
         WalletTransactionStrategy execute = walletTransactionFactory.getTransactionStrategy(walletDTO.getTransactionType());
         Wallet account = execute.execute(walletDTO);
         //更新缓存
         Boolean isSuccess = redisTemplate.execute(
                 redisScript,
-                Collections.singletonList(RedisConstant.ACCOUNT_PREFIX + walletDTO.getUserId()),
+                Collections.singletonList(RedisConstant.ACCOUNT_PREFIX + userId),
                 account.getVersion().toString(),
                 account.getBalance().toString()
         );

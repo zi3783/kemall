@@ -15,4 +15,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IPaymentService extends IService<Payment> {
 
     void payment(String orderNo, PaymentChannelEnum channel, String requestId);
+
+    String createPayment(String orderNo);
+
+    void executeDeduct(String paymentNo, PaymentChannelEnum paymentChannelEnum);
 }

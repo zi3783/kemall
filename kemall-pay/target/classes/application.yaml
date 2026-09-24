@@ -27,14 +27,13 @@ spring:
 
 dubbo:
   application:
-    name: inventory-service
+    name: pay-service
     qos-enable: false
   registry:
     address: nacos://${ke.addr}:8848
   protocol:
     name: dubbo
-    port: ${ke.dubbo.port:20880}
   scan:
-    base-packages: com.kemall.inventory.service
+    base-packages: com.kemall.pay.service
   consumer:
     check: false

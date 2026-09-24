@@ -8,12 +8,9 @@ import com.kemall.account.domain.vo.WalletLogVO;
 import com.kemall.account.mapper.WalletLogMapper;
 import com.kemall.account.service.IWalletLogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.kemall.common.utils.UserContext;
-import org.springframework.beans.BeanUtils;
+import com.kemall.common.core.utils.UserContext;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>

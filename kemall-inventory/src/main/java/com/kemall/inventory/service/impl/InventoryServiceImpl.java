@@ -1,14 +1,12 @@
 package com.kemall.inventory.service.impl;
 
-import com.kemall.common.exception.BusinessException;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kemall.inventory.domain.po.Inventory;
 import com.kemall.inventory.mapper.InventoryMapper;
 import com.kemall.inventory.service.IInventoryService;
 import com.kemall.inventory.service.IInventoryTccService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.seata.spring.annotation.GlobalTransactional;
 import org.springframework.stereotype.Service;
 
 /**

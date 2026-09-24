@@ -11,7 +11,6 @@ import java.io.Serializable;
 @Getter
 @Builder
 public class WalletDTO implements Serializable {
-    private final Long userId;
     private final Long balance;
     private final TransactionType transactionType;
     private final String paymentNo;

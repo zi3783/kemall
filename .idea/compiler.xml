@@ -19,22 +19,27 @@
         </processorPath>
         <module name="kemall-production" />
         <module name="kemall-cart" />
-        <module name="kemall-common" />
         <module name="kemall-user" />
         <module name="kemall-api" />
+        <module name="common-dubbo" />
         <module name="kemall-trade" />
         <module name="kemall-pay" />
         <module name="kemall-account" />
         <module name="kemall-gateway" />
         <module name="kemall-inventory" />
+        <module name="common-core" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="com" target="17" />
       <module name="demo" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="com" options="-parameters" />
+      <module name="common-core" options="-parameters" />
+      <module name="common-dubbo" options="-parameters" />
       <module name="demo" options="-parameters" />
       <module name="kemall" options="-parameters" />
       <module name="kemall-account" options="-parameters" />

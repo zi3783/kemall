@@ -1,21 +1,19 @@
 package com.kemall.cart.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kemall.api.dubbo.ProductionDubboService;
-import com.kemall.api.result.Result;
 import com.kemall.api.constant.CartMqConstant;
+import com.kemall.api.dubbo.ProductionDubboService;
 import com.kemall.cart.constant.RedisConstant;
 import com.kemall.cart.domain.dto.CartDto;
 import com.kemall.cart.domain.dto.CartUpdateDTO;
 import com.kemall.cart.domain.dto.ProductionDTO;
 import com.kemall.cart.domain.po.Cart;
-import com.kemall.cart.exception.ProductionNotExistException;
 import com.kemall.cart.mapper.CartMapper;
 import com.kemall.cart.service.ICartService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.kemall.common.exception.BusinessException;
-import com.kemall.common.utils.UserContext;
+import com.kemall.common.core.exception.BusinessException;
+import com.kemall.common.core.utils.UserContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -25,8 +23,10 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**

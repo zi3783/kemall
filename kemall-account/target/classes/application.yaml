@@ -51,7 +51,7 @@ dubbo:
     address: nacos://${ke.addr}:8848
   protocol:
     name: dubbo
-    port: 20882
+    port: -1
   scan:
     base-packages: com.kemall.account.service
   consumer:

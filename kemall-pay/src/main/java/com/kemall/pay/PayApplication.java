@@ -28,5 +28,10 @@ public class PayApplication {
             log.error(e.getMessage());
         }
         System.out.println("==========> 应用启动完成，访问地址: http://" + ip + ":" + port);
+
+
+        System.out.println("SPI File: " +
+                Thread.currentThread().getContextClassLoader()
+                        .getResource("META-INF/dubbo/org.apache.dubbo.rpc.Filter"));
     }
 }

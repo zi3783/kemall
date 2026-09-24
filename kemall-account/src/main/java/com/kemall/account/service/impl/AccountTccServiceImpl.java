@@ -2,7 +2,6 @@ package com.kemall.account.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.kemall.common.annotation.RedissonLock;
 import com.kemall.account.domain.po.FreezeLog;
 import com.kemall.account.domain.po.Wallet;
 import com.kemall.account.domain.po.WalletLog;
@@ -13,7 +12,8 @@ import com.kemall.account.mapper.FreezeLogMapper;
 import com.kemall.account.mapper.WalletLogMapper;
 import com.kemall.account.mapper.WalletMapper;
 import com.kemall.account.service.IAccountTccService;
-import com.kemall.common.exception.BusinessException;
+import com.kemall.common.core.annotation.RedissonLock;
+import com.kemall.common.core.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.seata.rm.tcc.api.*;
@@ -63,10 +63,6 @@ public class AccountTccServiceImpl implements IAccountTccService {
         if (userId == null || amount == null || amount <= 0 || bizId == null || bizId.isBlank()) {
             throw new IllegalArgumentException("TCC冻结参数错误");
         }
-//        // 保存参数到上下文，供 commit/rollback 使用
-//        actionContext.getActionContext().put("userId", userId);
-//        actionContext.getActionContext().put("amount", amount);
-//        actionContext.getActionContext().put("bizId", bizId);
         //幂等/防悬挂检查
         FreezeLog freezeLog = getFreezeLog(bizId);
         if (freezeLog != null) {

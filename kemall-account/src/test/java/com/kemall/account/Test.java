@@ -1,7 +1,7 @@
 package com.kemall.account;
 
-import com.kemall.common.annotation.RedissonLock;
 import com.kemall.api.dto.WalletDTO;
+import com.kemall.common.core.annotation.RedissonLock;
 
 //@Component
 public class Test {

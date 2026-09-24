@@ -1,8 +1,5 @@
 package com.kemall.user.service.impl;
 
-import com.kemall.common.exception.BusinessException;
-import com.kemall.common.utils.JwtUtil;
-import com.kemall.common.utils.SnowflakeGenerator;
 import com.kemall.user.domain.po.User;
 import com.kemall.user.domain.dto.UserDTO;
 import com.kemall.user.enums.AccountStatusEnum;

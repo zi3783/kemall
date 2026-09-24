@@ -17,9 +17,9 @@ public class PaymentUtil {
 
     private final StringRedisTemplate redisTemplate;
 
-    public String generateOrderNo(PaymentChannelEnum channel) {
+    public String generateOrderNo() {
         String date = LocalDateTime.now().format(DATE_FMT);
-        String paymentNo = date + channel;
+        String paymentNo = date;
 
         String key = RedisConstant.PAYMENT_SEQUENCE_PREFIX + date;
 
