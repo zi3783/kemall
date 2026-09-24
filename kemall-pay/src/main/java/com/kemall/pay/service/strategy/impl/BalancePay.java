@@ -92,6 +92,7 @@ public class BalancePay implements PaymentStrategy {
                 paymentLogMapper.insert(log);
             });
 
+            //todo 这里开始
         }finally {
             lock.unlock();
         }
