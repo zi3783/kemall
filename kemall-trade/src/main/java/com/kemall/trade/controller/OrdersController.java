@@ -1,10 +1,9 @@
 package com.kemall.trade.controller;
 
 
-import com.kemall.common.utils.bean.result.Result;
+import com.kemall.common.core.utils.bean.result.Result;
 import com.kemall.trade.domain.dto.OrderRequest;
 import com.kemall.trade.domain.vo.OrderBrief;
-import com.kemall.trade.domain.vo.PlaceOrderResponse;
 import com.kemall.trade.service.IOrdersService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

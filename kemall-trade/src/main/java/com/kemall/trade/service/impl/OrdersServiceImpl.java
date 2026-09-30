@@ -1,16 +1,20 @@
 package com.kemall.trade.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kemall.api.constant.CartMqConstant;
+import com.kemall.api.dto.OrderNo;
 import com.kemall.api.dubbo.ProductionDubboService;
-import com.kemall.common.exception.BusinessException;
-import com.kemall.common.utils.UserContext;
-import com.kemall.common.utils.bean.result.Result;
+import com.kemall.common.core.exception.BusinessException;
+import com.kemall.common.core.utils.UserContext;
+import com.kemall.common.core.utils.bean.result.Result;
 import com.kemall.trade.constant.RedisConstant;
 import com.kemall.trade.domain.dto.OrderItemRequest;
 import com.kemall.trade.domain.dto.OrderRequest;
 import com.kemall.trade.domain.po.Orders;
 import com.kemall.trade.domain.vo.OrderBrief;
+import com.kemall.trade.enums.OrderStatusEnum;
 import com.kemall.trade.mapper.OrdersMapper;
 import com.kemall.trade.service.GlobalTransactionManageService;
 import com.kemall.trade.service.IOrdersService;
@@ -43,11 +47,13 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
     private final StringRedisTemplate redisTemplate;
 
     @DubboReference
-    private final ProductionDubboService productionDubboService;
+    private ProductionDubboService productionDubboService;
 
     private final GlobalTransactionManageService globalTransactionManageService;
 
     private final RabbitTemplate rabbitTemplate;
+
+    private final ObjectMapper objectMapper;
 
     @Override
     public Result<OrderBrief> placeOrder(OrderRequest request) {
@@ -81,6 +87,24 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
             return Result.success(orderBrief);
         } catch (Throwable e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void confirmOrderPayed(String json) {
+        OrderNo obj = null;
+        try {
+            obj = objectMapper.readValue(json, OrderNo.class);
+        } catch (JsonProcessingException e) {
+            log.error("json反序列化失败");
+            throw new RuntimeException(e);
+        }
+        String orderNo = obj.getOrderNo();
+        boolean b = lambdaUpdate().eq(Orders::getOrderNo, orderNo)
+                .set(Orders::getStatus, OrderStatusEnum.COMPLETED)
+                .update();
+        if(!b){
+            throw new BusinessException("业务错误");
         }
     }
 

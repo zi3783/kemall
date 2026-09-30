@@ -1,5 +1,6 @@
 package com.kemall.pay.config;
 
+import org.apache.seata.tm.api.TransactionalTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -18,5 +19,10 @@ public class TxConfig {
     @Bean
     public TransactionTemplate transactionTemplate(PlatformTransactionManager transactionManager) {
         return new TransactionTemplate(transactionManager);
+    }
+
+    @Bean
+    public TransactionalTemplate transactionalTemplate() {
+        return new TransactionalTemplate();
     }
 }

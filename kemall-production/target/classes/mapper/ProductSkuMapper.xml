@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kemall.product.mapper.ProductSkuMapper">
+
+    <select id="selectBySpuId" resultType="com.kemall.product.domain.po.ProductSku">
+        select *
+        from product_sku
+        where product_id = #{spuId}
+    </select>
+</mapper>

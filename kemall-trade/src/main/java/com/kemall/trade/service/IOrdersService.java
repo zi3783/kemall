@@ -1,6 +1,7 @@
 package com.kemall.trade.service;
 
-import com.kemall.common.utils.bean.result.Result;
+
+import com.kemall.common.core.utils.bean.result.Result;
 import com.kemall.trade.domain.dto.OrderRequest;
 import com.kemall.trade.domain.po.Orders;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -17,4 +18,6 @@ import com.kemall.trade.domain.vo.OrderBrief;
 public interface IOrdersService extends IService<Orders> {
 
     Result<OrderBrief> placeOrder(OrderRequest request);
+
+    void confirmOrderPayed(String json);
 }

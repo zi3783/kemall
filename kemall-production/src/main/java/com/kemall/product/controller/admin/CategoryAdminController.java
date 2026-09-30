@@ -1,7 +1,7 @@
 package com.kemall.product.controller.admin;
 
-import com.kemall.common.annotation.LoginRequire;
-import com.kemall.common.utils.bean.result.Result;
+import com.kemall.common.core.annotation.LoginRequire;
+import com.kemall.common.core.utils.bean.result.Result;
 import com.kemall.product.domain.dto.CategoryDTO;
 import com.kemall.product.service.ICategoryService;
 import io.swagger.v3.oas.annotations.Operation;

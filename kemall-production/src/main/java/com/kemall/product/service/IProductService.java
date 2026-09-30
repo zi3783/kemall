@@ -1,7 +1,7 @@
 package com.kemall.product.service;
 
-import com.kemall.common.utils.bean.result.PageResult;
-import com.kemall.common.utils.bean.result.Result;
+import com.kemall.common.core.utils.bean.result.PageResult;
+import com.kemall.common.core.utils.bean.result.Result;
 import com.kemall.product.domain.po.Product;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kemall.product.domain.query.ProductCreateReq;

@@ -16,6 +16,7 @@ import com.kemall.pay.mapper.PaymentMapper;
 import com.kemall.pay.service.IPaymentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kemall.pay.service.strategy.PaymentStrategy;
+import com.kemall.pay.service.strategy.factory.PaymentStrategyFactory;
 import com.kemall.pay.util.PaymentUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -43,13 +44,13 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentMapper, Payment> impl
     @DubboReference(timeout = 5000, check = false)
     private OrderDubboService orderDubboService;
 
-    private final PaymentStrategy  paymentStrategy;
-
     private final PaymentUtil paymentUtil;
 
     private final RedissonClient redissonClient;
 
     private final PaymentLogMapper paymentLogMapper;
+
+    private final PaymentStrategyFactory paymentStrategyFactory;
 
     //todo 支付接口未完成，仍有很多bug
     @Override
@@ -101,6 +102,7 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentMapper, Payment> impl
                         .userId(userId)
                         .amount(orderBrief.getActualAmount())
                         .changeType(PaymentLogChangeTypeEnum.INITIATED)
+                        .beforeStatus(PaymentStatusEnum.PENDING)
                         .afterStatus(PaymentStatusEnum.PENDING).build();
                 save(payment);
                 paymentLogMapper.insert(log);
@@ -116,5 +118,7 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentMapper, Payment> impl
     @Override
     public void executeDeduct(String paymentNo, PaymentChannelEnum paymentChannelEnum) {
         //选择支付渠道
+        PaymentStrategy strategy = paymentStrategyFactory.getStrategy(paymentChannelEnum);
+        strategy.pay(paymentNo);
     }
 }

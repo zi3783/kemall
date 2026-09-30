@@ -6,7 +6,7 @@ import com.kemall.product.domain.po.Product;
 import lombok.Data;
 
 @Data
-public class ProductQuery extends com.kemall.common.utils.bean.query.Page {
+public class ProductQuery extends com.kemall.common.core.utils.bean.query.Page {
     private Long categoryId;
     private Long brandId;
 

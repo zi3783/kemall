@@ -1,18 +1,15 @@
 package com.kemall.product.controller;
 
 
-import com.kemall.api.dto.SpuCache;
-import com.kemall.common.annotation.LoginRequire;
-import com.kemall.common.utils.bean.result.PageResult;
-import com.kemall.common.utils.bean.result.Result;
+import com.kemall.common.core.annotation.LoginRequire;
+import com.kemall.common.core.utils.bean.result.PageResult;
+import com.kemall.common.core.utils.bean.result.Result;
 import com.kemall.product.domain.query.ProductQuery;
 import com.kemall.product.domain.vo.ProductIntro;
-import com.kemall.product.domain.vo.ProductVO;
 import com.kemall.product.domain.vo.SpuVo;
 import com.kemall.product.service.IProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

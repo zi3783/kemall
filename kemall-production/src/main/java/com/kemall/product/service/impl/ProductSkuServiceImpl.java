@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kemall.api.dto.SkuCache;
-import com.kemall.common.exception.BusinessException;
+import com.kemall.common.core.exception.BusinessException;
 import com.kemall.product.constants.RedisConstants;
 import com.kemall.product.convert.SkuCacheConvert;
 import com.kemall.product.convert.SkuConvert;

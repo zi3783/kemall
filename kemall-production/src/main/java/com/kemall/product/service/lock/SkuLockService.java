@@ -2,8 +2,8 @@ package com.kemall.product.service.lock;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kemall.common.annotation.RedissonLock;
-import com.kemall.common.utils.BeanUtil;
+import com.kemall.common.core.annotation.RedissonLock;
+import com.kemall.common.core.utils.BeanUtil;
 import com.kemall.product.constants.RedisConstants;
 import com.kemall.api.dto.SkuCache;
 import com.kemall.product.domain.po.ProductSku;

@@ -1,7 +1,7 @@
 package com.kemall.product.controller;
 
 
-import com.kemall.common.utils.bean.result.Result;
+import com.kemall.common.core.utils.bean.result.Result;
 import com.kemall.product.domain.vo.SkuVo;
 import com.kemall.product.service.IProductSkuService;
 import io.swagger.v3.oas.annotations.Operation;

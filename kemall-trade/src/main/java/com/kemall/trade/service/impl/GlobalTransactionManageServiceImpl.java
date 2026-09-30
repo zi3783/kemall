@@ -2,7 +2,7 @@ package com.kemall.trade.service.impl;
 
 
 import com.kemall.api.dubbo.InventoryDubboService;
-import com.kemall.common.utils.UserContext;
+import com.kemall.common.core.utils.UserContext;
 import com.kemall.trade.domain.dto.OrderItemRequest;
 import com.kemall.trade.domain.vo.OrderBrief;
 import com.kemall.trade.enums.OrderStatusEnum;
@@ -23,8 +23,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ThreadPoolExecutor;
 
 @Service
 @RequiredArgsConstructor

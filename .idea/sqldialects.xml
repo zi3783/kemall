@@ -3,6 +3,7 @@
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/db/account_db.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/db/inventory_db.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/db/pay_db.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/db/product_db.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/db/trade_db.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/db/user_db.sql" dialect="GenericSQL" />

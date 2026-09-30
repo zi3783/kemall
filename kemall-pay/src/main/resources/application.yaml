@@ -37,3 +37,21 @@ dubbo:
     base-packages: com.kemall.pay.service
   consumer:
     check: false
+
+seata:
+  enabled: true
+  application-id: pay-service
+  tx-service-group: default_tx_group
+
+  # 不使用 Nacos 服务发现
+  registry:
+    type: file
+
+  config:
+    type: file
+
+  service:
+    vgroup-mapping:
+      default_tx_group: default
+    grouplist:
+      default: ${ke.addr}:8091  # 直连宿主机 IP
