@@ -39,7 +39,7 @@ public class InsidePay implements PaymentStrategy {
 
     private final PaymentLogMapper paymentLogMapper;
 
-    //todo 基本功能没完成，并发问题没处理
+    // 基本功能没完成，并发问题没处理  //已处理
     public void pay(OrderDto order) {
         Long userId = UserContext.getUserId();
         String orderNo = order.getOrderNo();
@@ -113,7 +113,6 @@ public class InsidePay implements PaymentStrategy {
                             .remark("")
                             .build()
             );
-            //todo 基本功能没完成！！！
             //保存确认扣减库存消息到本地消息队列
             //保存修改订单状态到本地消息队列
         });

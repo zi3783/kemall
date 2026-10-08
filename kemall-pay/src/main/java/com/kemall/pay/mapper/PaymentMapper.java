@@ -21,4 +21,7 @@ public interface PaymentMapper extends BaseMapper<Payment> {
 
     @Update("update payment set status = #{status} where status = 0 and id = #{id}")
     int updateStatus(Long id, int status);
+
+    @Select("select * from payment where payment_no = #{paymentNo}")
+    Payment selectByPaymentNo(String paymentNo);
 }

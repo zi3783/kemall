@@ -37,7 +37,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         //取出token
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
-        //todo 白名单放行
+        // 白名单放行
         String path = request.getURI().getPath();
         if(WHITE_LIST.contains(path)){
             log.info("白名单放行");

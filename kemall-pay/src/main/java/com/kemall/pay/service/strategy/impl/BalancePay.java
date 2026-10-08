@@ -121,11 +121,17 @@ public class BalancePay implements PaymentStrategy {
                                         .transactionType(TransactionType.CONSUME)
                                         .paymentNo(paymentNo)
                                         .build()
-
                         );
                         //写入数据库
                         transactionTemplate.executeWithoutResult(status -> {
-                            paymentMapper.update(updateWrapper);
+                            int row = paymentMapper.update(updateWrapper);
+                            if(row == 0) {
+                                Payment latest = paymentMapper.selectByPaymentNo(paymentNo);
+                                if (latest.getStatus() == PaymentStatusEnum.SUCCESS) {
+                                    return;  // 幂等
+                                }
+                                throw new BusinessException("支付状态冲突");
+                            }
                             paymentLogMapper.insert(logger);
                             //保存更改订单状态的消息到本地消息表
                             localMessageMapper.insert(localMessage);

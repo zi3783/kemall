@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 public enum LocalMessageStatusEnum {
     PENDING(0, "待投递"),
     SENT(1, "已投递"),
-    DEAD(2, "死信");
+    FAIL(2, "失败");
 
     @EnumValue
     private final Integer code;

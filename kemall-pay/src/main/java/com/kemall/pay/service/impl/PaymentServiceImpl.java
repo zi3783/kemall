@@ -52,7 +52,7 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentMapper, Payment> impl
 
     private final PaymentStrategyFactory paymentStrategyFactory;
 
-    //todo 支付接口未完成，仍有很多bug
+    // 支付接口未完成，仍有很多bug 已处理
     @Override
     public void payment(String orderNo, PaymentChannelEnum channel, String requestId) {
         //查询订单

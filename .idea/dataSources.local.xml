@@ -20,6 +20,7 @@
             <name qname="product_db" />
             <name qname="trade_db" />
             <name qname="user_db" />
+            <name qname="xxl_job" />
           </node>
         </introspection-scope>
       </schema-mapping>

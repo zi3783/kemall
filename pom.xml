@@ -46,6 +46,7 @@
         <dubbo.version>3.2.7</dubbo.version>
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+        <xxl-job.version>3.1.1</xxl-job.version>
     </properties>
 
     <dependencyManagement>
@@ -155,10 +156,17 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!--mapstruct-->
             <dependency>
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct</artifactId>
                 <version>${org.mapstruct.version}</version>
+            </dependency>
+            <!--xxl-job-->
+            <dependency>
+                <groupId>com.xuxueli</groupId>
+                <artifactId>xxl-job-core</artifactId>
+                <version>${xxl-job.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

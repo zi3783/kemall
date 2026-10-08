@@ -27,14 +27,6 @@ public class PaymentController {
 
     private final IPaymentService paymentService;
 
-//    //todo 需要重新设计
-//    @GetMapping
-//    @Operation(summary = "发起支付")
-//    public Result<String> payment(String orderNo, String channelStr, String requestId){
-//        paymentService.payment(orderNo, PaymentChannelEnum.fromString(channelStr),requestId);
-//        return Result.success();
-//    }
-
     @GetMapping("/create")
     @Operation(summary = "生成支付单")
     public Result<String> createPayment(String orderNo){

@@ -3,6 +3,8 @@ package com.kemall.pay.mapper;
 import com.kemall.pay.domain.po.LocalMessage;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * <p>
  * 本地消息表 Mapper 接口
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface LocalMessageMapper extends BaseMapper<LocalMessage> {
 
+    int batchUpdateStatusBymMsgIds(List<String> list);
 }
