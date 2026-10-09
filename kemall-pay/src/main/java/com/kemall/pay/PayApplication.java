@@ -6,12 +6,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.net.InetAddress;
 
 @Slf4j
 @SpringBootApplication
 @MapperScan("com.kemall.pay.mapper")
+@EnableScheduling
 public class PayApplication {
 
     public static void main(String[] args) {

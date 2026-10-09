@@ -28,6 +28,7 @@ public class AckBatchUpdate {
         if(message == null){
             throw  new NullPointerException("message is null");
         }
+        log.debug("messageId:"+message);
         queue.add(message);
         if(queue.size() > QUEUE_ALERT_THRESHOLD){
             log.warn("聚合队列积压{}",queue.size());

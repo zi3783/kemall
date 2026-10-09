@@ -6,5 +6,5 @@ ke:
 
 logging:
   level:
-    root: INFO                      # 根日志级别 INFO
-    com.kemall.inventory: DEBUG
+    root: info                      # 根日志级别 INFO
+    com.kemall.pay: DEBUG

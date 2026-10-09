@@ -20,6 +20,7 @@ public class RabbitConfig {
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
+
             if (correlationData == null) {
                 log.error("correlationData is null");
                 throw new RuntimeException("correlationData is null");
@@ -29,7 +30,6 @@ public class RabbitConfig {
                 return ;
             }
             ackBatchUpdate.add(correlationData.getId());
-
         });
         return rabbitTemplate;
     }

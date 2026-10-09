@@ -15,9 +15,4 @@ public class LocalMessageSendJobHandler {
     public void sendMessage() {
         localMessageService.sendMessage();
     }
-
-    @XxlJob("111111111")
-    public void test(){
-        System.out.println("111111111");
-    }
 }
