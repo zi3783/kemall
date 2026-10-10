@@ -9,4 +9,12 @@
         </foreach>
         and status = 0
     </update>
+    <update id="batchUpdateNextRetryTimeByIds">
+        update local_message
+        set next_retry_time = #{time}, retry_count = retry_count + 1
+        where id in
+        <foreach collection="list" item="msg" close=")" open="(" separator=",">
+            #{msg.id}
+        </foreach>
+    </update>
 </mapper>

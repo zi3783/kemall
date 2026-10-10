@@ -15,4 +15,10 @@
         SELECT id FROM orders WHERE order_no = #{orderNo}
         )
     </delete>
+    <select id="selectByOrderNo" resultType="java.util.Map">
+        select oi.sku_id sku_id, oi.product_quantity product_quantity, #{orderNo} order_no
+        from order_items oi
+        join orders os on oi.order_id = os.id
+        where os.order_no = #{orderNo}
+    </select>
 </mapper>

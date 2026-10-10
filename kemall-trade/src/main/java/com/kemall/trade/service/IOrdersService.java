@@ -20,4 +20,6 @@ public interface IOrdersService extends IService<Orders> {
     Result<OrderBrief> placeOrder(OrderRequest request);
 
     void confirmOrderPayed(String json);
+
+    void cancelOrder(String orderNo);
 }

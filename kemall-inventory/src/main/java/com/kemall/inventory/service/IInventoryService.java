@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2026-08-26
  */
 public interface IInventoryService extends IService<Inventory> {
+    boolean releaseInventory(String json);
 
 //    /**
 //     * TCC全局事务扣减库存入口：Try 阶段锁定库存，全局提交后由 TC 调用确认扣减

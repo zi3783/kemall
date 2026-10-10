@@ -3,28 +3,31 @@ package com.kemall.trade.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kemall.api.constant.CartMqConstant;
+import com.kemall.api.constant.InventoryMqConstant;
 import com.kemall.api.dto.OrderNo;
 import com.kemall.api.dubbo.ProductionDubboService;
 import com.kemall.common.core.exception.BusinessException;
-import com.kemall.common.core.utils.UserContext;
 import com.kemall.common.core.utils.bean.result.Result;
 import com.kemall.trade.constant.RedisConstant;
 import com.kemall.trade.domain.dto.OrderItemRequest;
 import com.kemall.trade.domain.dto.OrderRequest;
+import com.kemall.trade.domain.enums.LocalMessageStatusEnum;
+import com.kemall.trade.domain.po.LocalMessage;
 import com.kemall.trade.domain.po.Orders;
 import com.kemall.trade.domain.vo.OrderBrief;
 import com.kemall.trade.enums.OrderStatusEnum;
+import com.kemall.trade.mapper.LocalMessageMapper;
+import com.kemall.trade.mapper.OrderItemsMapper;
 import com.kemall.trade.mapper.OrdersMapper;
 import com.kemall.trade.service.GlobalTransactionManageService;
 import com.kemall.trade.service.IOrdersService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -55,6 +58,10 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
 
     private final ObjectMapper objectMapper;
 
+    private final LocalMessageMapper localMessageMapper;
+
+    private final OrderItemsMapper orderItemsMapper;
+
     @Override
     public Result<OrderBrief> placeOrder(OrderRequest request) {
         //校验幂等
@@ -76,13 +83,6 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         //todo 计算金额 暂时没有这个业务
         try {
             OrderBrief orderBrief = globalTransactionManageService.deductStorageAndPlaceOrder(cartItems, priceMap, request.getIdempotencyKey());
-            //异步mq解耦调用清空购物车
-            rabbitTemplate.convertAndSend(
-                    CartMqConstant.CLEAN_EXCHANGE_NAME,
-                    CartMqConstant.ROUTING_KEY_CLEAN,
-                    UserContext.getUserId(),
-                    new CorrelationData(UUID.randomUUID().toString())
-            );
             //返回结果
             return Result.success(orderBrief);
         } catch (Throwable e) {
@@ -101,11 +101,41 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         }
         String orderNo = obj.getOrderNo();
         boolean b = lambdaUpdate().eq(Orders::getOrderNo, orderNo)
-                .set(Orders::getStatus, OrderStatusEnum.COMPLETED)
+                .set(Orders::getStatus, OrderStatusEnum.WAIT_SHIP)
                 .update();
         if(!b){
             throw new BusinessException("业务错误");
         }
     }
 
+    @Override
+    @Transactional
+    public void cancelOrder(String orderNo) {
+        //修改订单状态
+        boolean sc = lambdaUpdate().eq(Orders::getOrderNo, orderNo)
+                .eq(Orders::getStatus, OrderStatusEnum.WAIT_PAY)
+                .set(Orders::getStatus, OrderStatusEnum.CANCELED)
+                .update();
+        if(!sc){
+            log.warn("修改订单状态失败了，{}", orderNo);
+            throw new BusinessException("修改订单状态失败了");
+        }
+        //查找所有的订单项
+        List<Map<String, Object>> items = orderItemsMapper.selectByOrderNo(orderNo);
+
+        try {
+            String json = objectMapper.writeValueAsString(items);
+            //将释放库存的消息保存到数据库
+            LocalMessage localMessage = LocalMessage.builder()
+                    .messageId(UUID.randomUUID().toString())
+                    .exchange(InventoryMqConstant.INVENTORY_DEDUCT_EXCHANGE)
+                    .routingKey(InventoryMqConstant.INVENTORY_DEDUCT_ROUTING_KEY)
+                    .status(LocalMessageStatusEnum.PENDING)
+                    .payload(json)
+                    .build();
+            localMessageMapper.insert(localMessage);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("toJson is fail");
+        }
+    }
 }

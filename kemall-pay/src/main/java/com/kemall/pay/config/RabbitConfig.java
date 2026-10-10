@@ -15,7 +15,6 @@ public class RabbitConfig {
 
     private final AckBatchUpdate ackBatchUpdate;
 
-
     @Bean
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);

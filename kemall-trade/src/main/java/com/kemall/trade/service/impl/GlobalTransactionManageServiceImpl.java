@@ -3,10 +3,14 @@ package com.kemall.trade.service.impl;
 
 import com.kemall.api.dubbo.InventoryDubboService;
 import com.kemall.common.core.utils.UserContext;
+import com.kemall.trade.constant.RabbitMQConstants;
 import com.kemall.trade.domain.dto.OrderItemRequest;
+import com.kemall.trade.domain.enums.LocalMessageStatusEnum;
+import com.kemall.trade.domain.po.LocalMessage;
 import com.kemall.trade.domain.vo.OrderBrief;
 import com.kemall.trade.enums.OrderStatusEnum;
 import com.kemall.trade.enums.OrderTypeEnum;
+import com.kemall.trade.mapper.LocalMessageMapper;
 import com.kemall.trade.service.GlobalTransactionManageService;
 import com.kemall.trade.service.OrderTccService;
 import com.kemall.trade.util.OrderUtil;
@@ -37,6 +41,8 @@ public class GlobalTransactionManageServiceImpl implements GlobalTransactionMana
     private final OrderUtil orderUtil;
 
     private final OrderTccService orderTccService;
+
+    private final LocalMessageMapper localMessageMapper;
 
 
     @Override
@@ -70,6 +76,14 @@ public class GlobalTransactionManageServiceImpl implements GlobalTransactionMana
                             priceMap
                     );
 
+                    LocalMessage localMessage = LocalMessage.builder()
+                            .messageId(UUID.randomUUID().toString())
+                            .exchange(RabbitMQConstants.ORDER_DELAY_EXCHANGE)
+                            .routingKey(RabbitMQConstants.ORDER_DELAY_ROUTING_KEY)
+                            .status(LocalMessageStatusEnum.PENDING)
+                            .payload(orderNo)
+                            .build();
+                    localMessageMapper.insert(localMessage);
 
                     OrderBrief orderBrief = new OrderBrief();
                     orderBrief.setOrderNo(orderNo);

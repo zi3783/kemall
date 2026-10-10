@@ -23,7 +23,6 @@ import lombok.experimental.Accessors;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-//@Accessors(chain = true)
 @TableName("inventory_log")
 @Builder
 public class InventoryLog implements Serializable {

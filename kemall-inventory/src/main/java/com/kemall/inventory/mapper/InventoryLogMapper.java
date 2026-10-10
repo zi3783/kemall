@@ -20,4 +20,6 @@ public interface InventoryLogMapper extends BaseMapper<InventoryLog> {
      * TCC 状态 CAS：change_type 从 oldType 变为 newType，保证 Confirm/Cancel 只生效一次
      */
     Integer updateChangeType(@Param("newType") Integer newType, @Param("oldType") Integer oldType, @Param("id") Long id);
+
+    boolean orderNoReleaseIsExist(String orderNo);
 }

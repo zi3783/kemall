@@ -148,7 +148,7 @@ public class BalancePay implements PaymentStrategy {
                     }
                 });
             } catch (Throwable e) {
-                log.error("全局事务系统错误");
+                log.error("全局事务系统错误, paymentNo={}", paymentNo, e);
                 throw new RuntimeException(e);
             }
         } catch (JsonProcessingException e) {

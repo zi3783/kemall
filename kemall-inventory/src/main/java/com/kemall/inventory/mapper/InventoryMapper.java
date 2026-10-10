@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 库存表 Mapper 接口
@@ -34,4 +37,6 @@ public interface InventoryMapper extends BaseMapper<Inventory> {
     int freezeInventory(Long skuId, Integer amount, Integer version);
 
     int rollbackFreezeInventory(Long skuId, Integer amount, Integer version);
+
+    void releaseInventory(@Param("list") List<Map<String, Object>> list);
 }

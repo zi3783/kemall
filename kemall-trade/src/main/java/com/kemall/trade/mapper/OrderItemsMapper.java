@@ -2,9 +2,9 @@ package com.kemall.trade.mapper;
 
 import com.kemall.trade.domain.po.OrderItems;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -19,4 +19,6 @@ public interface OrderItemsMapper extends BaseMapper<OrderItems> {
     int insertBatch(List<OrderItems> items);
 
     void deleteByOrderNo(String orderNo);
+
+    List<Map<String, Object>> selectByOrderNo(String orderNo);
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kemall.trade.mapper.LocalMessageMapper">
+
+
+    <update id="batchUpdateNextRetryTimeByIds">
+        update local_message
+        set next_retry_time = #{time}, retry_count = retry_count + 1
+        where id in
+        <foreach collection="list" item="msg" close=")" open="(" separator=",">
+            #{msg.id}
+        </foreach>
+    </update>
+
+    <update id="batchUpdateStatusBymMsgIds">
+        update local_message set status = 1 where message_id in
+        <foreach collection="list" item="msgId" separator="," open="(" close=")">
+            #{msgId}
+        </foreach>
+        and status = 0
+    </update>
+</mapper>

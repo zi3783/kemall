@@ -26,16 +26,25 @@ import java.util.List;
 public class LocalMessageServiceImpl extends ServiceImpl<LocalMessageMapper, LocalMessage> implements ILocalMessageService {
 
     private final RabbitTemplate rabbitTemplate;
+    private final LocalMessageMapper localMessageMapper;
 
     @Override
     public void sendMessage() {
         //先查出
+        LocalDateTime now = LocalDateTime.now();
         List<LocalMessage> list = lambdaQuery()
                 .eq(LocalMessage::getStatus, LocalMessageStatusEnum.PENDING)
                 .apply("retry_count < max_retry")
-                .lt(LocalMessage::getNextRetryTime, LocalDateTime.now())
+                .lt(LocalMessage::getNextRetryTime, now)
                 .last("limit 100")
                 .list();
+        if(list.isEmpty()){
+            return;
+        }
+
+        LocalDateTime time = now.plusSeconds(30);
+        list.forEach(localMessage -> {localMessage.setNextRetryTime(time);});
+        localMessageMapper.batchUpdateNextRetryTimeByIds(list, time);
 
         for(LocalMessage localMessage : list){
             CorrelationData correlationData = new CorrelationData(localMessage.getMessageId());

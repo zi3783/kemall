@@ -46,4 +46,19 @@
         where version = #{version}
             and sku_id = #{skuId}
     </update>
+    <update id="releaseInventory">
+        update inventory
+        set available_quantity = available_quantity +
+        <foreach collection="list" open="case sku_id" close="end" item="item">
+            when #{item.sku_id} then #{item.product_quantity}
+        </foreach>,
+            locked_quantity = locked_quantity -
+        <foreach collection="list" open="case sku_id" close="end" item="item">
+            when #{item.sku_id} then #{item.product_quantity}
+        </foreach>
+        where sku_id in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item.sku_id}
+        </foreach>
+    </update>
 </mapper>

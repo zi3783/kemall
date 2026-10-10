@@ -3,6 +3,7 @@ package com.kemall.pay.mapper;
 import com.kemall.pay.domain.po.LocalMessage;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -16,4 +17,6 @@ import java.util.List;
 public interface LocalMessageMapper extends BaseMapper<LocalMessage> {
 
     int batchUpdateStatusBymMsgIds(List<String> list);
+
+    void batchUpdateNextRetryTimeByIds(List<LocalMessage> list, LocalDateTime time);
 }

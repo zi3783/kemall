@@ -7,4 +7,7 @@
         set change_type = #{newType}
         where id = #{id} and change_type = #{oldType}
     </update>
+    <select id="orderNoReleaseIsExist" resultType="java.lang.Boolean">
+        select count(*) from inventory_log where order_no = #{orderNo} and change_type = 3
+    </select>
 </mapper>
