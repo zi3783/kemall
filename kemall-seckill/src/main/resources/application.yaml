@@ -1,9 +1,9 @@
 server:
-  port: 8084
+  port: 8088
 
 spring:
   application:
-    name: product-service
+    name: seckill-service
   profiles:
     default: local
   cloud:
@@ -17,7 +17,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${ke.addr}:3306/product_db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
+    url: jdbc:mysql://${ke.addr}:3306/seckill_db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
     username: root
     password: 123456
 
@@ -27,7 +27,7 @@ spring:
 
 dubbo:
   application:
-    name: product-service
+    name: seckill-service
     qos-enable: false
   registry:
     address: nacos://${ke.addr}:8848
@@ -35,6 +35,6 @@ dubbo:
     name: dubbo
     port: ${ke.dubbo.port:20880}
   scan:
-    base-packages: com.kemall.product.service
+    base-packages: com.kemall.seckill.service
   consumer:
     check: false

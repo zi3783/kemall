@@ -22,4 +22,6 @@ public interface IProductSkuService extends IService<ProductSku> {
     SkuVo queryById(Long skuId);
 
     List<SkuVo> queryBySpuId(Long spuId);
+
+    boolean skuIsExist(Long skuId);
 }

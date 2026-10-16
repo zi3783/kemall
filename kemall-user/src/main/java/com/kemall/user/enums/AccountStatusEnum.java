@@ -1,4 +1,4 @@
-package com.kemall.common.enums;
+package com.kemall.user.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;

@@ -22,4 +22,9 @@ public class ProductionDubboServiceImpl implements ProductionDubboService {
     public Map<Long, Long> getSkuPriceByIds(List<Long> skuIds){
         return productSkuService.getSkuPriceByIds(skuIds);
     }
+
+    @Override
+    public boolean skuIsExist(Long skuId) {
+        return productSkuService.skuIsExist(skuId);
+    }
 }

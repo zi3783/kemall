@@ -7,4 +7,6 @@ import java.util.Map;
 public interface ProductionDubboService {
 
     Map<Long, Long> getSkuPriceByIds(List<Long> skuIds);
+
+    boolean skuIsExist(Long skuId);
 }

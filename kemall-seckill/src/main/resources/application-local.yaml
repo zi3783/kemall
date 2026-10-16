@@ -7,4 +7,4 @@ ke:
 logging:
   level:
     root: INFO                      # 根日志级别 INFO
-    com.kemall.product: DEBUG
+    com.kemall.seckill: DEBUG
