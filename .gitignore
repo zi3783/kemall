@@ -1,0 +1,5 @@
+# 忽略 .idea 目录及其全部内容
+.idea/
+
+# 忽略所有以 Test.java 结尾的文件，例如 UserTest.java、OrderTest.java
+*Test.java
