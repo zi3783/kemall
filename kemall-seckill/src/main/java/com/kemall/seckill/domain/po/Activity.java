@@ -15,13 +15,13 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author author
- * @since 2026-10-16
+ * @since 2026-10-19
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("seckill_activity")
-public class SeckillActivity implements Serializable {
+@TableName("activity")
+public class Activity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,41 +29,24 @@ public class SeckillActivity implements Serializable {
     private Long id;
 
     /**
-     * 活动名称
+     * 业务活动编号，雪花ID/前缀+ID
      */
+    private String activityNo;
+
     private String activityName;
 
-    /**
-     * 商品SKU
-     */
-    private Long skuId;
-
-    /**
-     * 秒杀价（分）
-     */
-    private Long seckillPrice;
-
-    /**
-     * 秒杀总库存
-     */
-    private Integer totalStock;
-
-    /**
-     * 开始时间
-     */
     private LocalDateTime startTime;
 
-    /**
-     * 结束时间
-     */
     private LocalDateTime endTime;
 
     /**
-     * 0未开始 1进行中 2已结束
+     * 0待开始 1进行中 2已结束 3已暂停
      */
-    private Integer status;
+    private Integer activityStatus;
 
     private LocalDateTime createTime;
+
+    private LocalDateTime updateTime;
 
 
 }

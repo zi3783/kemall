@@ -25,6 +25,15 @@ spring:
     host: redis
     port: 6379
 
+  rabbitmq:
+    host: ${ke.addr}        # 或直接写 172.24.223.134
+    port: 5672
+    template:
+      mandatory: true
+    username: admin
+    password: 123456
+    virtual-host: /kemall
+
 dubbo:
   application:
     name: seckill-service

@@ -1,6 +1,6 @@
 package com.kemall.seckill.mapper;
 
-import com.kemall.seckill.domain.po.SeckillActivity;
+import com.kemall.seckill.domain.po.Activity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author author
- * @since 2026-10-16
+ * @since 2026-10-19
  */
-public interface SeckillActivityMapper extends BaseMapper<SeckillActivity> {
+public interface ActivityMapper extends BaseMapper<Activity> {
 
 }

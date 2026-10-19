@@ -135,10 +135,13 @@ public class ProductSkuServiceImpl extends ServiceImpl<ProductSkuMapper, Product
     }
 
     @Override
-    public SkuVo queryById(Long skuId) { //todo 缓存空值出现问题，需要修改
+    public SkuVo queryById(Long skuId) {
         // 先查 redis
         String skuKey = RedisConstants.PRODUCT_SKU_PREFIX + skuId;
         String skuJson = redisTemplate.opsForValue().get(skuKey);
+        if("".equals(skuJson)){
+            throw new BusinessException("商品规格已下架");
+        }
         try {
             if (skuJson != null) {
                 SkuCache skuCache = objectMapper.readValue(skuJson, SkuCache.class);
@@ -158,8 +161,13 @@ public class ProductSkuServiceImpl extends ServiceImpl<ProductSkuMapper, Product
         }
     }
 
+    /**
+     * 没有则返回空数组
+     * @param spuId
+     * @return
+     */
     @Override
-    public List<SkuVo> queryBySpuId(Long spuId) {  //todo 缓存空值出现问题，需要修改
+    public List<SkuVo> queryBySpuId(Long spuId) {
         String skusKey = RedisConstants.PRODUCT_SKUS_PREFIX + spuId;
         Set<String> skuIds = redisTemplate.opsForSet().members(skusKey);
         try {
@@ -178,6 +186,9 @@ public class ProductSkuServiceImpl extends ServiceImpl<ProductSkuMapper, Product
                     }
                 }
                 return result;
+            }else if(skuIds != null){
+                //缓存空值修复
+                return Collections.emptyList();
             }
             List<ProductSku> skus = lambdaQuery().eq(ProductSku::getProductId, spuId).list();
             if(skus.isEmpty()){
