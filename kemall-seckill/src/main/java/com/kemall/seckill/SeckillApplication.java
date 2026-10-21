@@ -2,15 +2,20 @@ package com.kemall.seckill;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.net.InetAddress;
 
 @Slf4j
 @SpringBootApplication
+@MapperScan("com.kemall.seckill.mapper")
+@EnableScheduling
 public class SeckillApplication {
 
     public static void main(String[] args) {
@@ -26,6 +31,6 @@ public class SeckillApplication {
         } catch (Exception e) {
             // ignore
         }
-        System.out.println("==========> 应用启动完成，访问地址: http://" + ip + ":" + port);
+        System.out.println("==========> 应用启动完成，访问地址: http://" + ip + ":" + port + "/doc.html");
     }
 }

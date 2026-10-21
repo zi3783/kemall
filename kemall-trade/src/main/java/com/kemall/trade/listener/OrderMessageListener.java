@@ -1,20 +1,15 @@
 package com.kemall.trade.listener;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.kemall.api.constant.OrderMqConstant;
 import com.kemall.common.core.exception.BusinessException;
 import com.kemall.trade.constant.RabbitMQConstants;
-import com.kemall.trade.domain.po.Orders;
-import com.kemall.trade.enums.OrderStatusEnum;
 import com.kemall.trade.service.IOrdersService;
 import com.rabbitmq.client.Channel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.*;
-import org.springframework.amqp.support.AmqpHeaders;
-import org.springframework.messaging.handler.annotation.Header;
-import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -27,6 +22,12 @@ public class OrderMessageListener {
 
     private final IOrdersService ordersService;
 
+    /**
+     * 接收支付成功消息，修改订单状态未待发货
+     * @param message
+     * @param channel
+     * @throws IOException
+     */
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(
                     name = com.kemall.api.constant.OrderMqConstant.ORDER_STATE_QUEUE,
@@ -56,7 +57,13 @@ public class OrderMessageListener {
         }
     }
 
-    @RabbitListener(queues = RabbitMQConstants.ORDER_CLOSE_QUEUE)
+    /**
+     * 接收过期订单消息，修改订单状态
+     * @param orderNo
+     * @param channel
+     * @param message
+     */
+    @RabbitListener(queues = RabbitMQConstants.ORDER_CLOSE_QUEUE,autoStartup = "false")
     public void reviseExpireOrderStatus(String orderNo, Channel channel, Message message) {
         long tag = message.getMessageProperties().getDeliveryTag();
         try{
@@ -69,6 +76,32 @@ public class OrderMessageListener {
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(
+                    name = OrderMqConstant.SECKILL_ORDER_QUEUE,
+                    durable = "true"
+            ),
+            exchange = @Exchange(
+                    name = OrderMqConstant.SECKILL_ORDER_EXCHANGE
+            ),
+            key = OrderMqConstant.SECKILL_ORDER_ROUTING_KEY
+    ), autoStartup = "false", id = "seckillOrderListener")
+    public void createSeckillOrder(Message message,Channel channel) throws IOException {
+        long tag = message.getMessageProperties().getDeliveryTag();
+        String json = new String(message.getBody(), StandardCharsets.UTF_8);
+
+        try {
+            ordersService.createSeckillOrder(json);
+            channel.basicAck(tag, false);
+        }catch (DuplicateKeyException e){
+            channel.basicAck(tag, false);
+        }catch (Exception e) {
+            log.error("处理消息失败，messageId={}",
+                    message.getMessageProperties().getMessageId(), e);
+            channel.basicNack(tag, false, true);
         }
     }
 }

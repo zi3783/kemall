@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ILocalMessageService extends IService<LocalMessage> {
 
+    void sendMessage();
 }

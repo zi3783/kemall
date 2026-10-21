@@ -3,24 +3,29 @@ package com.kemall.seckill.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kemall.api.constant.OrderMqConstant;
 import com.kemall.api.constant.SeckillMqConstant;
 import com.kemall.api.dto.UserOrderDto;
 import com.kemall.common.core.exception.BusinessException;
 import com.kemall.common.core.utils.UserContext;
 import com.kemall.seckill.constants.RedisConstants;
+import com.kemall.seckill.domain.enums.LocalMessageStatusEnum;
 import com.kemall.seckill.domain.po.Activity;
 import com.kemall.seckill.domain.po.LocalMessage;
 import com.kemall.seckill.mapper.ActivityMapper;
 import com.kemall.seckill.mapper.LocalMessageMapper;
 import com.kemall.seckill.service.IActivityService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * <p>
@@ -46,6 +51,8 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
 
     private final DefaultRedisScript<Long> seckillRollbackScript;
 
+    private final TransactionTemplate transactionTemplate;
+
     @Override
     public void seckill(Long skuId) {
         String inventoryKey = RedisConstants.SECKILL_INVENTORY_SKU_PREFIX + "{" + skuId + "}";
@@ -66,41 +73,52 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
 
         LocalMessage message = LocalMessage.builder()
                 .messageId(messageId)
-                .exchange(SeckillMqConstant.SECKILL_ORDER_EXCHANGE)
-                .routingKey(SeckillMqConstant.SECKILL_ORDER_ROUTING_KEY)
-                .status(0)
+                .exchange(OrderMqConstant.SECKILL_ORDER_EXCHANGE)
+                .routingKey(OrderMqConstant.SECKILL_ORDER_ROUTING_KEY)
+                .status(LocalMessageStatusEnum.PENDING)
                 .payload(json)
                 .build();
 
-        Long code = redisTemplate.execute(
-                seckillDeductScript,
-                keys,
-                userId.toString()
-        );
-        int i = code.intValue();
-        switch (i){
-            case -1:{
-                throw new BusinessException("库存不存在");
-            }
-            case 1:{
-                throw new BusinessException("库存不足");
-            }
-            case 2:{
-                throw new BusinessException("已经购买过sku");
-            }
-        }
 
+        AtomicBoolean luaDeducted = new AtomicBoolean(false);
         try {
-            localMessageMapper.insert(message);
+            transactionTemplate.executeWithoutResult(tx -> {
+                localMessageMapper.insert(message);
+                Long code = redisTemplate.execute(
+                        seckillDeductScript,
+                        keys,
+                        userId.toString()
+                );
+                int i = code.intValue();
+                switch (i) {
+                    case -1: {
+                        throw new BusinessException("库存不存在");
+                    }
+                    case 1: {
+                        throw new BusinessException("库存不足");
+                    }
+                    case 2: {
+                        throw new BusinessException("已经购买过sku");
+                    }
+                    case 0: {
+                        luaDeducted.set(true);
+                    }
+                }
+            });
+        }catch (BusinessException e){
+            throw e;
         }catch (Exception e){
-            redisTemplate.execute(
-                    seckillRollbackScript,
-                    keys,
-                    userId.toString()
-            );
+            if(luaDeducted.get()){
+                redisTemplate.execute(
+                        seckillRollbackScript,
+                        keys,
+                        userId.toString()
+                );
+            }
             throw e;
         }
+        CorrelationData cd = new CorrelationData(messageId);
 
-        rabbitTemplate.convertAndSend(SeckillMqConstant.SECKILL_ORDER_EXCHANGE, SeckillMqConstant.SECKILL_ORDER_ROUTING_KEY, json);
+        rabbitTemplate.convertAndSend(OrderMqConstant.SECKILL_ORDER_EXCHANGE, OrderMqConstant.SECKILL_ORDER_ROUTING_KEY, json, cd);
     }
 }

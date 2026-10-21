@@ -5,22 +5,28 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kemall.api.constant.InventoryMqConstant;
 import com.kemall.api.dto.OrderNo;
+import com.kemall.api.dto.UserOrderDto;
 import com.kemall.api.dubbo.ProductionDubboService;
 import com.kemall.common.core.exception.BusinessException;
 import com.kemall.common.core.utils.bean.result.Result;
+import com.kemall.trade.constant.RabbitMQConstants;
 import com.kemall.trade.constant.RedisConstant;
 import com.kemall.trade.domain.dto.OrderItemRequest;
 import com.kemall.trade.domain.dto.OrderRequest;
 import com.kemall.trade.domain.enums.LocalMessageStatusEnum;
 import com.kemall.trade.domain.po.LocalMessage;
+import com.kemall.trade.domain.po.OrderItems;
 import com.kemall.trade.domain.po.Orders;
 import com.kemall.trade.domain.vo.OrderBrief;
 import com.kemall.trade.enums.OrderStatusEnum;
+import com.kemall.trade.enums.OrderTypeEnum;
 import com.kemall.trade.mapper.LocalMessageMapper;
 import com.kemall.trade.mapper.OrderItemsMapper;
 import com.kemall.trade.mapper.OrdersMapper;
 import com.kemall.trade.service.GlobalTransactionManageService;
 import com.kemall.trade.service.IOrdersService;
+import com.kemall.trade.service.OrderTccService;
+import com.kemall.trade.util.OrderUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -28,7 +34,9 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -49,12 +57,14 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
 
     private final StringRedisTemplate redisTemplate;
 
-    @DubboReference
+    private final TransactionTemplate transactionTemplate;
+
+    private final OrderUtil orderUtil;
+
+    @DubboReference(check = false)
     private ProductionDubboService productionDubboService;
 
     private final GlobalTransactionManageService globalTransactionManageService;
-
-    private final RabbitTemplate rabbitTemplate;
 
     private final ObjectMapper objectMapper;
 
@@ -137,5 +147,59 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         } catch (JsonProcessingException e) {
             throw new RuntimeException("toJson is fail");
         }
+    }
+
+    //todo 缺少预扣减库存
+    @Override
+    public void createSeckillOrder(String json) {
+        if(json == null) {
+            throw new RuntimeException("秒杀订单参数为null");
+        }
+        try {
+            UserOrderDto dto = objectMapper.readValue(json, UserOrderDto.class);
+            String idempotencyKey = dto.getMessageId();
+            Long skuId = dto.getSkuId();
+            Long userId = dto.getUserId();
+            String orderNo = orderUtil.generateOrderNo(OrderTypeEnum.SK);
+            Long price = productionDubboService.getSkuPriceByIds(List.of(skuId)).get(skuId);
+            if(price == null){
+                throw new BusinessException("商品不存在或者已下架");
+            }
+            LocalDateTime expireTime = LocalDateTime.now().plusMinutes(30);
+
+            Orders order = Orders.builder()
+                    .orderNo(orderNo)
+                    .userId(userId)
+                    .idempotencyKey(idempotencyKey)
+                    .totalAmount(price)
+                    .actualAmount(price)
+                    .expireTime(expireTime)
+                    .status(OrderStatusEnum.WAIT_PAY)
+                    .build();
+            LocalMessage localMessage = LocalMessage.builder()
+                    .messageId(UUID.randomUUID().toString())
+                    .exchange(RabbitMQConstants.ORDER_DELAY_EXCHANGE)
+                    .routingKey(RabbitMQConstants.ORDER_DELAY_ROUTING_KEY)
+                    .status(LocalMessageStatusEnum.PENDING)
+                    .payload(orderNo)
+                    .build();
+            transactionTemplate.executeWithoutResult(tx -> {
+                save(order);
+                Long orderId = order.getId();
+                OrderItems orderItem = OrderItems.builder()
+                        .orderId(orderId)
+                        .skuId(skuId)
+                        .skuPrice(price)
+                        .productQuantity(1)
+                        .build();
+
+                orderItemsMapper.insert(orderItem);
+
+                localMessageMapper.insert(localMessage);
+            });
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("json to object is fail",e);
+        }
+
     }
 }

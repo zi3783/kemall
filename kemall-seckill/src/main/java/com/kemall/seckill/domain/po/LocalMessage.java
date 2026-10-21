@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
+import com.kemall.seckill.domain.enums.LocalMessageStatusEnum;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -49,9 +50,9 @@ public class LocalMessage implements Serializable {
     private String routingKey;
 
     /**
-     * 0-未消费 1-已消费 2-失败
+     * 0-未投递 1-已投递 2-失败
      */
-    private Integer status;
+    private LocalMessageStatusEnum status;
 
     /**
      * 消息体json

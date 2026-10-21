@@ -14,4 +14,10 @@ public class OrderMqConstant {
 
     public static final String ORDER_DEAD_QUEUE = "order_dead_queue";
 
+    public final static String SECKILL_ORDER_EXCHANGE = "seckill.create.order.exchange";
+
+    public final static String SECKILL_ORDER_QUEUE = "seckill.create.order.queue";
+
+    public final static String SECKILL_ORDER_ROUTING_KEY = "seckill.create.order.routingKey";
+
 }

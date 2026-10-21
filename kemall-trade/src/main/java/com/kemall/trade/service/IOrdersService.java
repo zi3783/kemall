@@ -22,4 +22,6 @@ public interface IOrdersService extends IService<Orders> {
     void confirmOrderPayed(String json);
 
     void cancelOrder(String orderNo);
+
+    void createSeckillOrder(String json);
 }

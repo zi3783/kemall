@@ -7,7 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum OrderTypeEnum {
     OX("OD", "普通订单"),
-    RF("RF", "退款订单");
+    RF("RF", "退款订单"),
+    SK("SK", "秒杀订单");
     private final String type;
     private final String desc;
 }
