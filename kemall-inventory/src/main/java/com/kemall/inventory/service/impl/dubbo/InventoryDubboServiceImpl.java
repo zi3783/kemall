@@ -1,6 +1,7 @@
 package com.kemall.inventory.service.impl.dubbo;
 
 import com.kemall.api.dubbo.InventoryDubboService;
+import com.kemall.inventory.service.IInventoryService;
 import com.kemall.inventory.service.IInventoryTccService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +24,8 @@ public class InventoryDubboServiceImpl implements InventoryDubboService {
     private final ThreadPoolExecutor tccDeductInventoryThreadPool;
 
     @Override
-    public boolean prepareDeductByTcc(Long skuId, Integer amount, String orderNo) {
-        return inventoryTccService.prepareFreeze(skuId, amount, orderNo);
+    public boolean prepareDeductByTcc(Long skuId, Integer amount, String orderNo,boolean isSeckill) {
+        return inventoryTccService.prepareFreeze(skuId, amount, orderNo, isSeckill);
     }
 
     @Override
@@ -40,7 +41,7 @@ public class InventoryDubboServiceImpl implements InventoryDubboService {
                 }
                 RootContext.bind(xid);
                 try {
-                    boolean result = inventoryTccService.prepareFreeze(skuId, amount, orderNo);
+                    boolean result = inventoryTccService.prepareFreeze(skuId, amount, orderNo, false);
                     if (!result) {
                         throw new RuntimeException("库存预扣失败, skuId=" + skuId);
                     }

@@ -36,4 +36,8 @@ public class SkuCache {
      * 商品SKU状态 1:正常 2:禁用
      */
     private Integer status;
+
+    private Integer stockType;
+
+    private String activityId;
 }

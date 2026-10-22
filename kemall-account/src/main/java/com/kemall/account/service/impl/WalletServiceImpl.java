@@ -229,9 +229,8 @@ public class WalletServiceImpl extends ServiceImpl<WalletMapper, Wallet> impleme
     }
 
     @Override
-    @GlobalTransactional(timeoutMills = 300000, name = "account-tcc-deduct")
     public boolean deductByTcc(Long userId, Long amount, String bizId) {
-        //Try：冻结金额（上下文参数为 null，由 Seata TCC 拦截器注入）
+        //Try：冻结金额
         boolean prepare = accountTccService.prepareDeduct(userId, amount, bizId);
         if (!prepare) {
             //Try 失败，抛出异常触发全局回滚，TC 会调用 rollbackDeduct

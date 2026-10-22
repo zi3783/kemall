@@ -115,13 +115,18 @@ public class BalancePay implements PaymentStrategy {
                 transactionalTemplate.execute(new TransactionalExecutor() {
                     @Override
                     public Object execute() throws Throwable {
-                        accountDubboService.deductWallet(
-                                WalletDTO.builder()
-                                        .balance(payment.getAmount())
-                                        .transactionType(TransactionType.CONSUME)
-                                        .paymentNo(paymentNo)
-                                        .build()
-                        );
+                        try {
+                            accountDubboService.deductWallet(
+                                    WalletDTO.builder()
+                                            .balance(payment.getAmount())
+                                            .transactionType(TransactionType.CONSUME)
+                                            .paymentNo(paymentNo)
+                                            .build()
+                            );
+                        }catch (Exception e){
+                            log.error("余额扣减失败");
+                            throw new BusinessException(e.getMessage());
+                        }
                         //写入数据库
                         transactionTemplate.executeWithoutResult(status -> {
                             int row = paymentMapper.update(updateWrapper);

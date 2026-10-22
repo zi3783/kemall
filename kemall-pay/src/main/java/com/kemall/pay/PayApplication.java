@@ -29,7 +29,7 @@ public class PayApplication {
         } catch (Exception e) {
             log.error(e.getMessage());
         }
-        System.out.println("==========> 应用启动完成，访问地址: http://" + ip + ":" + port);
+        System.out.println("==========> 应用启动完成，访问地址: http://" + ip + ":" + port + "/doc.html");
 
 
         System.out.println("SPI File: " +

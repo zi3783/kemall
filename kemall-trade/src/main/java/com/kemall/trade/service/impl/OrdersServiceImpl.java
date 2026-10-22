@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kemall.api.constant.InventoryMqConstant;
 import com.kemall.api.dto.OrderNo;
 import com.kemall.api.dto.UserOrderDto;
+import com.kemall.api.dubbo.InventoryDubboService;
 import com.kemall.api.dubbo.ProductionDubboService;
 import com.kemall.common.core.exception.BusinessException;
 import com.kemall.common.core.utils.bean.result.Result;
@@ -25,12 +26,14 @@ import com.kemall.trade.mapper.OrderItemsMapper;
 import com.kemall.trade.mapper.OrdersMapper;
 import com.kemall.trade.service.GlobalTransactionManageService;
 import com.kemall.trade.service.IOrdersService;
-import com.kemall.trade.service.OrderTccService;
 import com.kemall.trade.util.OrderUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.apache.seata.core.context.RootContext;
+import org.apache.seata.tm.api.TransactionalExecutor;
+import org.apache.seata.tm.api.TransactionalTemplate;
+import org.apache.seata.tm.api.transaction.TransactionInfo;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,6 +65,9 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
     private final OrderUtil orderUtil;
 
     @DubboReference(check = false)
+    private InventoryDubboService inventoryDubboService;
+
+    @DubboReference(check = false)
     private ProductionDubboService productionDubboService;
 
     private final GlobalTransactionManageService globalTransactionManageService;
@@ -71,6 +77,8 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
     private final LocalMessageMapper localMessageMapper;
 
     private final OrderItemsMapper orderItemsMapper;
+
+    private final TransactionalTemplate transactionalTemplate;
 
     @Override
     public Result<OrderBrief> placeOrder(OrderRequest request) {
@@ -149,7 +157,6 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         }
     }
 
-    //todo 缺少预扣减库存
     @Override
     public void createSeckillOrder(String json) {
         if(json == null) {
@@ -183,22 +190,43 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
                     .status(LocalMessageStatusEnum.PENDING)
                     .payload(orderNo)
                     .build();
-            transactionTemplate.executeWithoutResult(tx -> {
-                save(order);
-                Long orderId = order.getId();
-                OrderItems orderItem = OrderItems.builder()
-                        .orderId(orderId)
-                        .skuId(skuId)
-                        .skuPrice(price)
-                        .productQuantity(1)
-                        .build();
 
-                orderItemsMapper.insert(orderItem);
+            transactionalTemplate.execute(new TransactionalExecutor() {
+                @Override
+                public Object execute() {
+                    inventoryDubboService.prepareDeductByTcc(skuId, 1, orderNo, true);
+                    transactionTemplate.executeWithoutResult(tx -> {
+                        save(order);
+                        Long orderId = order.getId();
+                        OrderItems orderItem = OrderItems.builder()
+                                .orderId(orderId)
+                                .skuId(skuId)
+                                .skuPrice(price)
+                                .productQuantity(1)
+                                .build();
 
-                localMessageMapper.insert(localMessage);
+                        orderItemsMapper.insert(orderItem);
+
+                        localMessageMapper.insert(localMessage);
+                    });
+                    return null;
+                }
+
+                @Override
+                public TransactionInfo getTransactionInfo() {
+                    TransactionInfo transactionInfo = new TransactionInfo();
+                    transactionInfo.setTimeOut(30000);
+                    return transactionInfo;
+                }
             });
         } catch (JsonProcessingException e) {
             throw new RuntimeException("json to object is fail",e);
+        } catch (Exception e) {
+            log.error("秒杀下单失败", e);
+            throw new RuntimeException(e);
+        } catch (Throwable e) {
+            log.error("全局事务回滚异常！xid = {}",RootContext.getXID());
+            throw new RuntimeException(e);
         }
 
     }

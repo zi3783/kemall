@@ -27,4 +27,6 @@ public class ProductionDubboServiceImpl implements ProductionDubboService {
     public boolean skuIsExist(Long skuId) {
         return productSkuService.skuIsExist(skuId);
     }
+
+
 }

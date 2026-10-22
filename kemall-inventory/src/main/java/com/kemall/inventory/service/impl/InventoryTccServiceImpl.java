@@ -7,6 +7,7 @@ import com.kemall.inventory.constant.RedisConstant;
 import com.kemall.inventory.domain.po.Inventory;
 import com.kemall.inventory.domain.po.InventoryLog;
 import com.kemall.inventory.enums.InventoryChangeTypeEnum;
+import com.kemall.inventory.enums.StockTypeEnum;
 import com.kemall.inventory.mapper.InventoryLogMapper;
 import com.kemall.inventory.mapper.InventoryMapper;
 import com.kemall.inventory.service.IInventoryTccService;
@@ -52,11 +53,12 @@ public class InventoryTccServiceImpl implements IInventoryTccService {
     @TwoPhaseBusinessAction(name = "inventoryPrepareFreeze", commitMethod = "commitFreeze", rollbackMethod = "rollbackFreeze", useTCCFence = true)
     public boolean prepareFreeze(@BusinessActionContextParameter(paramName = "skuId") Long skuId,
                                  @BusinessActionContextParameter(paramName = "amount") Integer amount,
-                                 @BusinessActionContextParameter(paramName = "orderNo") String orderNo){
+                                 @BusinessActionContextParameter(paramName = "orderNo") String orderNo,boolean isSeckill){
         //冻结库存
         //先查出版本号
         LambdaQueryWrapper<Inventory> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Inventory::getSkuId, skuId);
+        wrapper.eq(Inventory::getSkuId, skuId)
+                .eq(Inventory::getStockType, isSeckill ? StockTypeEnum.SK: StockTypeEnum.OD);
         List<Inventory> list = inventoryMapper.selectList(wrapper);
         if(list.isEmpty()){
             //库存不存在，应该回滚

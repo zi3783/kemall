@@ -19,7 +19,7 @@ import org.apache.seata.rm.tcc.api.BusinessActionContext;
  */
 public interface IInventoryTccService {
 
-    boolean prepareFreeze(Long skuId, Integer amount, String orderNo);
+    boolean prepareFreeze(Long skuId, Integer amount, String orderNo,boolean isSeckill);
 //
 //    boolean commitFreeze(BusinessActionContext actionContext);
 //

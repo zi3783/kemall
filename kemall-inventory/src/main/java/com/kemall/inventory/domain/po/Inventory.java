@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.kemall.inventory.enums.StockTypeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -62,5 +64,8 @@ public class Inventory implements Serializable {
     @TableField("update_time")
     private LocalDateTime updateTime;
 
+    private StockTypeEnum stockType;
+
+    private Long activityId;
 
 }

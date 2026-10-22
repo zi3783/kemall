@@ -3,6 +3,7 @@ package com.kemall.product.service.impl;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kemall.api.dto.SkuCache;
 import com.kemall.common.core.exception.BusinessException;
@@ -263,4 +264,5 @@ public class ProductSkuServiceImpl extends ServiceImpl<ProductSkuMapper, Product
         log.error("无法获得锁：skuId:" + skuId);
         throw new RuntimeException("无法获得锁：skuId:" + skuId);
     }
+
 }

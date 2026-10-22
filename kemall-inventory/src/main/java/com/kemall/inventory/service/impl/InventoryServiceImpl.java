@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kemall.api.dto.SkuCache;
 import com.kemall.common.core.exception.BusinessException;
 import com.kemall.inventory.constant.RedisConstant;
 import com.kemall.inventory.domain.po.Inventory;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -49,6 +51,8 @@ public class InventoryServiceImpl extends ServiceImpl<InventoryMapper, Inventory
     private final TransactionTemplate transactionTemplate;
 
     private final InventoryMapper inventoryMapper;
+
+    private final StringRedisTemplate redisTemplate;
 
     @Override
     public boolean releaseInventory(String json) {
