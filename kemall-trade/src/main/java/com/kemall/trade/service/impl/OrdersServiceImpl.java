@@ -15,6 +15,7 @@ import com.kemall.trade.constant.RedisConstant;
 import com.kemall.trade.domain.dto.OrderItemRequest;
 import com.kemall.trade.domain.dto.OrderRequest;
 import com.kemall.trade.domain.enums.LocalMessageStatusEnum;
+import com.kemall.trade.domain.exceptions.OrderException;
 import com.kemall.trade.domain.po.LocalMessage;
 import com.kemall.trade.domain.po.OrderItems;
 import com.kemall.trade.domain.po.Orders;
@@ -194,7 +195,13 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
             transactionalTemplate.execute(new TransactionalExecutor() {
                 @Override
                 public Object execute() {
-                    inventoryDubboService.prepareDeductByTcc(skuId, 1, orderNo, true);
+
+                    try {
+                        inventoryDubboService.prepareDeductByTcc(skuId, 1, orderNo, true);
+                    }catch (Throwable e){
+                        log.error("库存扣减失败");
+                        throw new OrderException.InventoryDeductException(skuId, e);
+                    }
                     transactionTemplate.executeWithoutResult(tx -> {
                         save(order);
                         Long orderId = order.getId();
@@ -221,13 +228,26 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
             });
         } catch (JsonProcessingException e) {
             throw new RuntimeException("json to object is fail",e);
-        } catch (Exception e) {
-            log.error("秒杀下单失败", e);
-            throw new RuntimeException(e);
-        } catch (Throwable e) {
-            log.error("全局事务回滚异常！xid = {}",RootContext.getXID());
-            throw new RuntimeException(e);
+        } catch (Throwable t) {
+            if(t instanceof TransactionalExecutor.ExecutionException){
+                TransactionalExecutor.ExecutionException te = (TransactionalExecutor.ExecutionException) t;
+                Throwable e = te.getOriginalException();
+                if(e instanceof OrderException.InventoryDeductException){
+                    throw (OrderException.InventoryDeductException) e;
+                }
+                log.error("全局事务回滚失败: xid:{}", RootContext.getXID());
+                throw new RuntimeException("全局事务回滚失败");
+            }
         }
+//        catch (OrderException.InventoryDeductException e){
+//            log.error("捕获到订单异常");
+//            throw e;
+//        }catch (Exception e) {
+//            log.error("实际异常类型={}, cause类型={}",
+//                    e.getClass().getName(),
+//                    e.getCause() == null ? "null" : e.getCause().getClass().getName(), e);
+//            throw new RuntimeException(e);
+//        }
 
     }
 }

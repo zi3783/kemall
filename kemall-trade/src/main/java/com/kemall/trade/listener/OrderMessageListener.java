@@ -3,6 +3,7 @@ package com.kemall.trade.listener;
 import com.kemall.api.constant.OrderMqConstant;
 import com.kemall.common.core.exception.BusinessException;
 import com.kemall.trade.constant.RabbitMQConstants;
+import com.kemall.trade.domain.exceptions.OrderException;
 import com.kemall.trade.service.IOrdersService;
 import com.rabbitmq.client.Channel;
 import lombok.RequiredArgsConstructor;
@@ -96,7 +97,9 @@ public class OrderMessageListener {
         try {
             ordersService.createSeckillOrder(json);
             channel.basicAck(tag, false);
-        }catch (DuplicateKeyException e){
+        } catch (OrderException.InventoryDeductException e) {
+            channel.basicNack(tag, false, false);
+        } catch (DuplicateKeyException e){
             channel.basicAck(tag, false);
         }catch (Exception e) {
             log.error("处理消息失败，messageId={}",

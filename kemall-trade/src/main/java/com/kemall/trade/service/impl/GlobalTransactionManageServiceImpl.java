@@ -51,7 +51,7 @@ public class GlobalTransactionManageServiceImpl implements GlobalTransactionMana
             return (OrderBrief) TEMPLATE.execute(new TransactionalExecutor() {
                 //生成订单编号
                 @Override
-                public Object execute() throws Throwable {
+                public Object execute() {
                     String orderNo = orderUtil.generateOrderNo(OrderTypeEnum.OX);
 
                     List<Long> skuIds = new ArrayList<>();

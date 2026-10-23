@@ -62,7 +62,7 @@ public class InventoryTccServiceImpl implements IInventoryTccService {
         List<Inventory> list = inventoryMapper.selectList(wrapper);
         if(list.isEmpty()){
             //库存不存在，应该回滚
-            return false;
+            throw new BusinessException("库存记录不存在，skuId: " + skuId);
         }
         if(list.size() != 1){
             throw new BusinessException("数据库数据错误，错误skuId：" + skuId);
