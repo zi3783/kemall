@@ -82,7 +82,7 @@
         <!--api-->
         <dependency>
             <groupId>com.kemall</groupId>
-            <artifactId>kemall-api</artifactId>
+            <artifactId>common-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <!--rabbit MQ-->

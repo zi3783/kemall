@@ -5,7 +5,7 @@ spring:
   application:
     name: user-service
   profiles:
-    default: dev
+    default: local
   cloud:
     nacos:
       discovery:

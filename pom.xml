@@ -12,7 +12,6 @@
         <module>kemall-gateway</module>
         <module>kemall-user</module>
         <module>kemall-account</module>
-        <module>kemall-api</module>
         <module>kemall-trade</module>
         <module>kemall-production</module>
         <module>kemall-inventory</module>

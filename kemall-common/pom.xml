@@ -12,6 +12,7 @@
     <modules>
         <module>common-core</module>
         <module>common-dubbo</module>
+        <module>common-api</module>
     </modules>
 
     <properties>
