@@ -1,8 +1,7 @@
 package com.kemall.datasync.listener;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kemall.datasync.domain.dto.CanalMessage;
+import com.kemall.datasync.service.DataSyncService;
 import com.rabbitmq.client.Channel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.Message;
@@ -16,19 +15,18 @@ import java.nio.charset.StandardCharsets;
 @RequiredArgsConstructor
 public class CanalServerListener {
 
-    private final ObjectMapper objectMapper;
+    private final DataSyncService dataSyncService;
+
 
     @RabbitListener(queues = "canal_queue")
-    public void listen(Message message, Channel channel){
+    public void listen(Message message, Channel channel) throws IOException {
         long tag = message.getMessageProperties().getDeliveryTag();
         String json = new String(message.getBody(), StandardCharsets.UTF_8);
         try {
-            CanalMessage canalMessage = objectMapper.readValue(json, CanalMessage.class);
-            System.out.println(canalMessage);
+            dataSyncService.syncElastic(json);
             channel.basicAck(tag, false);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        }catch (IOException e) {
+            channel.basicNack(tag, false, true);
             throw new RuntimeException(e);
         }
     }
