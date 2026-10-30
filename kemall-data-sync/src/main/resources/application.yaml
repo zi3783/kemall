@@ -1,0 +1,14 @@
+spring:
+  rabbitmq:
+    host: ${ke.addr}
+    port: 5672
+    username: admin
+    password: 123456
+    virtual-host: /kemall
+    connection-timeout: 5s
+    listener:
+      simple:
+        acknowledge-mode: manual
+  profiles:
+    active:
+      - local

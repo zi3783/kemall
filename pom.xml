@@ -19,6 +19,7 @@
         <module>kemall-pay</module>
         <module>kemall-common</module>
         <module>kemall-seckill</module>
+        <module>kemall-data-sync</module>
     </modules>
 
     <parent>
