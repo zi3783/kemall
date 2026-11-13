@@ -38,11 +38,6 @@ public class BrandSearchDTO implements SyncVersion {
     private String description;
 
     /**
-     * 品牌状态 1:正常 2:禁用
-     */
-//    private Integer status;
-
-    /**
      * 创建时间
      */
     @JsonProperty("create_time")

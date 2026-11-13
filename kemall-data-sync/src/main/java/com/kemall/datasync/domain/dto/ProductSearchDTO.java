@@ -23,6 +23,11 @@ public class ProductSearchDTO implements SyncVersion {
     private String productCode;
 
     /**
+     * 商品描述
+     */
+    private String description;
+
+    /**
      * 商品名称
      */
     private String name;

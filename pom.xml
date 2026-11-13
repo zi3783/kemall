@@ -20,6 +20,7 @@
         <module>kemall-common</module>
         <module>kemall-seckill</module>
         <module>kemall-data-sync</module>
+        <module>kemall-search</module>
     </modules>
 
     <parent>
