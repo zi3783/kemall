@@ -1,6 +1,6 @@
 package com.kemall.trade.mapper;
 
-import com.kemall.api.dto.OrderDto;
+import com.kemall.api.domain.dto.OrderDto;
 import com.kemall.trade.domain.po.Orders;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.kemall.trade.enums.OrderStatusEnum;

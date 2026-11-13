@@ -1,12 +1,9 @@
-package com.kemall.datasync.domain.dto;
+package com.kemall.api.domain.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.kemall.datasync.domain.interfaces.SyncVersion;
+import com.kemall.api.domain.interfaces.SyncVersion;
 import lombok.Data;
-
-import java.time.LocalDateTime;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

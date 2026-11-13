@@ -1,6 +1,6 @@
 package com.kemall.pay.service.impl;
 
-import com.kemall.api.dto.OrderDto;
+import com.kemall.api.domain.dto.OrderDto;
 import com.kemall.api.dubbo.AccountDubboService;
 import com.kemall.api.dubbo.OrderDubboService;
 import com.kemall.common.core.exception.BusinessException;

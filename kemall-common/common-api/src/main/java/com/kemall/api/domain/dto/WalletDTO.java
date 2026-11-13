@@ -1,8 +1,7 @@
-package com.kemall.api.dto;
+package com.kemall.api.domain.dto;
 
 import com.kemall.api.enums.TransactionType;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 
 import java.io.Serializable;

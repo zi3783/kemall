@@ -1,6 +1,6 @@
 package com.kemall.product.convert;
 
-import com.kemall.api.dto.SpuCache;
+import com.kemall.api.domain.dto.SpuCache;
 import com.kemall.product.domain.po.Product;
 import com.kemall.product.domain.vo.SpuVo;
 import com.kemall.product.enums.ProductStatus;

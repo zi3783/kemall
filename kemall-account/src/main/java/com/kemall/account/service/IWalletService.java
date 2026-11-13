@@ -2,7 +2,7 @@ package com.kemall.account.service;
 
 import com.kemall.account.domain.po.Wallet;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kemall.api.dto.WalletDTO;
+import com.kemall.api.domain.dto.WalletDTO;
 
 /**
  * <p>

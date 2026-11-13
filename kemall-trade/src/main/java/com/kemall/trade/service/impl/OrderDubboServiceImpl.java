@@ -1,6 +1,6 @@
 package com.kemall.trade.service.impl;
 
-import com.kemall.api.dto.OrderDto;
+import com.kemall.api.domain.dto.OrderDto;
 import com.kemall.api.dubbo.OrderDubboService;
 import com.kemall.trade.mapper.OrdersMapper;
 import lombok.RequiredArgsConstructor;

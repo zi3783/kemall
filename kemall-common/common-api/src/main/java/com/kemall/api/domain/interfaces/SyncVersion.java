@@ -1,4 +1,4 @@
-package com.kemall.datasync.domain.interfaces;
+package com.kemall.api.domain.interfaces;
 
 public interface SyncVersion {
     String getVersion();

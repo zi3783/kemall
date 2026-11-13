@@ -3,7 +3,7 @@ package com.kemall.account.service.strategy.impl;
 import com.kemall.account.domain.po.Wallet;
 import com.kemall.account.service.IWalletService;
 import com.kemall.account.service.strategy.WalletTransactionStrategy;
-import com.kemall.api.dto.WalletDTO;
+import com.kemall.api.domain.dto.WalletDTO;
 import com.kemall.api.enums.TransactionType;
 import com.kemall.common.core.annotation.RedissonLock;
 import com.kemall.common.core.exception.BusinessException;

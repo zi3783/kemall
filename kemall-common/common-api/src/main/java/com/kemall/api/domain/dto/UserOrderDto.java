@@ -1,4 +1,4 @@
-package com.kemall.api.dto;
+package com.kemall.api.domain.dto;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package com.kemall.pay.service.strategy.impl;
 
-import com.kemall.api.dto.OrderDto;
-import com.kemall.api.dto.WalletDTO;
+import com.kemall.api.domain.dto.OrderDto;
+import com.kemall.api.domain.dto.WalletDTO;
 import com.kemall.api.dubbo.AccountDubboService;
 import com.kemall.api.enums.TransactionType;
 import com.kemall.common.core.exception.BusinessException;
@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 
 //@Component

@@ -9,7 +9,7 @@ import co.elastic.clients.elasticsearch.core.bulk.BulkResponseItem;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kemall.datasync.domain.dto.CanalMessage;
-import com.kemall.datasync.domain.dto.ProductSearchDTO;
+import com.kemall.api.domain.dto.ProductSearchDTO;
 import com.kemall.datasync.exception.DataException;
 import com.kemall.datasync.service.DataSyncService;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package com.kemall.product.convert;
 
-import com.kemall.api.dto.SkuCache;
+import com.kemall.api.domain.dto.SkuCache;
 import com.kemall.product.domain.po.ProductSku;
 import com.kemall.product.domain.vo.SkuVo;
 import org.mapstruct.Mapper;

@@ -2,7 +2,7 @@ package com.kemall.account.controller;
 
 import com.kemall.account.service.IFreezeLogService;
 import com.kemall.account.service.IWalletService;
-import com.kemall.api.dto.WalletDTO;
+import com.kemall.api.domain.dto.WalletDTO;
 import com.kemall.common.core.annotation.LoginRequire;
 import com.kemall.common.core.utils.bean.result.Result;
 import io.swagger.v3.oas.annotations.Operation;
