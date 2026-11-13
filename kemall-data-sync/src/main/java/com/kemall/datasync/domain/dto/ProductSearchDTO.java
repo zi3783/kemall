@@ -1,11 +1,11 @@
 package com.kemall.datasync.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kemall.datasync.domain.interfaces.SyncVersion;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
@@ -32,6 +32,10 @@ public class ProductSearchDTO implements SyncVersion {
      */
     private String name;
 
+    /**
+     * 商品检索字段
+     */
+    private String suggest;
 
     /**
      * 商品价格

@@ -73,8 +73,8 @@ public class CreateESIndexRunner implements CommandLineRunner {
                                         .properties("price", p -> p.integer(k -> k))
                                         .properties("categoryId", p -> p.keyword(k -> k))
                                         .properties("main_image", p -> p.keyword(k -> k))
-                                        .properties("create_time", p -> p.date(k -> k))
-                                        .properties("update_time", p -> p.date(k -> k))
+                                        .properties("create_time", p -> p.date(k -> k.format("strict_date_optional_time||epoch_millis||yyyy-MM-dd HH:mm:ss")))
+                                        .properties("update_time", p -> p.date(k -> k.format("strict_date_optional_time||epoch_millis||yyyy-MM-dd HH:mm:ss")))
                                         .properties("version", p -> p.long_(k -> k))
                         )
         );
