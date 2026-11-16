@@ -1,6 +1,6 @@
 package com.kemall.trade;
 
-import com.kemall.common.utils.BaseConvert;
+import com.kemall.common.core.utils.BaseConvert;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

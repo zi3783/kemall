@@ -78,7 +78,7 @@
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-nacos-spring-boot-starter</artifactId>
         </dependency>
-        <!--common-->
+        <!--api-->
         <dependency>
             <groupId>com.kemall</groupId>
             <artifactId>common-api</artifactId>
