@@ -39,7 +39,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--common-->
+        <!--common api-->
         <dependency>
             <groupId>com.kemall</groupId>
             <artifactId>common-api</artifactId>
@@ -51,7 +51,7 @@
             <groupId>co.elastic.clients</groupId>
             <artifactId>elasticsearch-java</artifactId>
         </dependency>
-        <!--common-->
+        <!--common core-->
         <dependency>
             <groupId>com.kemall</groupId>
             <artifactId>common-core</artifactId>
