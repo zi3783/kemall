@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kemall.iam.auth.infrastructure.persistence.mapper.SysUserMapper">
+
+    <select id="selectByUsername" resultType="com.kemall.iam.auth.infrastructure.persistence.entity.SysUserEntity">
+        SELECT
+            id,
+            username,
+            password_hash,
+            nickname,
+            avatar_url,
+            status,
+            last_login_at,
+            created_at,
+            updated_at
+        FROM sys_user
+        WHERE username = #{username}
+        LIMIT 1
+    </select>
+
+    <select id="selectByIdentity" resultType="com.kemall.iam.auth.infrastructure.persistence.entity.SysUserEntity">
+        SELECT
+            u.id,
+            u.username,
+            u.password_hash,
+            u.nickname,
+            u.avatar_url,
+            u.status,
+            u.last_login_at,
+            u.created_at,
+            u.updated_at
+        FROM user_identity i
+                 INNER JOIN sys_user u ON u.id = i.user_id
+        WHERE i.identity_type = #{identityType}
+          AND i.identity_value = #{identityValue}
+          AND i.verified_at IS NOT NULL
+        LIMIT 1
+    </select>
+
+    <update id="updateLastLoginTime">
+        UPDATE sys_user
+        SET last_login_at = #{loginTime}
+        WHERE id = #{userId}
+    </update>
+
+</mapper>
