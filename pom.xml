@@ -21,6 +21,8 @@
         <module>kemall-seckill</module>
         <module>kemall-data-sync</module>
         <module>kemall-search</module>
+        <module>account</module>
+        <module>iam-service</module>
     </modules>
 
     <parent>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kemall.iam.auth.infrastructure.persistence.mapper.WorkspaceMapper">
+
+    <select id="selectAvailableWorkspaces"
+            resultType="com.kemall.iam.api.dto.auth.WorkspaceInfo">
+
+        SELECT
+        tm.tenant_id AS tenantId,
+        t.tenant_name AS tenantName,
+        tm.shop_id AS shopId,
+        CASE
+        WHEN tm.shop_id = 0 THEN t.tenant_name
+        ELSE s.shop_name
+        END AS shopName,
+        tm.id AS memberId,
+        tm.member_type AS memberType,
+        CASE
+        WHEN tm.shop_id = 0 THEN 'TENANT'
+        ELSE 'SHOP'
+        END AS workspaceType
+        FROM tenant_member tm
+        INNER JOIN tenant t
+        ON t.id = tm.tenant_id
+        LEFT JOIN shop s
+        ON s.id = tm.shop_id
+        AND s.tenant_id = tm.tenant_id
+        WHERE tm.user_id = #{userId}
+        AND tm.status = 1
+        AND tm.deleted_at IS NULL
+        AND t.status = 1
+        AND (
+        tm.shop_id = 0
+        OR s.status = 1
+        )
+        ORDER BY tm.tenant_id, tm.shop_id
+
+    </select>
+
+</mapper>
