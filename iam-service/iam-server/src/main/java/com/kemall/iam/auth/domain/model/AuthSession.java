@@ -50,7 +50,13 @@ public class AuthSession {
      */
     private String scopeType;
 
+    private String loginIp;
+
+    private String userAgent;
+
     private LocalDateTime createdAt;
+
+    private LocalDateTime lastActiveAt;
 
     private LocalDateTime expiresAt;
 

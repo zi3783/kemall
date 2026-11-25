@@ -26,5 +26,6 @@ public class AccountNotLoginAllowedException extends AuthDomainException {
             case "NOT_ACTIVATED": return AuthErrorCode.ACCOUNT_NOT_ACTIVATED;
             default:              return AuthErrorCode.ACCOUNT_NOT_LOGIN_ALLOWED;
         }
+
     }
 }

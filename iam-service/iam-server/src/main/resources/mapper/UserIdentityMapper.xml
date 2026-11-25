@@ -1,5 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kemall.iam.auth.infrastructure.persistence.mapper.UserIdentityMapper">
+<mapper namespace="com.kemall.iam.user.infrastructure.persistence.mapper.UserIdentityMapper">
+
+    <resultMap id="UserIdentityMap" type="com.kemall.iam.user.infrastructure.persistence.entity.UserIdentityPO">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="identityType" column="identity_type"/>
+        <result property="identityValue" column="identity_value"/>
+        <result property="verifiedAt" column="verified_at"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <select id="selectByUserId" resultMap="UserIdentityMap">
+        SELECT id, user_id, identity_type, identity_value, verified_at, created_at
+        FROM user_identity
+        WHERE user_id = #{userId}
+          AND identity_type IN ('MOBILE', 'EMAIL')
+        ORDER BY created_at ASC, id ASC
+    </select>
+
+    <select id="existsIdentity" resultType="boolean">
+        SELECT EXISTS(
+            SELECT 1 FROM user_identity
+            WHERE identity_type = #{identityType}
+              AND identity_value = #{identityValue}
+        )
+    </select>
+
+    <insert id="insert" parameterType="com.kemall.iam.user.infrastructure.persistence.entity.UserIdentityPO">
+        INSERT INTO user_identity (id, user_id, identity_type, identity_value, verified_at, created_at)
+        VALUES (#{id}, #{userId}, #{identityType}, #{identityValue}, #{verifiedAt}, #{createdAt})
+    </insert>
+
+    <delete id="deleteByIdentityType">
+        DELETE FROM user_identity
+        WHERE user_id = #{userId}
+          AND identity_type = #{identityType}
+    </delete>
+
+    <select id="countVerifiedByUserId" resultType="int">
+        SELECT COUNT(1) FROM user_identity
+        WHERE user_id = #{userId}
+          AND verified_at IS NOT NULL
+          AND identity_type IN ('MOBILE', 'EMAIL')
+    </select>
 
 </mapper>

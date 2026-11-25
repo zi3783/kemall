@@ -28,11 +28,3 @@ public class BCryptPasswordEncoderAdapter implements PasswordEncoder {
 
 
 }
-
-class main{
-    public static void main(String[] args) {
-        BCryptPasswordEncoderAdapter e = new BCryptPasswordEncoderAdapter();
-        String encode = e.encode("123456");
-        System.out.println(encode);
-    }
-}

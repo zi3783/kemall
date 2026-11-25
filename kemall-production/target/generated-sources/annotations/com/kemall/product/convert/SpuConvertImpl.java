@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-11-13T11:55:34+0800",
-    comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.11 (Oracle Corporation)"
+    date = "2026-11-24T08:46:40+0800",
+    comments = "version: 1.6.3, compiler: Eclipse JDT (IDE) 3.46.200.v20261008-1115, environment: Java 25.0.4.1 (Eclipse Adoptium)"
 )
 @Component
 public class SpuConvertImpl implements SpuConvert {
@@ -25,14 +25,14 @@ public class SpuConvertImpl implements SpuConvert {
 
         SpuVo spuVo = new SpuVo();
 
-        spuVo.setId( source.getId() );
-        spuVo.setProductCode( source.getProductCode() );
-        spuVo.setName( source.getName() );
-        spuVo.setMainImage( source.getMainImage() );
-        spuVo.setDescription( source.getDescription() );
-        spuVo.setPrice( source.getPrice() );
-        spuVo.setCategoryId( source.getCategoryId() );
         spuVo.setBrandId( source.getBrandId() );
+        spuVo.setCategoryId( source.getCategoryId() );
+        spuVo.setDescription( source.getDescription() );
+        spuVo.setId( source.getId() );
+        spuVo.setMainImage( source.getMainImage() );
+        spuVo.setName( source.getName() );
+        spuVo.setPrice( source.getPrice() );
+        spuVo.setProductCode( source.getProductCode() );
         if ( source.getStatus() != null ) {
             spuVo.setStatus( source.getStatus().ordinal() );
         }
@@ -48,14 +48,14 @@ public class SpuConvertImpl implements SpuConvert {
 
         Product product = new Product();
 
-        product.setId( target.getId() );
-        product.setProductCode( target.getProductCode() );
-        product.setName( target.getName() );
-        product.setMainImage( target.getMainImage() );
-        product.setDescription( target.getDescription() );
-        product.setPrice( target.getPrice() );
-        product.setCategoryId( target.getCategoryId() );
         product.setBrandId( target.getBrandId() );
+        product.setCategoryId( target.getCategoryId() );
+        product.setDescription( target.getDescription() );
+        product.setId( target.getId() );
+        product.setMainImage( target.getMainImage() );
+        product.setName( target.getName() );
+        product.setPrice( target.getPrice() );
+        product.setProductCode( target.getProductCode() );
         if ( target.getStatus() != null ) {
             product.setStatus( ProductStatus.values()[ target.getStatus() ] );
         }

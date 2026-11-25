@@ -1,5 +1,8 @@
 package com.kemall.iam.auth.domain.exception;
 
+import com.kemall.iam.shared.domain.DomainException;
+import com.kemall.iam.shared.domain.ErrorCode;
+
 import java.util.Collections;
 import java.util.Map;
 

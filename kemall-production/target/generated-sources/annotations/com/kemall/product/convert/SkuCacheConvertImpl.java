@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-11-13T11:55:34+0800",
-    comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.11 (Oracle Corporation)"
+    date = "2026-11-24T08:46:40+0800",
+    comments = "version: 1.6.3, compiler: Eclipse JDT (IDE) 3.46.200.v20261008-1115, environment: Java 25.0.4.1 (Eclipse Adoptium)"
 )
 @Component
 public class SkuCacheConvertImpl implements SkuCacheConvert {
@@ -22,10 +22,10 @@ public class SkuCacheConvertImpl implements SkuCacheConvert {
         SkuVo skuVo = new SkuVo();
 
         skuVo.setId( skuCache.getId() );
+        skuVo.setMainImage( skuCache.getMainImage() );
+        skuVo.setPrice( skuCache.getPrice() );
         skuVo.setProductId( skuCache.getProductId() );
         skuVo.setSkuCode( skuCache.getSkuCode() );
-        skuVo.setPrice( skuCache.getPrice() );
-        skuVo.setMainImage( skuCache.getMainImage() );
         skuVo.setSpecJson( skuCache.getSpecJson() );
         skuVo.setStatus( skuCache.getStatus() );
 

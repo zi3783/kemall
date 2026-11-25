@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-11-13T11:55:34+0800",
-    comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.11 (Oracle Corporation)"
+    date = "2026-11-24T08:46:40+0800",
+    comments = "version: 1.6.3, compiler: Eclipse JDT (IDE) 3.46.200.v20261008-1115, environment: Java 25.0.4.1 (Eclipse Adoptium)"
 )
 @Component
 public class SkuConvertImpl implements SkuConvert {
@@ -42,10 +42,10 @@ public class SkuConvertImpl implements SkuConvert {
         SkuVo skuVo = new SkuVo();
 
         skuVo.setId( productSku.getId() );
+        skuVo.setMainImage( productSku.getMainImage() );
+        skuVo.setPrice( productSku.getPrice() );
         skuVo.setProductId( productSku.getProductId() );
         skuVo.setSkuCode( productSku.getSkuCode() );
-        skuVo.setPrice( productSku.getPrice() );
-        skuVo.setMainImage( productSku.getMainImage() );
         skuVo.setSpecJson( productSku.getSpecJson() );
         skuVo.setStatus( productSku.getStatus() );
 

@@ -1,6 +1,9 @@
 package com.kemall.iam;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Mapper;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -10,6 +13,22 @@ import java.net.InetAddress;
 
 @Slf4j
 @SpringBootApplication
+@MapperScan(
+        value = {
+                "com.kemall.iam.auth.infrastructure.persistence.mapper",
+                "com.kemall.iam.user.infrastructure.persistence.mapper"
+        },
+        annotationClass = Mapper.class
+)
+@MapperScan(
+        value = {
+                "com.kemall.iam.permission.mapper",
+                "com.kemall.iam.platform.mapper",
+                "com.kemall.iam.tenant.mapper",
+                "com.kemall.iam.user.mapper"
+        },
+        markerInterface = BaseMapper.class
+)
 public class IamApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(IamApplication.class, args);

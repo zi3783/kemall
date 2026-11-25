@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-11-13T11:55:34+0800",
-    comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.11 (Oracle Corporation)"
+    date = "2026-11-24T08:46:40+0800",
+    comments = "version: 1.6.3, compiler: Eclipse JDT (IDE) 3.46.200.v20261008-1115, environment: Java 25.0.4.1 (Eclipse Adoptium)"
 )
 @Component
 public class SpuCacheConvertImpl implements SpuCacheConvert {
@@ -23,14 +23,14 @@ public class SpuCacheConvertImpl implements SpuCacheConvert {
 
         SpuVo spuVo = new SpuVo();
 
-        spuVo.setId( source.getId() );
-        spuVo.setProductCode( source.getProductCode() );
-        spuVo.setName( source.getName() );
-        spuVo.setMainImage( source.getMainImage() );
-        spuVo.setDescription( source.getDescription() );
-        spuVo.setPrice( source.getPrice() );
-        spuVo.setCategoryId( source.getCategoryId() );
         spuVo.setBrandId( source.getBrandId() );
+        spuVo.setCategoryId( source.getCategoryId() );
+        spuVo.setDescription( source.getDescription() );
+        spuVo.setId( source.getId() );
+        spuVo.setMainImage( source.getMainImage() );
+        spuVo.setName( source.getName() );
+        spuVo.setPrice( source.getPrice() );
+        spuVo.setProductCode( source.getProductCode() );
         spuVo.setStatus( source.getStatus() );
 
         return spuVo;
