@@ -1,2 +1,0 @@
-consumerContextFilter=com.kemall.common.dubbo.filter.ConsumerContextFilter
-providerContextFilter=com.kemall.common.dubbo.filter.ProviderContextFilter

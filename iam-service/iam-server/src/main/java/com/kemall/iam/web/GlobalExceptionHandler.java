@@ -111,6 +111,8 @@ public class GlobalExceptionHandler {
         // 42xxx 用户子域
         if (code >= 42001 && code <= 42003) return HttpStatus.CONFLICT;
         if (code == 42005) return HttpStatus.TOO_MANY_REQUESTS;
+        // 409xx 并发冲突（如工作空间切换）
+        if (code >= 40900 && code <= 40999) return HttpStatus.CONFLICT;
         return HttpStatus.BAD_REQUEST;
     }
 

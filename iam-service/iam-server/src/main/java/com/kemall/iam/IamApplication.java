@@ -16,7 +16,8 @@ import java.net.InetAddress;
 @MapperScan(
         value = {
                 "com.kemall.iam.auth.infrastructure.persistence.mapper",
-                "com.kemall.iam.user.infrastructure.persistence.mapper"
+                "com.kemall.iam.user.infrastructure.persistence.mapper",
+                "com.kemall.iam.workspace.infrastructure.persistence.mapper"
         },
         annotationClass = Mapper.class
 )

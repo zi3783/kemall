@@ -3,40 +3,164 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.kemall.iam.auth.infrastructure.persistence.mapper.WorkspaceMapper">
+<mapper namespace="com.kemall.iam.workspace.infrastructure.persistence.mapper.WorkspaceMapper">
 
+    <!-- 用户可进入的工作空间：租户/店铺成员关系 + 平台成员关系 -->
     <select id="selectAvailableWorkspaces"
-            resultType="com.kemall.iam.api.dto.auth.WorkspaceInfo">
+            resultType="com.kemall.iam.workspace.domain.model.Workspace">
 
         SELECT
-        tm.tenant_id AS tenantId,
-        t.tenant_name AS tenantName,
-        tm.shop_id AS shopId,
-        CASE
-        WHEN tm.shop_id = 0 THEN t.tenant_name
-        ELSE s.shop_name
-        END AS shopName,
-        tm.id AS memberId,
-        tm.member_type AS memberType,
-        CASE
-        WHEN tm.shop_id = 0 THEN 'TENANT'
-        ELSE 'SHOP'
-        END AS workspaceType
+            tm.tenant_id AS tenantId,
+            t.tenant_name AS tenantName,
+            tm.shop_id AS shopId,
+            CASE
+                WHEN tm.shop_id = 0 THEN t.tenant_name
+                ELSE s.shop_name
+            END AS shopName,
+            tm.id AS memberId,
+            tm.member_type AS memberType,
+            NULL AS platformMemberId,
+            CASE
+                WHEN tm.shop_id = 0 THEN 'TENANT'
+                ELSE 'SHOP'
+            END AS workspaceType
         FROM tenant_member tm
         INNER JOIN tenant t
-        ON t.id = tm.tenant_id
+            ON t.id = tm.tenant_id
         LEFT JOIN shop s
-        ON s.id = tm.shop_id
-        AND s.tenant_id = tm.tenant_id
+            ON s.id = tm.shop_id
+            AND s.tenant_id = tm.tenant_id
         WHERE tm.user_id = #{userId}
-        AND tm.status = 1
-        AND tm.deleted_at IS NULL
-        AND t.status = 1
-        AND (
-        tm.shop_id = 0
-        OR s.status = 1
-        )
-        ORDER BY tm.tenant_id, tm.shop_id
+          AND tm.status = 1
+          AND tm.deleted_at IS NULL
+          AND t.status = 1
+          AND (t.expires_at IS NULL OR t.expires_at &gt; NOW(3))
+          AND (tm.shop_id = 0 OR s.status = 1)
+
+        UNION ALL
+
+        SELECT
+            0 AS tenantId,
+            '平台管理' AS tenantName,
+            0 AS shopId,
+            NULL AS shopName,
+            NULL AS memberId,
+            NULL AS memberType,
+            pm.id AS platformMemberId,
+            'PLATFORM' AS workspaceType
+        FROM platform_member pm
+        WHERE pm.user_id = #{userId}
+          AND pm.status = 1
+          AND EXISTS (
+              SELECT 1
+              FROM platform_member_role pmr
+              INNER JOIN sys_role r
+                  ON r.id = pmr.role_id
+              WHERE pmr.platform_member_id = pm.id
+                AND r.tenant_id = 0
+                AND r.scope_type = 0
+                AND r.status = 1
+          )
+
+        ORDER BY tenantId, shopId
+
+    </select>
+
+    <!-- 租户级成员关系（shop_id = 0），状态交给领域服务判定 -->
+    <select id="selectTenantWorkspace"
+            resultType="com.kemall.iam.workspace.domain.model.Workspace">
+
+        SELECT
+            'TENANT' AS workspaceType,
+            tm.tenant_id AS tenantId,
+            t.tenant_name AS tenantName,
+            t.status AS tenantStatus,
+            t.expires_at AS tenantExpiresAt,
+            tm.shop_id AS shopId,
+            NULL AS shopName,
+            NULL AS shopStatus,
+            tm.id AS memberId,
+            tm.member_type AS memberType,
+            tm.status AS memberStatus,
+            tm.deleted_at AS memberDeletedAt,
+            NULL AS platformMemberId,
+            NULL AS platformMemberStatus,
+            NULL AS platformRoleCount
+        FROM tenant_member tm
+        INNER JOIN tenant t
+            ON t.id = tm.tenant_id
+        WHERE tm.user_id = #{userId}
+          AND tm.tenant_id = #{tenantId}
+          AND tm.shop_id = 0
+        LIMIT 1
+
+    </select>
+
+    <!-- 店铺级成员关系，状态交给领域服务判定 -->
+    <select id="selectShopWorkspace"
+            resultType="com.kemall.iam.workspace.domain.model.Workspace">
+
+        SELECT
+            'SHOP' AS workspaceType,
+            tm.tenant_id AS tenantId,
+            t.tenant_name AS tenantName,
+            t.status AS tenantStatus,
+            t.expires_at AS tenantExpiresAt,
+            tm.shop_id AS shopId,
+            s.shop_name AS shopName,
+            s.status AS shopStatus,
+            tm.id AS memberId,
+            tm.member_type AS memberType,
+            tm.status AS memberStatus,
+            tm.deleted_at AS memberDeletedAt,
+            NULL AS platformMemberId,
+            NULL AS platformMemberStatus,
+            NULL AS platformRoleCount
+        FROM tenant_member tm
+        INNER JOIN tenant t
+            ON t.id = tm.tenant_id
+        INNER JOIN shop s
+            ON s.id = tm.shop_id
+            AND s.tenant_id = tm.tenant_id
+        WHERE tm.user_id = #{userId}
+          AND tm.tenant_id = #{tenantId}
+          AND tm.shop_id = #{shopId}
+        LIMIT 1
+
+    </select>
+
+    <!-- 平台成员关系 + 合规平台角色数量 -->
+    <select id="selectPlatformWorkspace"
+            resultType="com.kemall.iam.workspace.domain.model.Workspace">
+
+        SELECT
+            'PLATFORM' AS workspaceType,
+            0 AS tenantId,
+            '平台管理' AS tenantName,
+            NULL AS tenantStatus,
+            NULL AS tenantExpiresAt,
+            0 AS shopId,
+            NULL AS shopName,
+            NULL AS shopStatus,
+            NULL AS memberId,
+            NULL AS memberType,
+            NULL AS memberStatus,
+            NULL AS memberDeletedAt,
+            pm.id AS platformMemberId,
+            pm.status AS platformMemberStatus,
+            (
+                SELECT COUNT(1)
+                FROM platform_member_role pmr
+                INNER JOIN sys_role r
+                    ON r.id = pmr.role_id
+                WHERE pmr.platform_member_id = pm.id
+                  AND r.tenant_id = 0
+                  AND r.scope_type = 0
+                  AND r.status = 1
+            ) AS platformRoleCount
+        FROM platform_member pm
+        WHERE pm.user_id = #{userId}
+        LIMIT 1
 
     </select>
 
