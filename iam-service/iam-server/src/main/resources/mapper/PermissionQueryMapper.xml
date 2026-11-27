@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kemall.iam.permission.infrastructure.persistence.mapper.PermissionQueryMapper">
+
+    <sql id="permissionColumns">
+        p.id AS id,
+        p.perm_code AS permCode,
+        p.perm_name AS permName,
+        p.perm_type AS permType
+    </sql>
+
+    <select id="selectAll" resultType="com.kemall.iam.permission.domain.model.Permission">
+        SELECT
+            <include refid="permissionColumns"/>
+        FROM sys_permission p
+        ORDER BY p.perm_code
+    </select>
+
+    <select id="selectByCodes" resultType="com.kemall.iam.permission.domain.model.Permission">
+        SELECT
+            <include refid="permissionColumns"/>
+        FROM sys_permission p
+        WHERE p.perm_code IN
+        <foreach collection="permCodes" item="permCode" open="(" separator="," close=")">
+            #{permCode}
+        </foreach>
+    </select>
+
+    <select id="selectByRoleIds" resultType="com.kemall.iam.permission.domain.model.Permission">
+        SELECT DISTINCT
+            <include refid="permissionColumns"/>
+        FROM role_permission rp
+        INNER JOIN sys_permission p
+            ON p.id = rp.permission_id
+        WHERE rp.role_id IN
+        <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+        ORDER BY p.perm_code
+    </select>
+
+</mapper>

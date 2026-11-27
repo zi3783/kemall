@@ -66,3 +66,6 @@ iam:
     max-attempts: 5
     # 是否在响应中回显验证码（仅开发环境开启）
     expose-code: true
+  permission:
+    # 当前会话权限缓存有效期（秒）
+    cache-ttl-seconds: 300

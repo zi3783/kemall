@@ -51,15 +51,17 @@
         FROM platform_member pm
         WHERE pm.user_id = #{userId}
           AND pm.status = 1
+          -- 平台准入校验：platform_member 必须绑定至少一个合规平台角色
+          -- 合规平台角色 = sys_role.tenant_id=0 且 scope_type=0（建表脚本末尾约定）
           AND EXISTS (
               SELECT 1
               FROM platform_member_role pmr
               INNER JOIN sys_role r
                   ON r.id = pmr.role_id
               WHERE pmr.platform_member_id = pm.id
-                AND r.tenant_id = 0
-                AND r.scope_type = 0
-                AND r.status = 1
+                AND r.tenant_id = 0          -- tenant_id=0 代表平台域角色，非租户域
+                AND r.scope_type = 0         -- scope_type=0 代表平台级作用域，非租户/店铺
+                AND r.status = 1             -- 角色本身必须启用
           )
 
         ORDER BY tenantId, shopId
@@ -148,18 +150,21 @@
             NULL AS memberDeletedAt,
             pm.id AS platformMemberId,
             pm.status AS platformMemberStatus,
+            -- 平台准入校验：合规平台角色数量（同列表查询的 EXISTS 条件，
+            -- 这里带回具体数量供应用层 isPlatformAvailable() 判定 >0）
             (
                 SELECT COUNT(1)
                 FROM platform_member_role pmr
                 INNER JOIN sys_role r
                     ON r.id = pmr.role_id
                 WHERE pmr.platform_member_id = pm.id
-                  AND r.tenant_id = 0
-                  AND r.scope_type = 0
-                  AND r.status = 1
+                  AND r.tenant_id = 0          -- tenant_id=0 → 平台域角色
+                  AND r.scope_type = 0         -- scope_type=0 → 平台级作用域
+                  AND r.status = 1             -- 角色必须启用
             ) AS platformRoleCount
         FROM platform_member pm
         WHERE pm.user_id = #{userId}
+          AND pm.status = 1
         LIMIT 1
 
     </select>

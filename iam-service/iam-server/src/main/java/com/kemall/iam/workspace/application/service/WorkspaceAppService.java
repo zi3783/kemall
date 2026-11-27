@@ -100,6 +100,7 @@ public class WorkspaceAppService {
                 case PLATFORM -> workspaceSelector.selectPlatform(userId);
                 default -> throw new WorkspaceSelectionInvalidException();
             };
+            workspace.setType(type);
 
             // 平台工作空间不携带租户/店铺上下文
             Long tenantId = workspace.isPlatform() ? null : workspace.getTenantId();

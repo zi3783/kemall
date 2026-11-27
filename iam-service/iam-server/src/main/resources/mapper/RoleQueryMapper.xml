@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kemall.iam.permission.infrastructure.persistence.mapper.RoleQueryMapper">
+
+    <sql id="roleColumns">
+        r.id AS id,
+        r.tenant_id AS tenantId,
+        r.role_code AS roleCode,
+        r.role_name AS roleName,
+        r.scope_type AS scopeType,
+        r.status AS status
+    </sql>
+
+    <!-- 按工作空间作用域查询启用角色 -->
+    <select id="selectByScope" resultType="com.kemall.iam.permission.domain.model.Role">
+        SELECT
+            <include refid="roleColumns"/>
+        FROM sys_role r
+        WHERE r.tenant_id = #{tenantId}
+          AND r.scope_type = #{scopeType}
+          AND r.status = 1
+        ORDER BY r.role_code
+    </select>
+
+    <!-- 按工作空间层级边界查询可管理角色（用于角色列表） -->
+    <!-- Platform workspace → 平台角色 scope=0 tenant=0 -->
+    <!-- Tenant workspace   → scope≥1（租户+店铺角色）且 tenant_id=自己 -->
+    <!-- Shop workspace     → scope=2 且 tenant_id=自己 -->
+    <select id="selectManageableRoles" resultType="com.kemall.iam.permission.domain.model.Role">
+        SELECT
+            <include refid="roleColumns"/>
+        FROM sys_role r
+        WHERE r.status = 1
+        <if test="workspaceType.name() == 'PLATFORM'">
+            AND r.tenant_id = 0
+            AND r.scope_type = 0
+        </if>
+        <if test="workspaceType.name() == 'TENANT'">
+            AND r.tenant_id = #{tenantId}
+            AND r.scope_type >= 1
+        </if>
+        <if test="workspaceType.name() == 'SHOP'">
+            AND r.tenant_id = #{tenantId}
+            AND r.scope_type = 2
+        </if>
+        ORDER BY r.scope_type, r.role_code
+    </select>
+
+    <select id="selectById" resultType="com.kemall.iam.permission.domain.model.Role">
+        SELECT
+            <include refid="roleColumns"/>
+        FROM sys_role r
+        WHERE r.id = #{roleId}
+        LIMIT 1
+    </select>
+
+    <select id="selectByIds" resultType="com.kemall.iam.permission.domain.model.Role">
+        SELECT
+            <include refid="roleColumns"/>
+        FROM sys_role r
+        WHERE r.id IN
+        <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </select>
+
+    <select id="selectPermissionsByRoleId"
+            resultType="com.kemall.iam.permission.domain.model.Permission">
+        SELECT
+            p.id AS id,
+            p.perm_code AS permCode,
+            p.perm_name AS permName,
+            p.perm_type AS permType
+        FROM role_permission rp
+        INNER JOIN sys_permission p
+            ON p.id = rp.permission_id
+        WHERE rp.role_id = #{roleId}
+        ORDER BY p.perm_code
+    </select>
+
+    <select id="selectPermissionIdsByRoleId" resultType="java.lang.Long">
+        SELECT rp.permission_id
+        FROM role_permission rp
+        WHERE rp.role_id = #{roleId}
+    </select>
+
+</mapper>

@@ -5,6 +5,7 @@ import com.kemall.iam.api.dto.common.ApiResult;
 import com.kemall.iam.auth.application.model.LoginPrincipal;
 import com.kemall.iam.auth.application.port.JwtTokenService;
 import com.kemall.iam.auth.application.port.SessionStore;
+import com.kemall.iam.auth.application.port.UserAuthorityProvider;
 import com.kemall.iam.auth.domain.exception.AuthErrorCode;
 import com.kemall.iam.auth.domain.model.AuthSession;
 import com.kemall.iam.auth.domain.model.TokenClaims;
@@ -51,6 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenService jwtTokenService;
     private final SessionStore sessionStore;
+    private final UserAuthorityProvider userAuthorityProvider;
     private final ObjectMapper objectMapper;
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
@@ -123,8 +125,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
+        // 装载当前工作空间的权限编码（失败时降级为无额外权限，方法级鉴权会拒绝）
+        List<String> authorities;
+        try {
+            authorities = List.copyOf(userAuthorityProvider.loadAuthorities(session));
+        } catch (Exception e) {
+            log.error("加载会话权限失败 sessionId={}", sessionId, e);
+            authorities = List.of();
+        }
+
         // 构造 Principal 并写入 SecurityContext
-        SecurityContextHolder.getContext().setAuthentication(LoginPrincipal.fromSession(session));
+        SecurityContextHolder.getContext()
+                .setAuthentication(LoginPrincipal.fromSession(session, authorities));
         try {
             filterChain.doFilter(request, response);
         } finally {
