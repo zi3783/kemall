@@ -1,8 +1,6 @@
 package com.kemall.iam;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Mapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,7 +16,8 @@ import java.net.InetAddress;
                 "com.kemall.iam.auth.infrastructure.persistence.mapper",
                 "com.kemall.iam.user.infrastructure.persistence.mapper",
                 "com.kemall.iam.workspace.infrastructure.persistence.mapper",
-                "com.kemall.iam.permission.infrastructure.persistence.mapper"
+                "com.kemall.iam.permission.infrastructure.persistence.mapper",
+                "com.kemall.iam.tenancy.infrastructure.persistence.mapper"
         }
 )
 public class IamApplication {

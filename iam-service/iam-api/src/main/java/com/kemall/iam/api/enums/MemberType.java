@@ -13,4 +13,16 @@ public enum MemberType {
 
     private final Integer code;
     private final String description;
+
+    public static MemberType fromCode(Integer code) {
+        if (code == null) {
+            return null;
+        }
+        for (MemberType type : values()) {
+            if (type.code.equals(code)) {
+                return type;
+            }
+        }
+        return null;
+    }
 }
