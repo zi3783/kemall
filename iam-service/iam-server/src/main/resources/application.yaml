@@ -42,6 +42,7 @@ iam:
       - /api/iam/v1/user/register
       - /api/iam/v1/user/password/reset
       - /api/iam/v1/user/verification-code
+      - /api/iam/v1/customer/register
       - /doc.html
       - /webjars/**
       - /v3/api-docs

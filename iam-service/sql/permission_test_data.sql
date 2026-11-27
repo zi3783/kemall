@@ -62,7 +62,8 @@ WHERE user_id IN (
         'platform_admin', 'platform_viewer', 'platform_norole',
         'alpha_tenant_admin', 'alpha_shop_mgr', 'alpha_shop_reader',
         'alpha_tenant_operator', 'alpha_disabled',
-        'beta_tenant_admin', 'gamma_tenant_admin', 'alpha_shop_mgr_a3'
+        'beta_tenant_admin', 'gamma_tenant_admin', 'alpha_shop_mgr_a3',
+        'customer_only', 'customer_dual'
     )
 );
 DELETE FROM sys_user
@@ -70,8 +71,11 @@ WHERE username IN (
     'platform_admin', 'platform_viewer', 'platform_norole',
     'alpha_tenant_admin', 'alpha_shop_mgr', 'alpha_shop_reader',
     'alpha_tenant_operator', 'alpha_disabled',
-    'beta_tenant_admin', 'gamma_tenant_admin', 'alpha_shop_mgr_a3'
+    'beta_tenant_admin', 'gamma_tenant_admin', 'alpha_shop_mgr_a3',
+    'customer_only', 'customer_dual'
 );
+
+DELETE FROM customer WHERE id BETWEEN 9351 AND 9399;
 
 DELETE FROM platform_member_role WHERE id BETWEEN 9951 AND 9999;
 DELETE FROM member_role WHERE id BETWEEN 9901 AND 9999;
@@ -113,7 +117,9 @@ INSERT INTO sys_user (id, username, password_hash, nickname, status) VALUES
 (9308, 'alpha_disabled',       '$2a$10$ep3Wl2n0osDyac9JhKx.AOhFQPUzugh9MPM9Y8gdJw22UGiDgVbHu', '阿尔法停用成员',   1),
 (9309, 'beta_tenant_admin',    '$2a$10$ep3Wl2n0osDyac9JhKx.AOhFQPUzugh9MPM9Y8gdJw22UGiDgVbHu', '贝塔租户管理员',   1),
 (9310, 'gamma_tenant_admin',   '$2a$10$ep3Wl2n0osDyac9JhKx.AOhFQPUzugh9MPM9Y8gdJw22UGiDgVbHu', '伽马租户管理员',   1),
-(9311, 'alpha_shop_mgr_a3',    '$2a$10$ep3Wl2n0osDyac9JhKx.AOhFQPUzugh9MPM9Y8gdJw22UGiDgVbHu', '停用店铺管理员',   1);
+(9311, 'alpha_shop_mgr_a3',    '$2a$10$ep3Wl2n0osDyac9JhKx.AOhFQPUzugh9MPM9Y8gdJw22UGiDgVbHu', '停用店铺管理员',   1),
+(9312, 'customer_only',        '$2a$10$ep3Wl2n0osDyac9JhKx.AOhFQPUzugh9MPM9Y8gdJw22UGiDgVbHu', '纯消费者',       1),
+(9313, 'customer_dual',        '$2a$10$ep3Wl2n0osDyac9JhKx.AOhFQPUzugh9MPM9Y8gdJw22UGiDgVbHu', '消费者兼租户成员', 1);
 
 -- ============================ 3. 租户 / 店铺成员 ============================
 -- shop_id = 0 表示租户级成员；停用成员 status = 2
@@ -125,9 +131,15 @@ INSERT INTO tenant_member (id, tenant_id, shop_id, user_id, member_type, status)
 (9405, 9101, 9202, 9308, 2, 2),  -- alpha_disabled：店铺 A2 已停用
 (9406, 9102, 0,    9309, 3, 1),  -- beta_tenant_admin
 (9407, 9103, 0,    9310, 3, 1),  -- gamma_tenant_admin（租户本身冻结）
-(9408, 9101, 9203, 9311, 2, 1);  -- alpha_shop_mgr_a3（店铺本身停用）
+(9408, 9101, 9203, 9311, 2, 1),  -- alpha_shop_mgr_a3（店铺本身停用）
+(9409, 9101, 0,    9313, 2, 1);  -- customer_dual：兼具租户成员身份
 
 -- ============================ 4. 平台成员 ============================
+-- 消费者身份（依赖 customer_table.sql 先执行）
+INSERT INTO customer (id, user_id, status) VALUES
+(9351, 9312, 1),  -- customer_only：纯消费者，登录后 workspaceRequired=false
+(9352, 9313, 1);  -- customer_dual：消费者 + 租户成员，workspaceRequired=true
+
 INSERT INTO platform_member (id, user_id, status) VALUES
 (9701, 9301, 1),  -- platform_admin：有合规平台角色
 (9702, 9302, 1),  -- platform_viewer：有平台只读角色
@@ -170,7 +182,12 @@ INSERT INTO sys_permission (id, perm_code, perm_name, perm_type) VALUES
 (9615, 'iam:member:list',            '成员列表',     1),
 (9616, 'iam:member:add',             '成员加入',     1),
 (9617, 'iam:member:status',          '成员禁用启用', 1),
-(9618, 'iam:member:remove',          '成员移除',     1);
+(9618, 'iam:member:remove',          '成员移除',     1),
+-- 平台管理员管理（platform）
+(9619, 'iam:platform:member:list',   '平台成员列表',   1),
+(9620, 'iam:platform:member:read',   '平台成员详情',   1),
+(9621, 'iam:platform:member:create', '创建平台成员',   1),
+(9622, 'iam:platform:member:status', '平台成员禁用启用', 1);
 
 -- ============================ 7. 角色-权限 ============================
 INSERT INTO role_permission (id, role_id, permission_id) VALUES
@@ -265,7 +282,14 @@ INSERT INTO role_permission (id, role_id, permission_id) VALUES
 (9872, 9541, 9612),
 (9873, 9541, 9615),
 -- 伽马租户管理员
-(9874, 9551, 9608);
+(9874, 9551, 9608),
+-- ===== 平台管理员管理权限 =====
+(9875, 9501, 9619),
+(9876, 9501, 9620),
+(9877, 9501, 9621),
+(9878, 9501, 9622),
+(9879, 9502, 9619),
+(9880, 9502, 9620);
 
 -- ============================ 8. 成员-角色 ============================
 INSERT INTO member_role (id, tenant_id, member_id, role_id) VALUES

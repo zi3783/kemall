@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kemall.iam.auth.infrastructure.persistence.mapper.LoginIdentityQueryMapper">
+
+    <!-- 登录时一次性解析账号的三类身份（只统计启用中的身份） -->
+    <select id="selectIdentityCounts"
+            resultType="com.kemall.iam.auth.infrastructure.persistence.entity.LoginIdentityRow">
+        SELECT
+            (SELECT COUNT(1)
+             FROM customer c
+             WHERE c.user_id = #{userId}
+               AND c.status = 1) AS customerCount,
+            (SELECT COUNT(1)
+             FROM platform_member pm
+             WHERE pm.user_id = #{userId}
+               AND pm.status = 1) AS platformCount,
+            (SELECT COUNT(1)
+             FROM tenant_member tm
+             WHERE tm.user_id = #{userId}
+               AND tm.status = 1
+               AND tm.deleted_at IS NULL) AS tenantCount
+    </select>
+
+</mapper>

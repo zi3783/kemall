@@ -17,7 +17,9 @@ import java.net.InetAddress;
                 "com.kemall.iam.user.infrastructure.persistence.mapper",
                 "com.kemall.iam.workspace.infrastructure.persistence.mapper",
                 "com.kemall.iam.permission.infrastructure.persistence.mapper",
-                "com.kemall.iam.tenancy.infrastructure.persistence.mapper"
+                "com.kemall.iam.tenancy.infrastructure.persistence.mapper",
+                "com.kemall.iam.platform.infrastructure.persistence.mapper",
+                "com.kemall.iam.customer.infrastructure.persistence.mapper"
         }
 )
 public class IamApplication {

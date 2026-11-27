@@ -4,13 +4,16 @@ import com.kemall.iam.api.dto.auth.LoginRequest;
 import com.kemall.iam.api.dto.auth.LoginResponse;
 import com.kemall.iam.api.dto.auth.LoginUserInfo;
 import com.kemall.iam.api.dto.auth.TokenInfo;
+import com.kemall.iam.api.enums.UserType;
 import com.kemall.iam.auth.application.port.JwtTokenService;
 import com.kemall.iam.auth.application.port.SessionStore;
 import com.kemall.iam.auth.domain.exception.AccountNotLoginAllowedException;
 import com.kemall.iam.auth.domain.exception.LoginFailedException;
 import com.kemall.iam.auth.domain.model.AuthSession;
+import com.kemall.iam.auth.domain.model.LoginIdentity;
 import com.kemall.iam.auth.domain.model.TokenClaims;
 import com.kemall.iam.auth.domain.model.User;
+import com.kemall.iam.auth.domain.repository.LoginIdentityRepository;
 import com.kemall.iam.auth.domain.repository.UserRepository;
 import com.kemall.iam.auth.infrastructure.security.AccountAuthenticationToken;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,6 +28,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 登录应用服务（DDD Application Service）。
@@ -50,6 +55,7 @@ public class AuthAppService {
     private final JwtTokenService jwtTokenService;
     private final SessionStore sessionStore;
     private final UserRepository userRepository;
+    private final LoginIdentityRepository loginIdentityRepository;
 
     @Value("${iam.jwt.refresh-expiration}")
     private long refreshTokenExpiration;
@@ -125,12 +131,26 @@ public class AuthAppService {
             // 6. 更新最后登录时间
             userRepository.updateLastLoginTime(user.getId(), now);
 
-            // 7. 组装返回
+            // 7. 组装返回（含身份类型：消费者无需选择工作空间）
+            LoginIdentity identity = loginIdentityRepository.resolve(user.getId());
+            List<UserType> userTypes = new ArrayList<>();
+            if (identity.customer()) {
+                userTypes.add(UserType.CUSTOMER);
+            }
+            if (identity.tenantMembershipCount() > 0) {
+                userTypes.add(UserType.TENANT_MEMBER);
+            }
+            if (identity.platformMember()) {
+                userTypes.add(UserType.PLATFORM_MEMBER);
+            }
+
             LoginUserInfo userInfo = LoginUserInfo.builder()
                     .userId(user.getId())
                     .username(user.getUsername())
                     .nickname(user.getNickname())
                     .avatarUrl(user.getAvatarUrl())
+                    .userTypes(userTypes)
+                    .workspaceRequired(identity.workspaceRequired())
                     .build();
 
             return LoginResponse.builder()
